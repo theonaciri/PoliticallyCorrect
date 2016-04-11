@@ -1,0 +1,69 @@
+{
+  "data": {
+    "user": [
+      {
+        "name": "Théo Naciri",
+        "title": "Genius",
+        "email": "theo.naciri@gmail.com",
+        "encryptedPassword": "$2a$10$0IwZOYt6zE/EyzTNVWqple.Dtfmw5oTocbWlew/f1hVEZRVazgwzm",
+        "lastLoggedIn": "2016-04-06T06:27:30.873Z",
+        "gravatarUrl": "http://www.gravatar.com/avatar/cbfccccd8949dfd07073c197a32f221f?",
+        "createdAt": "2016-04-06T06:27:30.894Z",
+        "updatedAt": "2016-04-06T06:27:30.894Z",
+        "id": 1
+      },
+      {
+        "name": "Titi Toto",
+        "title": "Genius",
+        "email": "random@free.fr",
+        "encryptedPassword": "$2a$10$qBjk9a6AHSIkD67k34PDm.Fgj1emlnN9hgQdL5JFXFM/YqRAZS6RO",
+        "lastLoggedIn": "2016-04-11T09:21:55.152Z",
+        "gravatarUrl": "http://www.gravatar.com/avatar/f50be10576bbe1e9bfdb069721fe3247?",
+        "createdAt": "2016-04-11T09:21:55.192Z",
+        "updatedAt": "2016-04-11T09:21:55.192Z",
+        "id": 2
+      }
+    ]
+  },
+  "schema": {
+    "user": {
+      "name": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "unique": true
+      },
+      "encryptedPassword": {
+        "type": "string"
+      },
+      "lastLoggedIn": {
+        "type": "date",
+        "defaultsTo": "1970-01-01T00:00:00.000Z"
+      },
+      "gravatarUrl": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime"
+      },
+      "updatedAt": {
+        "type": "datetime"
+      }
+    }
+  },
+  "counters": {
+    "user": {
+      "id": 2
+    }
+  }
+}

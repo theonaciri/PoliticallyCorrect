@@ -36,6 +36,7 @@ module.exports.routes = {
   // Server-rendered HTML webpages
   ////////////////////////////////////////////////////////////
 
+  'GET /poll': {view: 'poll'},
   'GET /signup': {view: 'signup'},
   'GET /': 'PageController.showHomePage',
 
