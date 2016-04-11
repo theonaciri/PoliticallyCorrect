@@ -1,1 +1,1 @@
-angular.module('PollModule', ['toastr', 'compareTo']);
+angular.module('PollModule', ['toastr', 'compareTo', 'ngMaterial']);
