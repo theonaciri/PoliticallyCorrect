@@ -29,11 +29,7 @@ var jsFilesToInject = [
 
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/angular.js',
-  'js/dependencies/**/*.js',
-  'bower_components/angular-animate/angular-animate.js',
-  'bower_components/angular-aria/angular-aria.js',
-  'bower_components/angular-material/angular-material.js',
-
+  //'js/dependencies/**/*.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
