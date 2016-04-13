@@ -46,6 +46,21 @@ angular.module('PollModule')
       }
     }
   })
+.controller('DatePicker', function($scope) {
+  $scope.startDate = new Date();
+  $scope.minDate = new Date(
+      $scope.startDate.getFullYear(),
+      $scope.startDate.getMonth(),
+      $scope.startDate.getDate());
+  $scope.maxDate = new Date(
+      $scope.startDate.getFullYear(),
+      $scope.startDate.getMonth() + 2,
+      $scope.startDate.getDate());
+  $scope.onlyWeekendsPredicate = function(date) {
+    var day = date.getDay();
+    return day === 0 || day === 6;
+  }
+})
   .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.close = function () {
       $mdSidenav('left').close()
@@ -60,4 +75,17 @@ angular.module('PollModule')
         .then(function () {
           $log.debug("close RIGHT is done");
         });
-    }});
+    }})
+  .controller('CandidatesCtrl', function($scope) {
+  	$scope.candidates = [];
+  	$scope.keypress = function($event, button_clicked) {
+    if (button_clicked || $event.keyCode == 13) {
+    		$scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc});
+    		$scope.candidate = '';
+    		$scope.can_desc = '';
+    	}
+  	};
+  	$scope.removeCandidate = function($index, item) {
+    $scope.candidates.splice($index, 1);    
+  };
+  });
