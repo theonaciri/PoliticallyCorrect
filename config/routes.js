@@ -38,6 +38,7 @@ module.exports.routes = {
 
   'GET /poll': {view: 'poll'},
   'GET /signup': {view: 'signup'},
+  'GET /example': {view: 'example'},
   'GET /': 'PageController.showHomePage',
 
   ////////////////////////////////////////////////////////////
