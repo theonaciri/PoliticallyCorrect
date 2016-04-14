@@ -4,7 +4,6 @@
     <title>Politically Correct</title>
     <!--STYLES-->
     <link rel="stylesheet" href="/styles/angular-material.css">
-    <link rel="stylesheet" href="/styles/angular-material.min.css">
     <link rel="stylesheet" href="/styles/angular-toastr.css">
     <link rel="stylesheet" href="/styles/dist/mdColorPicker.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
@@ -13,7 +12,7 @@
     <script type="text/javascript">
     window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
     </script>
-    <style> //.md-color-picker-input {display:none !important;}</style>
+    <style> md-input-container {width:100% !important;}</style>
   </head>
 
   <body ng-app="PollModule" ng-controller="PollController as poll" ng-cloak>
@@ -72,8 +71,8 @@
           <label for="poll_name">Poll name</label>
           <input type="text" id="poll_name" ng-model="name" md-autofocus required>
         </md-input-container>
-
-        <md-input-container>
+        <br/>
+        <md-input-container style="size:100%">
           <label for="poll_desc">Poll description</label>
           <textarea ng-model="poll_desc" maxlength="2000" ></textarea>
         </md-input-container>
@@ -88,23 +87,42 @@
           <md-list ng-controller="CandidatesCtrl" ng-cloak> <!-- ng-controller="ListCtrl" -->
             <md-input-container>
               <label for="candidate">Add candidate (press enter to add one)</label>
-              <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)" >
-              </md-input-container>
-              <md-input-container ng-style="desc_style">
-              <label for="can_desc" >Description</label>
-              <textarea maxlength="1000" ng-model="can_desc"></textarea>
+              <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)">
             </md-input-container>
-            <div md-color-picker="{random:'True'}" ng-model="valueObj" ng-style="desc_style"></div>
+            <div ng-show="candidate">
+              <md-input-container>
+              <label for="can_desc">Candidate Description</label>
+              <textarea maxlength="1000" ng-model="can_desc"></textarea>
+              </md-input-container>
+              <div md-color-picker="{random:'True'}" ng-model="valueObj"></div>
+<!--               <div flow-init="{target: '/upload'}"
+     flow-files-submitted="$flow.upload()"
+     flow-file-success="$file.msg = $message">
+ -->
+<!--   <input type="file" flow-btn/>
+  Input OR Other element as upload button
+  <span class="btn" flow-btn>Upload File</span>
 
-            <md-button ng-click="createCandidate($event, 1)" id="add_candidates" ng-style="desc_style">Add candidate</md-button>
-            <md-subheader class="md-no-sticky" ng-style="desc_style">Candidates</md-subheader>    
-            <ul>
-              <li ng-repeat="item in candidates">
-                <div><b>{{item.name}}</b></div>
-                <div>{{item.desc}}</div>
-                <md-button ng-click="removeCandidate($index, item)">Delete</md-button>
-              </li>
-            </ul>
+  <table>
+    <tr ng-repeat="file in $flow.files">
+        <td>{{$index+1}}</td>
+        <td>{{file.name}}</td>
+        <td>{{file.msg}}</td>
+    </tr>
+  </table>
+</div> -->
+
+              <md-button ng-click="createCandidate($event, 1)" id="add_candidates" >Add candidate</md-button>
+              </div>
+              <md-subheader class="md-no-sticky"  ng-show="candidates">Candidates</md-subheader>    
+              <ul>
+                <li ng-repeat="item in candidates">
+                  <div><b>{{item.name}}</b></div>
+                  <div>{{item.desc}}</div>
+                  <md-button ng-click="removeCandidate($index, item)">Delete</md-button>
+                </li>
+              </ul>
+            
             <md-button class="md-raised md-primary" type="submit">Submit !</md-button>
       </form>
       <md-button ng-click="close()" class="md-primary">
@@ -112,19 +130,20 @@
       </md-button>
     </md-content>
   </md-sidenav>
-
-
 </section>
-    <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/dependencies/angular.js"></script>
-    <script src="/js/public/poll/PollModule.js"></script>
-    <script src="/js/angular-animate.js"></script>
-    <script src="/js/angular-aria.js"></script>
-    <script src="/js/angular-material.js"></script>
-    <script src="/js/angular-messages.js"></script>
-    <script src="/js/dependencies/angular-toastr.js"></script>
-    <script src="/js/dependencies/compareTo.module.js"></script>
-    <script src="/js/tinycolor.js"></script>
-    <script src="/js/dist/mdColorPicker.min.js"></script>
-    <script src="/js/public/poll/PollController.js"></script>
+  <script src="/js/dependencies/sails.io.js"></script>
+  <script src="/js/dependencies/angular.js"></script>
+  <script src="/js/public/poll/PollModule.js"></script>
+  <script src="/js/angular-animate.js"></script>
+  <script src="/js/angular-aria.js"></script>
+  <script src="/js/angular-material.js"></script>
+  <script src="/js/angular-messages.js"></script>
+  <script src="/js/dependencies/angular-toastr.js"></script>
+  <script src="/js/dependencies/compareTo.module.js"></script>
+  <script src="/js/tinycolor.js"></script>
+  <script src="/js/dist/ng-flow.js"></script>
+  <script src="/js/dist/mdColorPicker.min.js"></script>
+  <script src="/js/public/poll/PollController.js"></script>
+  <!--<script src="/js/dist/flow.js"></script>
+  <script src="/js/dist/ng-flow.js"></script> -->
 </html>

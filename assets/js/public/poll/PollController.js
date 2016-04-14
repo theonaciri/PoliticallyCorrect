@@ -79,13 +79,7 @@ angular.module('PollModule')
 		if ((from_button || $event.keyCode == 13) && $scope.candidate) {
 			$scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc});
 			$scope.candidate = '';
-			$scope.can_desc = '';
 		}
-		if ($scope.candidate) {
-			$scope.desc_style = {'/*display': 'initial*/'};
-		}
-		else
-			$scope.desc_style = {'display': 'none'};
 	};
 	$scope.removeCandidate = function($index, item) {
 		$scope.candidates.splice($index, 1);
