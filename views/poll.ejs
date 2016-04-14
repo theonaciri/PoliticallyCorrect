@@ -60,8 +60,6 @@
     </div>
     <div flex></div>
   </md-content>
-
-
   <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" style="min-width: 454px; max-width: 100%;">
     <md-toolbar class="md-theme-light">
       <h1 class="md-toolbar-tools">Poll creation</h1>
@@ -83,23 +81,23 @@
           <div ng-controller="DatePicker">
             <label for="poll_start">Time to start</label>
             <md-datepicker name="start" ng-model="start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" ng-required="required"></md-datepicker><br />
-            <label name="end" for="poll_end">Time to end</label>
+            <label name="end" for="poll_end">Time to end&nbsp</label>
             <md-datepicker ng-model="end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate" ng-required="required"></md-datepicker>
           </div>
           <md-list ng-controller="CandidatesCtrl" ng-cloak> <!-- ng-controller="ListCtrl" -->
             <md-input-container>
               <label for="candidate">Add candidate (press enter to add one)</label>
-              <input type="text" ng-model="candidate" ng-keydown="keypress($event, 0)" >
+              <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)" >
               </md-input-container>
-              <md-input-container>
-              <label for="can_desc">Description</label>
+              <md-input-container ng-style="desc_style">
+              <label for="can_desc" >Description</label>
               <textarea maxlength="1000" ng-model="can_desc"></textarea>
             </md-input-container>
-            <md-button ng-click="keypress($event, 1)">Add candidate</md-button>
-            <md-subheader class="md-no-sticky">Candidates</md-subheader>    
+            <md-button ng-click="createCandidate($event, 1)" id="add_candidates">Add candidate</md-button>
+            <md-subheader class="md-no-sticky" ng-style="desc_style">Candidates</md-subheader>    
             <ul>
               <li ng-repeat="item in candidates">
-                <div>{{item.name}}</div>
+                <div><b>{{item.name}}</b></div>
                 <div>{{item.desc}}</div>
                 <md-button ng-click="removeCandidate($index, item)">Delete</md-button>
               </li>
@@ -129,8 +127,6 @@
     <script src="/js/angular.js"></script>
     <script src="/js/dependencies/angular-toastr.js"></script>
     <script src="/js/dependencies/compareTo.module.js"></script>
-    <script src="/js/directives/TodoEscape.js"></script>
-    <script src="/js/directives/TodoFocus.js"></script>
     <script src="/js/private/dashboard/DashboardController.js"></script>
     <script src="/js/public/homepage/HomepageController.js"></script>
     <script src="/js/public/poll/PollController.js"></script>
