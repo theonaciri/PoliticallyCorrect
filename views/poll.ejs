@@ -6,13 +6,14 @@
     <link rel="stylesheet" href="/styles/angular-material.css">
     <link rel="stylesheet" href="/styles/angular-material.min.css">
     <link rel="stylesheet" href="/styles/angular-toastr.css">
+    <link rel="stylesheet" href="/styles/dist/mdColorPicker.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->  
     <!--Added this so the client has access to the csrf tag and it's grabbed first service side on every page -->
     <script type="text/javascript">
     window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
     </script>
-
+    <style> //.md-color-picker-input {display:none !important;}</style>
   </head>
 
   <body ng-app="PollModule" ng-controller="PollController as poll" ng-cloak>
@@ -93,7 +94,9 @@
               <label for="can_desc" >Description</label>
               <textarea maxlength="1000" ng-model="can_desc"></textarea>
             </md-input-container>
-            <md-button ng-click="createCandidate($event, 1)" id="add_candidates">Add candidate</md-button>
+            <div md-color-picker="{random:'True'}" ng-model="valueObj" ng-style="desc_style"></div>
+
+            <md-button ng-click="createCandidate($event, 1)" id="add_candidates" ng-style="desc_style">Add candidate</md-button>
             <md-subheader class="md-no-sticky" ng-style="desc_style">Candidates</md-subheader>    
             <ul>
               <li ng-repeat="item in candidates">
@@ -112,29 +115,16 @@
 
 
 </section>
-
-    <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/dependencies/angular.js"></script>
-    <script src="/js/public/signup/SignupModule.js"></script>
-    <script src="/js/private/dashboard/DashboardModule.js"></script>
-    <script src="/js/public/homepage/HomepageModule.js"></script>
     <script src="/js/public/poll/PollModule.js"></script>
     <script src="/js/angular-animate.js"></script>
     <script src="/js/angular-aria.js"></script>
     <script src="/js/angular-material.js"></script>
     <script src="/js/angular-messages.js"></script>
-    <script src="/js/angular.js"></script>
     <script src="/js/dependencies/angular-toastr.js"></script>
     <script src="/js/dependencies/compareTo.module.js"></script>
-    <script src="/js/private/dashboard/DashboardController.js"></script>
-    <script src="/js/public/homepage/HomepageController.js"></script>
+    <script src="/js/tinycolor.js"></script>
+    <script src="/js/dist/mdColorPicker.min.js"></script>
     <script src="/js/public/poll/PollController.js"></script>
-    <script src="/js/public/signup/SignupController.js"></script>
-    <!--SCRIPTS END-->
-    <script>
-        // Include the dependency upon ngMaterial - important !!
-        angular.module('starterApp', ['ngMaterial']);
-    </script>
-  </body>
 </html>

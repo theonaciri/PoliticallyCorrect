@@ -1,1 +1,1 @@
-angular.module('PollModule', ['toastr', 'compareTo', 'ngMaterial']);
+angular.module('PollModule', ['toastr', 'compareTo', 'ngMaterial', 'mdColorPicker']);
