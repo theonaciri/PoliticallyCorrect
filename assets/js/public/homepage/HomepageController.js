@@ -165,6 +165,32 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
       .defaultIconSet('https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-action.svg', 24);
 })
 
+.controller('DatePicker', function($scope) {
+  $scope.startDate = new Date();
+  $scope.minDate = new Date(
+    $scope.startDate.getFullYear(),
+    $scope.startDate.getMonth(),
+    $scope.startDate.getDate());
+  $scope.maxDate = new Date(
+    $scope.startDate.getFullYear(),
+    $scope.startDate.getMonth() + 3,
+    $scope.startDate.getDate());
+})
+
+.controller('CandidatesCtrl', function($scope) {
+  $scope.candidates = [];
+  $scope.desc_style = {'display': 'none'};
+  $scope.createCandidate = function($event, from_button) {
+    if ((from_button || $event.keyCode == 13) && $scope.candidate) {
+      $scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc});
+      $scope.candidate = '';
+    }
+  };
+  $scope.removeCandidate = function($index, item) {
+    $scope.candidates.splice($index, 1);
+  };
+})
+
 .controller('DemoCtrl', DemoCtrl);
   function DemoCtrl ($timeout, $q) {
     var self = this;

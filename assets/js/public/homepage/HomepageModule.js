@@ -1,1 +1,1 @@
-angular.module('HomepageModule', ['ngMaterial']);
+angular.module('HomepageModule', ['ngMaterial', 'mdColorPicker', 'ngAnimate']);

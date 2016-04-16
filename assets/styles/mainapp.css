@@ -2,8 +2,8 @@
   cursor: pointer;
 }
 
-md-content.md-default-theme {
-  background-color: #eee;
+.maincontent{
+  background-color: #eee ;
 }
 
 md-sidenav > md-toolbar {
