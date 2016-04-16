@@ -1,5 +1,5 @@
-angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog',
-  function($scope, $mdBottomSheet, $mdSidenav, $mdDialog){
+angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog', '$templateCache', '$http',
+  function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $templateCache, $http){
   
   // Toolbar search toggle
   $scope.toggleSearch = function(element) {
@@ -95,9 +95,10 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   };
   
   $scope.showAdd = function(ev) {
+    $http.get('poll.html', {cache:$templateCache});
     $mdDialog.show({
       controller: DialogController,
-      template: '<md-dialog aria-label="Form"> <md-content class="md-padding"> <form name="userForm"> <div layout layout-sm="column"> <md-input-container flex> <label>First Name</label> <input ng-model="user.firstName"> </md-input-container> <md-input-container flex> <label>Last Name</label> <input ng-model="user.lastName"> </md-input-container> </div> <md-input-container flex> <label>Message</label> <textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea> </md-input-container> </form> </md-content> <div class="md-dialog-actions" layout="row"> <span flex></span> <md-button ng-click="answer(\'not useful\')"> Cancel </md-button> <md-button ng-click="answer(\'useful\')" class="md-primary"> Save </md-button> </div></md-dialog>',
+      template: $templateCache.get('poll.html'),
       targetEvent: ev,
     })
     .then(function(answer) {

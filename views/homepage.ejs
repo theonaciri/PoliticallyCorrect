@@ -2,6 +2,7 @@
   <head>
     <link rel="stylesheet" href="/styles/angular-material-0.10.0.min.css">
     <link rel="stylesheet" href="/styles/mainapp.css">
+    <link rel="stylesheet" href="/styles/material-icon-fonts.css">
     <script type="text/javascript">
     window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
     </script>
@@ -15,7 +16,7 @@
           <span flex></span>
         </div>
         <span flex></span>
-        <div class="md-body-2">Firstname Lastname</div>
+        <div class="md-body-2">First name Last name</div>
         <div class="md-body-1">email@domainname.com</div>
       </md-toolbar>
       <md-list>
@@ -183,5 +184,32 @@
   <script src="/js/public/homepage/HomepageModule.js"></script>
   <script src="/js/public/homepage/HomepageController.js"></script>
 
+
+  <script type="text/ng-template" id="poll.html">
+    <md-dialog aria-label="Form">
+    <md-content class="md-padding">
+    <form name="userForm">
+      <div layout layout-sm="column">
+        <md-input-container flex>
+        <label>First Name</label>
+        <input ng-model="user.firstName">
+      </md-input-container>
+      <md-input-container flex>
+      <label>Last Name</label>
+      <input ng-model="user.lastName">
+    </md-input-container>
+  </div>
+  <md-input-container flex>
+  <label>Message</label>
+  <textarea ng-model="user.biography" columns="1" md-maxlength="150"></textarea>
+</md-input-container>
+</form>
+</md-content>
+<div class="md-actions" layout="row">
+  <span flex></span>
+  <md-button ng-click="answer('not useful')"> Cancel </md-button>
+  <md-button ng-click="answer('useful')" class="md-primary"> Save </md-button>
+</div></md-dialog>
+</script>
   </body>
 </html>
