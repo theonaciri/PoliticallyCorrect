@@ -13,7 +13,7 @@
     window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
     </script>
   </head>
-  <body layout="row" ng-controller="AppCtrl">
+  <body layout="row" ng-controller="AppCtrl" ng-cloak>
     <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
       <md-toolbar class="md-hue-2">
         <span flex></span>
@@ -43,7 +43,7 @@
       </md-list>
     </md-sidenav>
     <div layout="column" class="relative" layout-fill role="main">
-      <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">
+      <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">  <!-- Add poll -->
         <md-icon md-svg-icon="content:ic_add_24px" aria-label="Plus"></md-icon>
       </md-button>
       <md-toolbar class="animate-show md-tall md-whiteframe-z1" ng-show="!showSearch">
@@ -170,11 +170,8 @@
                     </md-list>
                   </md-card>
                 </div>
-                 
               </div>
-              
           </ng-switch>
-          
         </ui-view>
       </md-content>
     </div>
@@ -197,54 +194,65 @@
   <script src="/js/dist/mdColorPicker.min.js"></script>
 
   <script type="text/ng-template" id="poll.html">
-    <md-dialog aria-label="Form">
-    <md-content class="md-padding">
-  <form name="pollForm">
-        <md-input-container>
-          <label for="poll_name">Poll name</label>
-          <input type="text" id="poll_name" ng-model="name" md-autofocus required>
-        </md-input-container>
-        <br/>
-        <md-input-container style="size:100%">
-          <label for="poll_desc">Poll description</label>
-          <textarea ng-model="poll_desc" md-maxlength="2000" ></textarea>
-        </md-input-container>
+    <md-dialog aria-label="Form" flex>
+ <md-content class="md-padding">
+ <form name="pollForm">
+  <div layout-fill>
+    <md-input-container layout>
+    <label for="poll_name">Poll name</label>
+    <input type="text" id="poll_name" ng-model="name" md-autofocus required>
+  </md-input-container>
+</div>
+<div layout="row">
+<md-input-container layout-fill>
+<label for="poll_desc">Poll description</label>
+<textarea ng-model="poll_desc" md-maxlength="2000" ></textarea>
+</md-input-container>
+</div>
+<div ng-controller="DatePicker" layout="row" layout-xs="column" layout-sm="column">
+<div flex>
+  <label for="poll_start">Time to start</label>
+  <md-datepicker name="start" ng-model="start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" ng-required="required"></md-datepicker><br />
+  </div>
+<div flex>
+  <label name="end" for="poll_end">Time to end&nbsp</label>
+  <md-datepicker ng-model="end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate" ng-required="required"></md-datepicker>
+  </div>
+</div>
+<md-list ng-controller="CandidatesCtrl" ng-cloak>
 
+<br/>
 
-          <div ng-controller="DatePicker">
-            <label for="poll_start">Time to start</label>
-            <md-datepicker name="start" ng-model="start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" ng-required="required"></md-datepicker><br />
-            <label name="end" for="poll_end">Time to end&nbsp</label>
-            <md-datepicker ng-model="end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate" ng-required="required"></md-datepicker>
-          </div>
-          <md-list ng-controller="CandidatesCtrl" ng-cloak> <!-- ng-controller="ListCtrl" -->
-            <md-input-container>
-              <label for="candidate">Add candidate (press enter to add one)</label>
-              <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)">
-            </md-input-container>
-            <div ng-show="candidate">
-              <md-input-container>
-              <label for="can_desc">Candidate Description</label>
-              <textarea maxlength="1000" ng-model="can_desc"></textarea>
-              </md-input-container>
-              <div md-color-picker="{random:'True'}" ng-model="valueObj"></div>
-              <md-button ng-click="createCandidate($event, 1)" id="add_candidates" >Add candidate</md-button>
-              </div>
-              <md-subheader class="md-no-sticky"  ng-show="candidates">Candidates</md-subheader>    
-              <ul>
-                <li ng-repeat="item in candidates">
-                  <div><b>{{item.name}}</b></div>
-                  <div>{{item.desc}}</div>
-                  <md-button ng-click="removeCandidate($index, item)">Delete</md-button>
-                </li>
-              </ul>
-            <md-button class="md-raised md-primary" type="submit">Submit !</md-button>
-      </form>
+<div layout="row" layout-xs="column" layout-sm="column">
+    <md-input-container flex flex-gt-xs="80">
+      <label for="candidate">Add candidate (press enter to add one)</label>
+      <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)">
+    </md-input-container>
+
+  <div md-color-picker="{random:'True'}" ng-model="valueObj" flex-gt-xs="20" ng-id="colorset"></div>
+</div>
+<div ng-show="candidate">
+  <md-input-container layout="fill">
+  <label for="can_desc" layout >Candidate Description</label>
+  <textarea maxlength="1000" ng-model="can_desc"></textarea>
+</md-input-container>
+<md-button ng-click="createCandidate($event, 1)" id="add_candidates" >Add candidate</md-button>
+</div>
+<md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>    
+<md-list ng-cloak>
+  <md-list-item ng-repeat="can in candidates" ng-click="null">
+    <p> {{ can.name }} </p>
+    <h4>{{ can.desc }}</h4>
+    <md-button ng-click="removeCandidate($index, item)"><i class="material-icons">delete</i></md-button>
+  </md-list-item>
+</md-list>
+
 <div class="md-dialog-actions" layout="row">
   <span flex></span>
-  <md-button ng-click="answer('not useful')"> Cancel !</md-button>
-  <md-button ng-click="answer('useful')" class="md-primary"> Save </md-button>
-</div></md-dialog>
+  <md-button ng-click="answer('not useful')">Cancel</md-button>
+  <md-button ng-click="answer('useful')" class="md-raised md-primary">Create new poll</md-button>
+</form>
+</div></md-dialog>  
 </script>
   </body>
 </html>

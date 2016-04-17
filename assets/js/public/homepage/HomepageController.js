@@ -184,6 +184,7 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
     if ((from_button || $event.keyCode == 13) && $scope.candidate) {
       $scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc});
       $scope.candidate = '';
+      $scope.candesc = '';
     }
   };
   $scope.removeCandidate = function($index, item) {
