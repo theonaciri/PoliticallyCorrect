@@ -182,9 +182,10 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   $scope.desc_style = {'display': 'none'};
   $scope.createCandidate = function($event, from_button) {
     if ((from_button || $event.keyCode == 13) && $scope.candidate) {
-      $scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc});
+      $scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc, cancolor:$scope.cancolor});
       $scope.candidate = '';
       $scope.candesc = '';
+      $scope.cancolor = '';
     }
   };
   $scope.removeCandidate = function($index, item) {

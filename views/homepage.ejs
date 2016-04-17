@@ -200,7 +200,7 @@
   <div layout-fill>
     <md-input-container layout>
     <label for="poll_name">Poll name</label>
-    <input type="text" id="poll_name" ng-model="name" md-autofocus required>
+    <input type="text" id="poll_name" ng-model="name" md-autofocus maxlength="100" required>
   </md-input-container>
 </div>
 <div layout="row">
@@ -226,10 +226,10 @@
 <div layout="row" layout-xs="column" layout-sm="column">
     <md-input-container flex flex-gt-xs="80">
       <label for="candidate">Add candidate (press enter to add one)</label>
-      <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)">
+      <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)" maxlength="80">
     </md-input-container>
 
-  <div md-color-picker="{random:'True'}" ng-model="valueObj" flex-gt-xs="20" ng-id="colorset"></div>
+  <div md-color-picker="{random:'True'}" ng-model="cancolor" flex-gt-xs="20" ng-id="colorset"></div>
 </div>
 <div ng-show="candidate">
   <md-input-container layout="fill">
@@ -241,9 +241,10 @@
 <md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>    
 <md-list ng-cloak> 
   <md-list-item ng-repeat="can in candidates" ng-click="null">
+  <div class="_circle" style="background:{{can.cancolor}}"></div>
     <p> {{ can.name }} </p>
     <h4>{{ can.desc }}</h4>
-    <md-button ng-click="removeCandidate($index, item)"><i class="material-icons">delete</i></md-button>
+    <md-button ng-click="removeCandidate($index, can)"><i class="material-icons">delete</i></md-button>
   </md-list-item>
 </md-list>
 
