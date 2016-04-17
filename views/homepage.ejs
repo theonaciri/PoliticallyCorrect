@@ -239,7 +239,7 @@
 <md-button ng-click="createCandidate($event, 1)" id="add_candidates" >Add candidate</md-button>
 </div>
 <md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>    
-<md-list ng-cloak>
+<md-list ng-cloak> 
   <md-list-item ng-repeat="can in candidates" ng-click="null">
     <p> {{ can.name }} </p>
     <h4>{{ can.desc }}</h4>
