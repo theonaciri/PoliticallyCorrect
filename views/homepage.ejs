@@ -231,12 +231,12 @@
 
   <div md-color-picker="{random:'True'}" ng-model="cancolor" flex-gt-xs="20" ng-id="colorset"></div>
 </div>
-<div ng-show="candidate">
-  <md-input-container layout="fill">
+<div ng-show="candidate" >
+  <md-input-container layout="fill" style="margin-top:0">
   <label for="can_desc" layout >Candidate Description</label>
   <textarea maxlength="1000" ng-model="can_desc"></textarea>
 </md-input-container>
-<md-button ng-click="createCandidate($event, 1)" id="add_candidates" >Add candidate</md-button>
+<md-button ng-click="createCandidate($event, 1)" id="add_candidates" class="md-raised add_can_btn">Add candidate</md-button>
 </div>
 <md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>    
 <md-list ng-cloak> 

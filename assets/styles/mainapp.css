@@ -21,6 +21,11 @@
   // margin: 0;
 }
 
+.add_can_btn {
+  padding-left:15px;
+  padding-right:15px;
+}
+
 [ng-click]:hover {
   cursor: pointer;
 }
