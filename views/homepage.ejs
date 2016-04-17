@@ -22,8 +22,9 @@
           <span flex></span>
         </div>
         <span flex></span>
-        <div class="md-body-2">First name Last name</div>
-        <div class="md-body-1">email@domainname.com</div>
+        <!-- <div class="md-body-2">First name Last name</div>
+        <div class="md-body-1">email@domainname.com</div> -->
+
       </md-toolbar>
       <md-list>
         <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" md-ink-ripple>
@@ -187,71 +188,84 @@
 
   <script src="/js/public/homepage/HomepageModule.js"></script>
   <script src="/js/public/homepage/HomepageController.js"></script>
-
-
   <script src="/js/tinycolor.js"></script>
-
   <script src="/js/dist/mdColorPicker.min.js"></script>
-
   <script type="text/ng-template" id="poll.html">
+
+  <!-- P O L L   F O R M -->
     <md-dialog aria-label="Form" flex>
  <md-content class="md-padding">
- <form name="pollForm">
+ <form ng-controller="pollForm" ng-submit="submitPollForm()">
+ <h2 layout layout-align="center">Create a new STV poll</h2>
+
+ <!-- POLL NAME -->  
   <div layout-fill>
     <md-input-container layout>
     <label for="poll_name">Poll name</label>
-    <input type="text" id="poll_name" ng-model="name" md-autofocus maxlength="100" required>
+    <input type="text" id="poll_name" ng-model="poll_form.name" md-autofocus maxlength="100" required>
   </md-input-container>
 </div>
+
+<!-- DESCRIPTION -->  
 <div layout="row">
 <md-input-container layout-fill>
 <label for="poll_desc">Poll description</label>
-<textarea ng-model="poll_desc" md-maxlength="2000" ></textarea>
+<textarea ng-model="poll_form.desc" md-maxlength="2000" ></textarea>
 </md-input-container>
 </div>
+
+<!-- DATE PICKER -->
 <div ng-controller="DatePicker" layout="row" layout-xs="column" layout-sm="column">
 <div flex>
   <label for="poll_start">Time to start</label>
-  <md-datepicker name="start" ng-model="start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" ng-required="required"></md-datepicker><br />
+  <md-datepicker name="start" ng-model="poll_form.start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" ng-required="required"></md-datepicker><br />
   </div>
 <div flex>
   <label name="end" for="poll_end">Time to end&nbsp</label>
-  <md-datepicker ng-model="end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate" ng-required="required"></md-datepicker>
+  <md-datepicker ng-model="poll_form.end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate" ng-required="required"></md-datepicker>
   </div>
 </div>
 <md-list ng-controller="CandidatesCtrl" ng-cloak>
-
 <br/>
+<!-- C A N D I D A T E -->
 
+<!-- CANDIDATE NAME -->
 <div layout="row" layout-xs="column" layout-sm="column">
     <md-input-container flex flex-gt-xs="80">
       <label for="candidate">Add candidate (press enter to add one)</label>
-      <input type="text" ng-model="candidate" ng-keyup="createCandidate($event, 0)" maxlength="80">
+      <input type="text" id="candidate" ng-model="poll_form.candidate" ng-keyup="createCandidate($event, 0)" maxlength="80">
     </md-input-container>
 
-  <div md-color-picker="{random:'True'}" ng-model="cancolor" flex-gt-xs="20" ng-id="colorset"></div>
+<!-- COLOR PICKER -->
+  <div md-color-picker="{random:'True'}" ng-model="poll_form.cancolor" flex-gt-xs="20" ng-id="colorset"></div>
 </div>
-<div ng-show="candidate" >
+
+<!-- CANDIDATE DESCRIPTION -->
+<div>
   <md-input-container layout="fill" style="margin-top:0">
   <label for="can_desc" layout >Candidate Description</label>
-  <textarea maxlength="1000" ng-model="can_desc"></textarea>
+  <textarea maxlength="1000" ng-model="poll_form.can_desc"></textarea>
 </md-input-container>
+
+<!-- CREATE CANDIDATE BUTTON -->
 <md-button ng-click="createCandidate($event, 1)" id="add_candidates" class="md-raised add_can_btn">Add candidate</md-button>
 </div>
-<md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>    
+<!-- LIST OF CANDIDATES -->
+<md-subheader class="md-no-sticky" ng-show="poll_form.candidates"><span ng-if="!poll_form.candidates[0]">No </span>Candidates</md-subheader>    
 <md-list ng-cloak> 
-  <md-list-item ng-repeat="can in candidates" ng-click="null">
+  <md-list-item ng-repeat="can in poll_form.candidates" ng-click="null">
   <div class="_circle" style="background:{{can.cancolor}}"></div>
     <p> {{ can.name }} </p>
     <h4>{{ can.desc }}</h4>
-    <md-button ng-click="removeCandidate($index, can)"><i class="material-icons">delete</i></md-button>
+    <md-button ng-click="removeCandidate($index, can)"><i class="material-icons" style="padding-top:2px;">delete</i></md-button>
   </md-list-item>
 </md-list>
 
+<!-- END POLL & SEND BUTTONS -->
 <div class="md-dialog-actions" layout="row">
   <span flex></span>
   <md-button ng-click="answer('not useful')">Cancel</md-button>
-  <md-button ng-click="answer('useful')" class="md-raised md-primary">Create new poll</md-button>
+  <md-button type="submit" ng-click="answer('useful')" class="md-raised md-primary" ng-disabled="pollForm.$invalid">Create new poll</md-button>
 </form>
 </div></md-dialog>  
 </script>

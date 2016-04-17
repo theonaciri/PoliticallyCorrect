@@ -1,6 +1,6 @@
 angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog', '$templateCache', '$http',
   function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $templateCache, $http){
-  
+
   // Toolbar search toggle
   $scope.toggleSearch = function(element) {
     $scope.showSearch = !$scope.showSearch;
@@ -13,9 +13,9 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   
   // Menu items
   $scope.menu = [
-    {
-      link : '',
-      title: 'Dashboard',
+  {
+    link : '',
+    title: 'Dashboard',
       icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
     },
     {
@@ -28,8 +28,8 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
       title: 'Messages',
       icon: 'communication:ic_message_24px'
     }
-  ];
-  $scope.admin = [
+    ];
+    $scope.admin = [
     {
       link : '',
       title: 'Trash',
@@ -40,46 +40,46 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
       title: 'Settings',
       icon: 'action:ic_settings_24px'
     }
-  ];
-  
+    ];
+
   // Mock activity
   $scope.activity = [
-      {
-        what: 'Brunch this weekend?',
-        who: 'Ali Conners',
-        avatar: 'svg-1',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands"
-      },
-      {
-        what: 'Summer BBQ',
-        who: 'to Alex, Scott, Jennifer',
-        avatar: 'svg-2',
-        when: '3:08PM',
-        notes: "Wish I could come out but I'm out of town this weekend"
-      },
-      {
-        what: 'Oui Oui',
-        who: 'Sandra Adams',
-        avatar: 'svg-3',
-        when: '3:08PM',
-        notes: "Do you have Paris recommendations? Have you ever been?"
-      },
-      {
-        what: 'Birthday Gift',
-        who: 'Trevor Hansen',
-        avatar: 'svg-4',
-        when: '3:08PM',
-        notes: "Have any ideas of what we should get Heidi for her birthday?"
-      },
-      {
-        what: 'Recipe to try',
-        who: 'Brian Holt',
-        avatar: 'svg-5',
-        when: '3:08PM',
-        notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
-      },
-    ];
+  {
+    what: 'Brunch this weekend?',
+    who: 'Ali Conners',
+    avatar: 'svg-1',
+    when: '3:08PM',
+    notes: " I'll be in your neighborhood doing errands"
+  },
+  {
+    what: 'Summer BBQ',
+    who: 'to Alex, Scott, Jennifer',
+    avatar: 'svg-2',
+    when: '3:08PM',
+    notes: "Wish I could come out but I'm out of town this weekend"
+  },
+  {
+    what: 'Oui Oui',
+    who: 'Sandra Adams',
+    avatar: 'svg-3',
+    when: '3:08PM',
+    notes: "Do you have Paris recommendations? Have you ever been?"
+  },
+  {
+    what: 'Birthday Gift',
+    who: 'Trevor Hansen',
+    avatar: 'svg-4',
+    when: '3:08PM',
+    notes: "Have any ideas of what we should get Heidi for her birthday?"
+  },
+  {
+    what: 'Recipe to try',
+    who: 'Brian Holt',
+    avatar: 'svg-5',
+    when: '3:08PM',
+    notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
+  },
+  ];
   
   // Bottomsheet & Modal Dialogs
   $scope.alert = '';
@@ -98,7 +98,9 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
     $http.get('poll.html', {cache:$templateCache});
     $mdDialog.show({
       controller: DialogController,
+      title: 'Creation of a new STV Poll',
       template: $templateCache.get('poll.html'),
+      clickOutsideToClose: true,
       targetEvent: ev,
     })
     .then(function(answer) {
@@ -111,10 +113,10 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
 
 .controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
   $scope.items = [
-    { name: 'Share', icon: 'social:ic_share_24px' },
-    { name: 'Upload', icon: 'file:ic_cloud_upload_24px' },
-    { name: 'Copy', icon: 'content:ic_content_copy_24px' },
-    { name: 'Print this page', icon: 'action:ic_print_24px' },
+  { name: 'Share', icon: 'social:ic_share_24px' },
+  { name: 'Upload', icon: 'file:ic_cloud_upload_24px' },
+  { name: 'Copy', icon: 'content:ic_content_copy_24px' },
+  { name: 'Print this page', icon: 'action:ic_print_24px' },
   ];
   
   $scope.listItemClick = function($index) {
@@ -131,17 +133,17 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   });
   $mdThemingProvider.definePalette('customBlue', customBlueMap);
   $mdThemingProvider.theme('default')
-    .primaryPalette('customBlue', {
-      'default': '500',
-      'hue-1': '50'
-    })
-    .accentPalette('pink');
+  .primaryPalette('customBlue', {
+    'default': '500',
+    'hue-1': '50'
+  })
+  .accentPalette('pink');
   $mdThemingProvider.theme('input', 'default')
-        .primaryPalette('grey')
+  .primaryPalette('grey')
 })
 
 .config(function($mdIconProvider) {
-    $mdIconProvider
+  $mdIconProvider
       // linking to https://github.com/google/material-design-icons/tree/master/sprites/svg-sprite
       // 
       .iconSet('action', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-action.svg', 24)
@@ -159,11 +161,11 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
       .iconSet('notification', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-notification.svg', 24)
       .iconSet('social', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-social.svg', 24)
       .iconSet('toggle', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-toggle.svg', 24)
-    
+
       // Illustrated user icons used in the docs https://material.angularjs.org/latest/#/demo/material.components.gridList
       .iconSet('avatars', 'https://raw.githubusercontent.com/angular/material/master/docs/app/icons/avatar-icons.svg', 24)
       .defaultIconSet('https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-action.svg', 24);
-})
+    })
 
 .controller('DatePicker', function($scope) {
   $scope.startDate = new Date();
@@ -178,24 +180,63 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
 })
 
 .controller('CandidatesCtrl', function($scope) {
-  $scope.candidates = [];
-  $scope.desc_style = {'display': 'none'};
+  // Set the loading state (i.e. show loading spinner)
+  $scope.poll_form = {
+    loading: false
+  }
+
+  $scope.poll_form.candidates = [];
+  $scope.poll_form.desc_style = {'display': 'none'};
   $scope.createCandidate = function($event, from_button) {
-    if ((from_button || $event.keyCode == 13) && $scope.candidate) {
-      $scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc, cancolor:$scope.cancolor});
-      $scope.candidate = '';
-      $scope.candesc = '';
-      $scope.cancolor = '';
+    $event.preventDefault();
+    if ((from_button || $event.keyCode == 13) && $scope.poll_form.candidate) {
+      $scope.poll_form.candidates.push({name: $scope.poll_form.candidate, desc: $scope.poll_form.can_desc, cancolor:$scope.poll_form.cancolor});
+      $scope.poll_form.candidate = '';
+      $scope.poll_form.candesc = '';
+      $scope.poll_form.cancolor = '';
+      console.log("hap");
     }
+    console.log("heey ");
   };
   $scope.removeCandidate = function($index, item) {
-    $scope.candidates.splice($index, 1);
+    $scope.poll_form.candidates.splice($index, 1);
   };
 })
 
+.controller('pollForm', ['$scope', function($scope){
+  $scope.submitPollForm = function() {
+    // Submit request to Sails.
+    console.log('sending');
+    return ;
+    $http.post('/poll', {
+      name: $scope.signupForm.name,
+      title: $scope.signupForm.title,
+      email: $scope.signupForm.email,
+      password: $scope.signupForm.password
+    })
+    .then(function onSuccess(sailsResponse){
+      window.location = '/';
+    })
+    .catch(function onError(sailsResponse){
+
+    // Handle known error type(s).
+    // If using sails-disk adpater -- Handle Duplicate Key
+    var emailAddressAlreadyInUse = sailsResponse.status == 409;
+
+    if (emailAddressAlreadyInUse) {
+      toastr.error('That email address has already been taken, please try again.', 'Error');
+      return;
+    }
+  })
+  .finally(function eitherWay(){
+    $scope.signupForm.loading = false;
+  })
+}
+}])
+
 .controller('DemoCtrl', DemoCtrl);
-  function DemoCtrl ($timeout, $q) {
-    var self = this;
+function DemoCtrl ($timeout, $q) {
+  var self = this;
     // list of `state` value/display objects
     self.states        = loadAll();
     self.selectedItem  = null;
@@ -208,17 +249,17 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
      * Search for states... use $timeout to simulate
      * remote dataservice call.
      */
-    function querySearch (query) {
+     function querySearch (query) {
       var results = query ? self.states.filter( createFilterFor(query) ) : [];
       return results;
     }
     /**
      * Build `states` list of key/value pairs
      */
-    function loadAll() {
+     function loadAll() {
       var allStates = 'Ali Conners, Alex, Scott, Jennifer, \
-              Sandra Adams, Brian Holt, \
-              Trevor Hansen';
+      Sandra Adams, Brian Holt, \
+      Trevor Hansen';
       return allStates.split(/, +/g).map( function (state) {
         return {
           value: state.toLowerCase(),
@@ -229,7 +270,7 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
     /**
      * Create filter function for a query string
      */
-    function createFilterFor(query) {
+     function createFilterFor(query) {
       var lowercaseQuery = angular.lowercase(query);
       return function filterFn(state) {
         return (state.value.indexOf(lowercaseQuery) === 0);
@@ -237,17 +278,17 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
     }
   };
 
-function DialogController($scope, $mdDialog) {
-  $scope.hide = function() {
-    $mdDialog.hide();
+  function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+    $scope.answer = function(answer) {
+      $mdDialog.hide(answer);
+    };
   };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
-};
 
 
 
@@ -256,43 +297,43 @@ function DialogController($scope, $mdDialog) {
 
   // // set-up loginForm loading state
   // $scope.loginForm = {
-  //   loading: false
-  // }
+    //   loading: false
+    // }
 
-  // $scope.submitLoginForm = function (){
+    // $scope.submitLoginForm = function (){
 
-  //   // Set the loading state (i.e. show loading spinner)
-  //   $scope.loginForm.loading = true;
+      //   // Set the loading state (i.e. show loading spinner)
+      //   $scope.loginForm.loading = true;
 
-  //   // Submit request to Sails.
-  //   $http.put('/login', {
-  //     email: $scope.loginForm.email,
-  //     password: $scope.loginForm.password
-  //   })
-  //   .then(function onSuccess (){
-  //     // Refresh the page now that we've been logged in.
-  //     window.location = '/';
-  //   })
-  //   .catch(function onError(sailsResponse) {
+      //   // Submit request to Sails.
+      //   $http.put('/login', {
+        //     email: $scope.loginForm.email,
+        //     password: $scope.loginForm.password
+        //   })
+      //   .then(function onSuccess (){
+        //     // Refresh the page now that we've been logged in.
+        //     window.location = '/';
+        //   })
+      //   .catch(function onError(sailsResponse) {
 
-  //     // Handle known error type(s).
-  //     // Invalid username / password combination.
-  //     if (sailsResponse.status === 400 || 404) {
-  //       // $scope.loginForm.topLevelErrorMessage = 'Invalid email/password combination.';
-  //       //
-  //       toastr.error('Invalid email/password combination.', 'Error', {
-  //         closeButton: true
-  //       });
-  //       return;
-  //     }
+        //     // Handle known error type(s).
+        //     // Invalid username / password combination.
+        //     if (sailsResponse.status === 400 || 404) {
+          //       // $scope.loginForm.topLevelErrorMessage = 'Invalid email/password combination.';
+          //       //
+          //       toastr.error('Invalid email/password combination.', 'Error', {
+            //         closeButton: true
+            //       });
+          //       return;
+          //     }
 
-  //       toastr.error('An unexpected error occurred, please try again.', 'Error', {
-  //         closeButton: true
-  //       });
-  //       return;
+          //       toastr.error('An unexpected error occurred, please try again.', 'Error', {
+            //         closeButton: true
+            //       });
+          //       return;
 
-  //   })
-  //   .finally(function eitherWay(){
-  //     $scope.loginForm.loading = false;
-  //   });
-  // };
+          //   })
+      //   .finally(function eitherWay(){
+        //     $scope.loginForm.loading = false;
+        //   });
+      // };
