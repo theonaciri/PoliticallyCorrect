@@ -1,0 +1,8 @@
+{
+    "verbose": true,
+    "ignore": [".tmp/*", "views/*", "assets/*"],
+    "execMap": {
+	"rb": "ruby",
+	"pde": "processing --sketch={{pwd}} --run"
+    }
+}
