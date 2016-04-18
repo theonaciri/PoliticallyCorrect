@@ -5,3 +5,4 @@ angular.module('PollModule', ['toastr', 'compareTo', 'ngMaterial', 'mdColorPicke
 // mdColorPicker color picker too
 // ngAnimate animations
 // flow file upload
+// ngsailsbind for update data from angular to sails real time

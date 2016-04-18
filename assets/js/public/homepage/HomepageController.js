@@ -1,16 +1,11 @@
-angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog', '$templateCache', '$http',
+angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$templateCache', '$http',
   function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $templateCache, $http){
 
   // Toolbar search toggle
   $scope.toggleSearch = function(element) {
     $scope.showSearch = !$scope.showSearch;
   };
-  
-  // Sidenav toggle
-  $scope.toggleSidenav = function(menuId) {
-    $mdSidenav(menuId).toggle();
-  };
-  
+
   // Menu items
   $scope.menu = [
   {
@@ -97,7 +92,7 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   $scope.showAdd = function(ev) {
     $http.get('poll.html', {cache:$templateCache});
     $mdDialog.show({
-      controller: DialogController,
+      controller: pollForm,//DialogController,
       title: 'Creation of a new STV Poll',
       template: $templateCache.get('poll.html'),
       clickOutsideToClose: true,
@@ -110,6 +105,56 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
     });
   };
 }])
+
+.controller('LoginCtrl', function($scope, $http, toastr, $sailsBind) {
+    $scope.newUser = {};
+
+    $scope.searchUser = function() {
+    $sailsBind.bind("user", $scope, {"name": {"contains": $scope.newUser.name}});
+    }
+  // set-up loginForm loading state
+  $scope.loginForm = {
+      loading: false
+    }
+
+    $scope.submitLoginForm = function (){
+console.log('Signing..');
+        // Set the loading state (i.e. show loading spinner)
+        $scope.loginForm.loading = true;
+
+        // Submit request to Sails.
+        $http.put('/login', {
+            email: $scope.loginForm.email,
+            password: $scope.loginForm.password
+          })
+        .then(function onSuccess (){
+            // Refresh the page now that we've been logged in.
+            window.location = '/';
+          })
+        .catch(function onError(sailsResponse) {
+
+            // Handle known error type(s).
+            // Invalid username / password combination.
+            if (sailsResponse.status === 400 || 404) {
+                // $scope.loginForm.topLevelErrorMessage = 'Invalid email/password combination.';
+                //
+                toastr.error('Invalid email/password combination.', 'Error', {
+                    closeButton: true
+                  });
+                return;
+              }
+
+                toastr.error('An unexpected error occurred, please try again.', 'Error', {
+                    closeButton: true
+                  });
+                return;
+
+            })
+        .finally(function eitherWay(){
+            $scope.loginForm.loading = false;
+          });
+      };
+})
 
 .controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
   $scope.items = [
@@ -185,29 +230,21 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
     loading: false
   }
 
-  $scope.poll_form.candidates = [];
+  $scope.poll_candidates = [];
   $scope.createCandidate = function($event, from_button) {
+    angular.element( document.querySelector('#candidate')).removeClass('ng-invalid');
     $event.preventDefault();
-    if ((from_button || $event.keyCode == 13) && $scope.poll_form.candidate) {
-      $scope.poll_form.candidates.push({name: $scope.poll_form.candidate, desc: $scope.poll_form.can_desc, cancolor:$scope.poll_form.cancolor});
-      $scope.poll_form.candidate = '';
-      $scope.poll_form.can_desc = '';
-      $scope.poll_form.cancolor = '';
+    if ((from_button || $event.keyCode == 13) && $scope.poll_candidate) {
+      $scope.poll_candidates.push({name: $scope.poll_candidate, desc: $scope.poll_can_desc, cancolor:$scope.poll_cancolor});
+      $scope.poll_candidate = '';
+      $scope.poll_can_desc = '';
+      $scope.poll_cancolor = '';
     }
-    console.log("heey ");
   };
   $scope.removeCandidate = function($index, item) {
-    $scope.poll_form.candidates.splice($index, 1);
+    $scope.poll_candidates.splice($index, 1);
   };
 })
-
-.controller('pollForm', ['$scope', function($scope){
-  // populate
-  console.log($scope.poll_form);
-  $scope.submitPollForm = function() {
-    console.log('In submit poll form');
-}
-}])
 
 .controller('DemoCtrl', DemoCtrl);
 function DemoCtrl ($timeout, $q) {
@@ -262,9 +299,10 @@ function DemoCtrl ($timeout, $q) {
       $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function($scope, answer) {
       // Submit request to Sails.
-      console.log('sending');
+      console.log('answer');
+      console.log($scope.poll_form);
       return ;
       $http.post('/poll', {
         name: $scope.signupForm.name,
@@ -293,50 +331,21 @@ function DemoCtrl ($timeout, $q) {
     };
   };
 
+//.controller('pollForm', ['$scope', function($scope){
+  
+  function pollForm($scope, $mdDialog) {
+  // Todo: should populate the form
 
+  $scope.submitPollForm = function() {
+    console.log('In submit poll form');
+    console.log($scope.poll_form);
+  }
+  $scope.answer = function($scope, answer) {
+      // Submit request to Sails.
+      console.log('answer');
+      console.log($scope.poll_form);
+      return ;
 
+    }
+}
 
-
-
-  // // set-up loginForm loading state
-  // $scope.loginForm = {
-    //   loading: false
-    // }
-
-    // $scope.submitLoginForm = function (){
-
-      //   // Set the loading state (i.e. show loading spinner)
-      //   $scope.loginForm.loading = true;
-
-      //   // Submit request to Sails.
-      //   $http.put('/login', {
-        //     email: $scope.loginForm.email,
-        //     password: $scope.loginForm.password
-        //   })
-      //   .then(function onSuccess (){
-        //     // Refresh the page now that we've been logged in.
-        //     window.location = '/';
-        //   })
-      //   .catch(function onError(sailsResponse) {
-
-        //     // Handle known error type(s).
-        //     // Invalid username / password combination.
-        //     if (sailsResponse.status === 400 || 404) {
-          //       // $scope.loginForm.topLevelErrorMessage = 'Invalid email/password combination.';
-          //       //
-          //       toastr.error('Invalid email/password combination.', 'Error', {
-            //         closeButton: true
-            //       });
-          //       return;
-          //     }
-
-          //       toastr.error('An unexpected error occurred, please try again.', 'Error', {
-            //         closeButton: true
-            //       });
-          //       return;
-
-          //   })
-      //   .finally(function eitherWay(){
-        //     $scope.loginForm.loading = false;
-        //   });
-      // };

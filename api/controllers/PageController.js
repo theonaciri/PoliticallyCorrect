@@ -26,8 +26,8 @@ module.exports = {
         return res.view('homepage');
       }
 
-      return res.view('dashboard', {
-        me: {
+      return res.view('homepage', {
+        me: { 
           id: user.id,
           name: user.name,
           email: user.email,

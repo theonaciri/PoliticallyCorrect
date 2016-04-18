@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/styles/dist/mdColorPicker.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
     <link rel="stylesheet" href="/styles/mainapp.css">
+    <link rel="stylesheet" href="/styles/angular-toastr.css">
     <script type="text/javascript">
     window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
     </script>
@@ -18,13 +19,30 @@
       <md-toolbar class="md-hue-2">
         <span flex></span>
         <div layout="row" layout-align="start center">
-          <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
-          <span flex></span>
+<!--           <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
+          <span flex></span> -->
         </div>
         <span flex></span>
         <!-- <div class="md-body-2">First name Last name</div>
         <div class="md-body-1">email@domainname.com</div> -->
 
+            <form ng-controller="LoginCtrl" ng-submit="submitLoginForm()" class="navbar-form navbar-right">
+
+              <div class="form-group">
+                  <input ng-model="loginForm.email" type="text" placeholder="Email" name="email" class="form-control">
+              </div>
+              <div class="form-group">
+                  <input ng-model="loginForm.password" type="password" placeholder="Password" name="password" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-success">
+                <span ng-show="!loginForm.loading">Sign in</span>
+                <span ng-show="loginForm.loading" class="fa fa-spinner"></span>
+                <span ng-show="loginForm.loading">Signing in...</span>
+              </button>
+              <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+          </form>
+          <p ng-if="req.session.me "> hey {{ req.session.me  }} !!</p>
+          <p ng-if="!req.session.me "> sry You're not logged in</p>
       </md-toolbar>
       <md-list>
         <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" md-ink-ripple>
@@ -42,10 +60,20 @@
           </div>
         </md-list-item>
       </md-list>
+      <div ng-controller="LoginCtrl">
+      <input ng-model="newUser.name"/><a href="" ng-click="users.push(newUser);newUser={}">Add New</a><a href="" ng-click="searchUser()">get user</a>
+      <a href="" ng-click="users.push(newUser);newUser={}">Add New</a>
+        <ul>
+          <li ng-repeat="user in users">{{user.name}} <a href="" ng-click="users.splice(users.indexOf(user), 1)">remove</a></li>
+        </ul>
+      </div>
     </md-sidenav>
     <div layout="column" class="relative" layout-fill role="main">
-      <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">  <!-- Add poll -->
-        <md-icon md-svg-icon="content:ic_add_24px" aria-label="Plus"></md-icon>
+      <md-button class="md-fab md-fab-bottom-right" aria-label="Create a new poll" ng-click="showAdd($event)">  <!-- Add poll -->
+        <md-icon md-svg-icon="content:ic_add_24px" aria-label="Plus" ></md-icon>
+          <md-tooltip md-direction="left">
+            Create a new poll
+          </md-tooltip>
       </md-button>
       <md-toolbar class="animate-show md-tall md-whiteframe-z1" ng-show="!showSearch">
         <div class="md-toolbar-tools">
@@ -53,7 +81,8 @@
             <md-icon md-svg-icon="navigation:ic_menu_24px" aria-label="Menu"></md-icon>
           </md-button>
           <h3>
-            Politically Correct
+            Politically Correct         
+          <a href="/logout">Sign out</a>
           </h3>
           <span flex></span>
           <md-button class="md-icon-button" aria-label="Search" ng-click="toggleSearch()">
@@ -185,27 +214,29 @@
     <!--<script src="/js/dependencies/angular-material-0.10.0.min.js"></script>  -->
     <script src="/js/angular-messages.js"></script>
     <!--<script src="//ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script> -->
+    <script src="/js/dependencies/angular-toastr.js"></script>
 
   <script src="/js/public/homepage/HomepageModule.js"></script>
   <script src="/js/public/homepage/HomepageController.js"></script>
   <script src="/js/tinycolor.js"></script>
   <script src="/js/dist/mdColorPicker.min.js"></script>
+  <script src="/js/dist/angular-sails-bind.js"></script>
+
   <script type="text/ng-template" id="poll.html">
 
   <!-- P O L L   F O R M -->
     <md-dialog aria-label="Form" flex>
  <md-content class="md-padding">
- <form ng-controller="pollForm"> <!--ng-submit="submitPollForm()" -->
+ <form ng-controller="CandidatesCtrl" ng-submit="submitPollForm()"> <!--ng-controller="pollForm" ng-submit="submitPollForm()" -->
  <h2 layout layout-align="center">Create a new STV poll</h2>
 
  <!-- POLL NAME -->  
   <div layout-fill>
     <md-input-container layout>
     <label for="poll_name">Poll name</label>
-    <input type="text" id="poll_name" ng-model="poll_form.name" md-autofocus maxlength="100" required>
+    <input type="text" id="poll_name" ng-model="poll_name" md-autofocus maxlength="100" required>
   </md-input-container>
 </div>
-
 <!-- DESCRIPTION -->  
 <div layout="row">
 <md-input-container layout-fill>
@@ -218,11 +249,11 @@
 <div ng-controller="DatePicker" layout="row" layout-xs="column" layout-sm="column">
 <div flex>
   <label for="poll_start">Time to start</label>
-  <md-datepicker name="start" ng-model="poll_form.start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" ng-required="required"></md-datepicker><br />
+  <md-datepicker name="start" ng-model="poll_start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" ng-required="required"></md-datepicker><br />
   </div>
 <div flex>
   <label name="end" for="poll_end">Time to end&nbsp</label>
-  <md-datepicker ng-model="poll_form.end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate" ng-required="required"></md-datepicker>
+  <md-datepicker ng-model="poll_end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate" ng-required="required"></md-datepicker>
   </div>
 </div>
 <md-list ng-controller="CandidatesCtrl" ng-cloak>
@@ -233,18 +264,18 @@
 <div layout="row" layout-xs="column" layout-sm="column">
     <md-input-container flex flex-gt-xs="80">
       <label for="candidate">Add candidate (press enter to add one)</label>
-      <input type="text" id="candidate" ng-model="poll_form.candidate" ng-keyup="createCandidate($event, 0)" maxlength="80">
+      <input type="text" id="candidate" ng-model="poll_candidate" ng-keyup="createCandidate($event, 0)" maxlength="80">
     </md-input-container>
 
 <!-- COLOR PICKER -->
-  <div md-color-picker="{random:'True'}" ng-model="poll_form.cancolor" flex-gt-xs="20" ng-id="colorset"></div>
+  <div md-color-picker="{random:'True'}" ng-model="poll_cancolor" flex-gt-xs="20" ng-id="colorset"></div>
 </div>
 
 <!-- CANDIDATE DESCRIPTION -->
 <div>
   <md-input-container layout="fill" style="margin-top:0">
   <label for="can_desc" layout >Candidate Description</label>
-  <textarea maxlength="1000" ng-model="poll_form.can_desc"></textarea>
+  <textarea maxlength="1000" ng-model="poll_can_desc"></textarea>
 </md-input-container>
 
 <!-- CREATE CANDIDATE BUTTON -->
@@ -252,12 +283,12 @@
 </div>
 
 <!-- LIST OF CANDIDATES -->
-<md-subheader class="md-no-sticky" ng-show="poll_form.candidates"><span ng-if="!poll_form.candidates[0]">No </span>Candidates</md-subheader>    
+<md-subheader class="md-no-sticky" ng-show="poll_candidates"><span ng-if="!poll_candidates[0]">No </span>Candidates</md-subheader>    
 <md-list ng-cloak> 
-  <md-list-item ng-repeat="can in poll_form.candidates" ng-click="null">
+  <md-list-item ng-repeat="can in poll_candidates" ng-click="null">
   <div class="_circle" style="background:{{can.cancolor}}"></div>
     <p> {{ can.name }} </p>
-    <h4>{{ can.desc }}</h4>
+    <h5>{{ can.desc }}</h5>
     <md-button ng-click="removeCandidate($index, can)"><i class="material-icons" style="padding-top:2px;">delete</i></md-button>
   </md-list-item>
 </md-list>
@@ -271,6 +302,8 @@
     <span ng-show="loginForm.loading" class="fa fa-spinner"></span>
     <span ng-show="loginForm.loading">Creating your poll...</span>
   </md-button>
+  Hey
+  {{ poll_name }}
 </form>
 </div></md-dialog>  
 </script>
