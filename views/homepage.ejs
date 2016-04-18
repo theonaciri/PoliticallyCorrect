@@ -195,7 +195,7 @@
   <!-- P O L L   F O R M -->
     <md-dialog aria-label="Form" flex>
  <md-content class="md-padding">
- <form ng-controller="pollForm" ng-submit="submitPollForm()">
+ <form ng-controller="pollForm"> <!--ng-submit="submitPollForm()" -->
  <h2 layout layout-align="center">Create a new STV poll</h2>
 
  <!-- POLL NAME -->  
@@ -250,6 +250,7 @@
 <!-- CREATE CANDIDATE BUTTON -->
 <md-button ng-click="createCandidate($event, 1)" id="add_candidates" class="md-raised add_can_btn">Add candidate</md-button>
 </div>
+
 <!-- LIST OF CANDIDATES -->
 <md-subheader class="md-no-sticky" ng-show="poll_form.candidates"><span ng-if="!poll_form.candidates[0]">No </span>Candidates</md-subheader>    
 <md-list ng-cloak> 
@@ -264,8 +265,12 @@
 <!-- END POLL & SEND BUTTONS -->
 <div class="md-dialog-actions" layout="row">
   <span flex></span>
-  <md-button ng-click="answer('not useful')">Cancel</md-button>
-  <md-button type="submit" ng-click="answer('useful')" class="md-raised md-primary" ng-disabled="pollForm.$invalid">Create new poll</md-button>
+  <md-button ng-click="cancel()">Cancel</md-button>
+  <md-button ng-click="answer('useful')" class="md-raised md-primary" ng-disabled="pollForm.$invalid">
+    <span ng-show="!loginForm.loading">Create new poll</span>
+    <span ng-show="loginForm.loading" class="fa fa-spinner"></span>
+    <span ng-show="loginForm.loading">Creating your poll...</span>
+  </md-button>
 </form>
 </div></md-dialog>  
 </script>

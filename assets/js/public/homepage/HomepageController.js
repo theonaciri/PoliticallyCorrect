@@ -146,25 +146,25 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   $mdIconProvider
       // linking to https://github.com/google/material-design-icons/tree/master/sprites/svg-sprite
       // 
-      .iconSet('action', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-action.svg', 24)
+      .iconSet('action', 'svg/svg-sprite-action.svg', 24)
       .iconSet('alert', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-alert.svg', 24)
       .iconSet('av', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-av.svg', 24)
-      .iconSet('communication', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-communication.svg', 24)
-      .iconSet('content', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-content.svg', 24)
+      .iconSet('communication', 'svg/svg-sprite-communication.svg', 24)
+      .iconSet('content', 'svg/svg-sprite-content.svg', 24)
       .iconSet('device', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-device.svg', 24)
       .iconSet('editor', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-editor.svg', 24)
       .iconSet('file', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-file.svg', 24)
       .iconSet('hardware', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-hardware.svg', 24)
       .iconSet('image', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-image.svg', 24)
       .iconSet('maps', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-maps.svg', 24)
-      .iconSet('navigation', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-navigation.svg', 24)
+      .iconSet('navigation', 'svg/svg-sprite-navigation.svg', 24)
       .iconSet('notification', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-notification.svg', 24)
-      .iconSet('social', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-social.svg', 24)
+      .iconSet('social', 'svg/svg-sprite-social.svg', 24)
       .iconSet('toggle', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-toggle.svg', 24)
 
       // Illustrated user icons used in the docs https://material.angularjs.org/latest/#/demo/material.components.gridList
-      .iconSet('avatars', 'https://raw.githubusercontent.com/angular/material/master/docs/app/icons/avatar-icons.svg', 24)
-      .defaultIconSet('https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-action.svg', 24);
+      .iconSet('avatars', 'svg/avatar-icons.svg', 24)
+      .defaultIconSet('svg/svg-sprite-action.svg', 24);
     })
 
 .controller('DatePicker', function($scope) {
@@ -186,15 +186,13 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   }
 
   $scope.poll_form.candidates = [];
-  $scope.poll_form.desc_style = {'display': 'none'};
   $scope.createCandidate = function($event, from_button) {
     $event.preventDefault();
     if ((from_button || $event.keyCode == 13) && $scope.poll_form.candidate) {
       $scope.poll_form.candidates.push({name: $scope.poll_form.candidate, desc: $scope.poll_form.can_desc, cancolor:$scope.poll_form.cancolor});
       $scope.poll_form.candidate = '';
-      $scope.poll_form.candesc = '';
+      $scope.poll_form.can_desc = '';
       $scope.poll_form.cancolor = '';
-      console.log("hap");
     }
     console.log("heey ");
   };
@@ -204,33 +202,10 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
 })
 
 .controller('pollForm', ['$scope', function($scope){
+  // populate
+  console.log($scope.poll_form);
   $scope.submitPollForm = function() {
-    // Submit request to Sails.
-    console.log('sending');
-    return ;
-    $http.post('/poll', {
-      name: $scope.signupForm.name,
-      title: $scope.signupForm.title,
-      email: $scope.signupForm.email,
-      password: $scope.signupForm.password
-    })
-    .then(function onSuccess(sailsResponse){
-      window.location = '/';
-    })
-    .catch(function onError(sailsResponse){
-
-    // Handle known error type(s).
-    // If using sails-disk adpater -- Handle Duplicate Key
-    var emailAddressAlreadyInUse = sailsResponse.status == 409;
-
-    if (emailAddressAlreadyInUse) {
-      toastr.error('That email address has already been taken, please try again.', 'Error');
-      return;
-    }
-  })
-  .finally(function eitherWay(){
-    $scope.signupForm.loading = false;
-  })
+    console.log('In submit poll form');
 }
 }])
 
@@ -279,13 +254,41 @@ function DemoCtrl ($timeout, $q) {
   };
 
   function DialogController($scope, $mdDialog) {
+    // populate
     $scope.hide = function() {
       $mdDialog.hide();
     };
     $scope.cancel = function() {
       $mdDialog.cancel();
     };
+
     $scope.answer = function(answer) {
+      // Submit request to Sails.
+      console.log('sending');
+      return ;
+      $http.post('/poll', {
+        name: $scope.signupForm.name,
+        title: $scope.signupForm.title,
+        email: $scope.signupForm.email,
+        password: $scope.signupForm.password
+      })
+      .then(function onSuccess(sailsResponse){
+        window.location = '/';
+      })
+      .catch(function onError(sailsResponse){
+
+    // Handle known error type(s).
+    // If using sails-disk adpater -- Handle Duplicate Key
+    var emailAddressAlreadyInUse = sailsResponse.status == 409;
+
+    if (emailAddressAlreadyInUse) {
+      toastr.error('That email address has already been taken, please try again.', 'Error');
+      return;
+    }
+  })
+      .finally(function eitherWay(){
+        $scope.signupForm.loading = false;
+      })
       $mdDialog.hide(answer);
     };
   };
