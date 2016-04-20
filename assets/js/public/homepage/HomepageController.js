@@ -1,5 +1,6 @@
-angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomSheet','$mdSidenav', '$mdDialog', '$templateCache', '$http',
-  function($scope, $mdBottomSheet, $mdSidenav, $mdDialog, $templateCache, $http){
+angular.module('HomepageModule')   
+    .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$templateCache', '$http',
+  function($scope, $mdBottomSheet, $mdDialog, $templateCache, $http){
 
   // Toolbar search toggle
   $scope.toggleSearch = function(element) {
@@ -78,7 +79,7 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
     avatar: 'svg-5',
     when: '3:08PM',
     notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
-  },
+  }
   ];
   
   // Bottomsheet & Modal Dialogs
@@ -101,7 +102,7 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
       title: 'Creation of a new STV Poll',
       template: $templateCache.get('poll.html'),
       clickOutsideToClose: true,
-      targetEvent: ev,
+      targetEvent: ev
     })
     .then(function(answer) {
       $scope.alert = 'You said the information was "' + answer + '".';
@@ -116,7 +117,7 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
   { name: 'Share', icon: 'social:ic_share_24px' },
   { name: 'Upload', icon: 'file:ic_cloud_upload_24px' },
   { name: 'Copy', icon: 'content:ic_content_copy_24px' },
-  { name: 'Print this page', icon: 'action:ic_print_24px' },
+  { name: 'Print this page', icon: 'action:ic_print_24px' }
   ];
   
   $scope.listItemClick = function($index) {
@@ -167,47 +168,56 @@ angular.module('HomepageModule').controller('AppCtrl', ['$scope', '$mdBottomShee
       .defaultIconSet('svg/svg-sprite-action.svg', 24);
     })
 
-.controller('DatePicker', function($scope) {
-  $scope.startDate = new Date();
-  $scope.minDate = new Date(
-    $scope.startDate.getFullYear(),
-    $scope.startDate.getMonth(),
-    $scope.startDate.getDate());
-  $scope.maxDate = new Date(
-    $scope.startDate.getFullYear(),
-    $scope.startDate.getMonth() + 3,
-    $scope.startDate.getDate());
-})
+.controller('pollForm', ['$scope', '$http', function($scope, $http){
+  // TODO: populate
+    // Date Picker
+    $scope.startDate = new Date();
+    $scope.minDate = new Date(
+        $scope.startDate.getFullYear(),
+        $scope.startDate.getMonth(),
+        $scope.startDate.getDate());
+    $scope.maxDate = new Date(
+        $scope.startDate.getFullYear(),
+        $scope.startDate.getMonth() + 3,
+        $scope.startDate.getDate());
 
-.controller('CandidatesCtrl', function($scope) {
-  // Set the loading state (i.e. show loading spinner)
-  $scope.poll_form = {
-    loading: false
-  }
-
-  $scope.poll_form.candidates = [];
-  $scope.createCandidate = function($event, from_button) {
-    $event.preventDefault();
-    if ((from_button || $event.keyCode == 13) && $scope.poll_form.candidate) {
-      $scope.poll_form.candidates.push({name: $scope.poll_form.candidate, desc: $scope.poll_form.can_desc, cancolor:$scope.poll_form.cancolor});
-      $scope.poll_form.candidate = '';
-      $scope.poll_form.can_desc = '';
-      $scope.poll_form.cancolor = '';
-    }
-    console.log("heey ");
-  };
-  $scope.removeCandidate = function($index, item) {
-    $scope.poll_form.candidates.splice($index, 1);
-  };
-})
-
-.controller('pollForm', ['$scope', function($scope){
-  // populate
-  console.log($scope.poll_form);
+    $scope.candidates = [];
+    $scope.createCandidate = function($event, from_button) {
+        $event.preventDefault();
+        if ((from_button || $event.keyCode == 13) && $scope.candidate) {
+            $scope.candidates.push({name: $scope.candidate, desc: $scope.can_desc, cancolor:$scope.cancolor});
+            $scope.candidate = '';
+            $scope.can_desc = '';
+            $scope.cancolor = '';
+        }
+    };
   $scope.submitPollForm = function() {
-    console.log('In submit poll form');
-}
-}])
+      $scope.loading = true;
+      $http.post('/poll', {
+          'name' : $scope.name,
+          'desc' : $scope.desc,
+          'minDate' : $scope.minDate,
+          'maxDate' : $scope.maxDate,
+          'candidates' : $scope.candidates
+          })
+          .then(function onSuccess(sailsResponse){
+              console.log(sailsResponse);
+              window.location = '/';
+          })
+          .catch(function onError(sailsResponse){
+              console.log(sailsResponse);
+      var emailAddressAlreadyInUse = sailsResponse.status == 409;
+
+      if (emailAddressAlreadyInUse) {
+          toastr.error('That email address has already been taken, please try again.', 'Error');
+          return;
+      }
+
+  })
+    .finally(function eitherWay(){
+        $scope.loading = false;
+    })
+}}])
 
 .controller('DemoCtrl', DemoCtrl);
 function DemoCtrl ($timeout, $q) {
@@ -262,33 +272,9 @@ function DemoCtrl ($timeout, $q) {
       $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
+    $scope.answer = function(form, candidates) {
       // Submit request to Sails.
-      console.log('sending');
-      return ;
-      $http.post('/poll', {
-        name: $scope.signupForm.name,
-        title: $scope.signupForm.title,
-        email: $scope.signupForm.email,
-        password: $scope.signupForm.password
-      })
-      .then(function onSuccess(sailsResponse){
-        window.location = '/';
-      })
-      .catch(function onError(sailsResponse){
-
-    // Handle known error type(s).
-    // If using sails-disk adpater -- Handle Duplicate Key
-    var emailAddressAlreadyInUse = sailsResponse.status == 409;
-
-    if (emailAddressAlreadyInUse) {
-      toastr.error('That email address has already been taken, please try again.', 'Error');
-      return;
-    }
-  })
-      .finally(function eitherWay(){
-        $scope.signupForm.loading = false;
-      })
+      console.log('in answer, closing');
       $mdDialog.hide(answer);
     };
   };
