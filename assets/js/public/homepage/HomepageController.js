@@ -210,7 +210,7 @@ angular.module('HomepageModule')
           })
           .then(function onSuccess(sailsResponse){
               console.log(sailsResponse);
-              window.location = '/poll/id';
+              window.location = '/poll/' + sailsResponse.data.id;
           })
           .catch(function onError(sailsResponse){
               console.log(sailsResponse);

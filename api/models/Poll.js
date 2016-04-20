@@ -23,11 +23,11 @@ module.exports = {
     },
 
     minDate: {
-      type: 'string', //'date',
+      type: 'date'
     },
 
     maxDate: {
-      type: 'string', //'date',
+      type: 'date',
       require: true
     }
   }
