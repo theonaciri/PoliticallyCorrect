@@ -8,46 +8,40 @@
 module.exports = {
 
     showHomePage: function (req, res) {
+        Poll.findOne({
+            id: req.param('id')
+        }, function foundPoll(err, poll) {
+            if (err) return res.negotiate(err);
+            if (!user) return res.notFound();
 
-        // If not logged in, show the public view.
-        if (!req.session.me) {
+            // Compare password attempt from the form params to the encrypted password
+            // from the database (`user.password`)
+
+            return res.send(poll.id);
+
             return res.view('poll');
-        }
-        return res.view('poll');
+        })
 
     },
 
     newPoll: function (req, res) {
-        User.create({
-            name: req.param('name'),
-            title: req.param('title'),
-            email: req.param('email'),
-            encryptedPassword: encryptedPassword,
-            lastLoggedIn: new Date(),
-            gravatarUrl: gravatarUrl
-        }, function userCreated(err, newUser) {
+        sails.log(req.param('minDate') + ' ' + req.param('maxDate'));
+        Poll.create({
+            title: req.param('name'),
+            desc: req.param('desc'),
+            min_date: req.param('minDate'),
+            max_date: req.param('maxDate')
+        }, function pollCreated(err, newPoll) {
             if (err) {
-
                 console.log("err: ", err);
                 console.log("err.invalidAttributes: ", err.invalidAttributes)
-
-                // If this is a uniqueness error about the email attribute,
-                // send back an easily parseable status code.
-                if (err.invalidAttributes && err.invalidAttributes.email && err.invalidAttributes.email[0]
-                    && err.invalidAttributes.email[0].rule === 'unique') {
-                    return res.emailAddressInUse();
-                }
-
                 // Otherwise, send back something reasonable as our error response.
                 return res.negotiate(err);
             }
 
-            // Log user in
-            req.session.me = newUser.id;
-
             // Send back the id of the new user
             return res.json({
-                id: newUser.id
+                id: newPoll.id
             });
         });
     }

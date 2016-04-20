@@ -168,8 +168,14 @@ angular.module('HomepageModule')
       .defaultIconSet('svg/svg-sprite-action.svg', 24);
     })
 
-.controller('pollForm', ['$scope', '$http', function($scope, $http){
+.controller('pollForm', ['$scope', '$http', '$mdToast', function($scope, $http, $mdToast){
   // TODO: populate
+    // toast
+    $scope.openToast = function($event) {
+        $mdToast.show($mdToast.simple().textContent('Hello!'));
+        // Could also do $mdToast.showSimple('Hello');
+    };
+
     // Date Picker
     $scope.startDate = new Date();
     $scope.minDate = new Date(
@@ -191,6 +197,8 @@ angular.module('HomepageModule')
             $scope.cancolor = '';
         }
     };
+
+
   $scope.submitPollForm = function() {
       $scope.loading = true;
       $http.post('/poll', {
@@ -202,17 +210,11 @@ angular.module('HomepageModule')
           })
           .then(function onSuccess(sailsResponse){
               console.log(sailsResponse);
-              window.location = '/';
+              window.location = '/poll/id';
           })
           .catch(function onError(sailsResponse){
               console.log(sailsResponse);
-      var emailAddressAlreadyInUse = sailsResponse.status == 409;
-
-      if (emailAddressAlreadyInUse) {
-          toastr.error('That email address has already been taken, please try again.', 'Error');
-          return;
-      }
-
+              $mdToast.show($mdToast.simple().textContent('Poll creation was rejected.'));
   })
     .finally(function eitherWay(){
         $scope.loading = false;
