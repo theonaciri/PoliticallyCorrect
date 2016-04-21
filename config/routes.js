@@ -36,7 +36,7 @@ module.exports.routes = {
   // Server-rendered HTML webpages
   ////////////////////////////////////////////////////////////
 
-  'GET /poll': {view: 'poll'},
+  'GET /poll': 'PollController.showNewPoll',
   'GET /signup': {view: 'signup'},
   'GET /example': {view: 'example'},
   'GET /': 'PageController.showHomePage',
@@ -49,7 +49,7 @@ module.exports.routes = {
   'POST /signup': 'UserController.signup',
   'PUT /login': 'UserController.login',
   'GET /logout': 'UserController.logout',
-  'POST /poll' : 'PollController.newPoll'
+  'POST /poll' : 'PollController.create'
 
   // '/': {
   //   view: 'homepage'

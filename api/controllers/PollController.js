@@ -7,24 +7,17 @@
 
 module.exports = {
 
-    showHomePage: function (req, res) {
-        Poll.findOne({
-            id: req.param('id')
-        }, function foundPoll(err, poll) {
-            if (err) return res.negotiate(err);
-            if (!user) return res.notFound();
-
-            // Compare password attempt from the form params to the encrypted password
-            // from the database (`user.password`)
-
-            return res.send(poll.id);
-
-            return res.view('poll');
+    find: function(req, res) {
+        Poll.findOne({'id': req.params['id']}, function(err, user) {
+            res.view('poll');
         })
+    },
+
+    showNewPoll: function (req, res) {
 
     },
 
-    newPoll: function (req, res) {
+    create: function (req, res) {
         sails.log(req.param('minDate') + ' ' + req.param('maxDate'));
         Poll.create({
             title: req.param('name'),
@@ -38,14 +31,21 @@ module.exports = {
                 // Otherwise, send back something reasonable as our error response.
                 return res.negotiate(err);
             }
+            Candidate.create(req.param('candidate')).exec(function createCB(err, created){
+                if (err) {
+                    console.log("err: ", err);
+                    console.log("err.invalidAttributes: ", err.invalidAttributes)
+                    // Otherwise, send back something reasonable as our error response.
+                    return res.negotiate(err);
+                }
 
             // Send back the id of the new user
             return res.json({
                 id: newPoll.id
             });
         });
-    }
-};
+    })
+}}
 
 //  unused below
 
