@@ -9,6 +9,21 @@ module.exports = {
 
 	showHomePage: function (req, res) {
 
+
+        // you can add as many as you like
+        res.locals.scripts = [
+            '/js/public/homepage/HomepageModule.js',
+            '/js/public/homepage/HomepageController.js',
+            '/js/tinycolor.js',
+            '/js/dist/mdColorPicker.min.js'
+        ];
+        
+        res.locals.css = [
+            '/styles/dist/mdColorPicker.min.css',
+            '/styles/importer.css',
+            '/styles/mainapp.css'
+        ];
+        return res.view('homepage');
     // If not logged in, show the public view.
     if (!req.session.me) {
       return res.view('homepage');

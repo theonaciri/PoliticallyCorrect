@@ -1,6 +1,6 @@
 angular.module('HomepageModule')   
-    .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$templateCache', '$http',
-  function($scope, $mdBottomSheet, $mdDialog, $templateCache, $http){
+    .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http',
+  function($scope, $mdBottomSheet, $mdDialog, $http){
 
   // Toolbar search toggle
   $scope.toggleSearch = function(element) {
@@ -96,11 +96,10 @@ angular.module('HomepageModule')
   };
   
   $scope.showAdd = function(ev) {
-    $http.get('poll.html', {cache:$templateCache});
     $mdDialog.show({
       controller: DialogController,
       title: 'Creation of a new STV Poll',
-      template: $templateCache.get('poll.html'),
+      templateUrl: 'templates/poll.ejs',
       clickOutsideToClose: true,
       targetEvent: ev
     })

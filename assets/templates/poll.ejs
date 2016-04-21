@@ -1,0 +1,88 @@
+<!-- P O L L   F O R M -->
+<md-dialog aria-label="Form" flex>
+  <md-content class="md-padding">
+    <form ng-controller="pollForm" name="pollform"> <!--ng-submit="submitPollForm()" -->
+      <h2 layout layout-align="center">Create a new STV poll</h2>
+
+      <md-button ng-click="openToast()">
+        Open a Toast!
+      </md-button>
+      <!-- POLL NAME -->
+      <div layout-fill>
+        <md-input-container layout>
+          <label for="poll_name">Poll name</label>
+          <input type="text" id="poll_name" ng-model="name" md-autofocus maxlength="100" required>
+        </md-input-container>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div layout="row">
+        <md-input-container layout-fill>
+          <label for="desc">Poll description</label>
+          <textarea ng-model="desc" md-maxlength="2000"></textarea>
+        </md-input-container>
+      </div>
+
+      <!-- DATE PICKER -->
+      <div layout="row" layout-xs="column" layout-sm="column">
+        <div flex>
+          <label for="start_date">Time to start</label>
+          <md-datepicker name="start" ng-model="start_date" md-placeholder="Enter start date" md-min-date="minDate" md-max-date="maxDate" required></md-datepicker><br />
+        </div>
+        <div flex>
+          <label name="end" for="end_date">Time to end&nbsp</label>
+          <md-datepicker ng-model="end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate"required></md-datepicker>
+        </div>
+      </div>
+      <md-list ng-cloak>
+        <br/>
+        <!-- C A N D I D A T E -->
+
+        <!-- CANDIDATE NAME -->
+        <div layout="row" layout-xs="column" layout-sm="column">
+          <md-input-container flex flex-gt-xs="80">
+            <label for="candidate">Add candidate (press enter to add one)</label>
+            <input type="text" id="candidate" ng-model="candidate" ng-keyup="createCandidate($event, 0)" maxlength="80">
+          </md-input-container>
+
+          <!-- COLOR PICKER -->
+          <div md-color-picker="{random:'True'}" ng-model="cancolor" flex-gt-xs="20" id="colorset"></div>
+        </div>
+
+        <!-- CANDIDATE DESCRIPTION -->
+        <div>
+          <md-input-container layout="fill" style="margin-top:0">
+            <label for="can_desc" layout >Candidate description</label>
+            <textarea maxlength="1000" ng-model="can_desc"></textarea>
+          </md-input-container>
+
+          <!-- CREATE CANDIDATE BUTTON -->
+          <md-button ng-click="createCandidate($event, 1)" id="add_candidates" class="md-raised add_can_btn">Add candidate</md-button>
+        </div>
+
+        <!-- LIST OF CANDIDATES -->
+        <md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>
+        <md-list ng-cloak>
+          <md-list-item ng-repeat="can in candidates" ng-click="null">
+            <div class="_circle" style="background:{{can.cancolor}}"></div>
+            <p> {{ can.name }} </p>
+            <h4>{{ can.desc }}</h4>
+            <md-button ng-click="removeCandidate($index, can)"><i class="material-icons" style="padding-top:2px;">delete</i></md-button>
+          </md-list-item>
+        </md-list>
+        <!-- END POLL & SEND BUTTONS -->
+        <div class="md-dialog-actions" layout="row">
+          <span flex></span>
+          <md-button ng-click="cancel()">Cancel</md-button>
+          <md-button ng-click="submitPollForm()" class="md-raised md-primary" ng-disabled="pollform.$invalid || !candidates[1]"> <!-- answer() -->
+            <span ng-show="!loading">Create new poll</span>
+            <span ng-show="loading" class="fa fa-spinner"></span>
+            <span ng-show="loading">Creating your poll...</span>
+          </md-button>
+        </div>
+    </form>
+    <script src="/js/tinycolor.js"></script>
+
+    <script src="/js/dist/mdColorPicker.min.js"></script>
+</md-dialog>
+

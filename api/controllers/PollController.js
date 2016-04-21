@@ -19,13 +19,9 @@ module.exports = {
                 return res.notFound('Could not find your poll, sorry.');
             }
 
-            sails.log('Found "%s"', poll.title);
             return res.view('poll/find', {poll:poll})
         });
-
     },
-
-
 
     showNewPoll: function (req, res) {
         return res.view('poll/shownewpoll');
