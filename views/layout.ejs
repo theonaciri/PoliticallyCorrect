@@ -31,7 +31,7 @@
         <div class="md-body-1">email@domainname.com</div> -->
     </md-toolbar>
     <md-list>
-        <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" md-ink-ripple>
+        <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" ng-href="{{item.link}}">
             <md-icon md-svg-icon="{{item.icon}}" aria-label="{{item.title}}"></md-icon>
             <div class="md-list-item-text">
                 <span class="md-body-2">{{item.title}}</span>

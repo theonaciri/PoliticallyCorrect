@@ -6,8 +6,8 @@ angular.module('PollModule')
             .dark();
     })
 
-    .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http', '$mdSidenav',
-        function($scope, $mdBottomSheet, $mdDialog, $http, $mdSidenav){
+    .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http', '$mdSidenav', '$location',
+        function($scope, $mdBottomSheet, $mdDialog, $http, $mdSidenav, $location){
             // Toolbar search toggle
             $scope.toggleSearch = function(element) {
                 $scope.showSearch = !$scope.showSearch;
@@ -18,11 +18,14 @@ angular.module('PollModule')
                 $mdSidenav(menuId).toggle();
             };
 
+            $scope.gotoLink = function(link) {
+                $location.url(link);
+            };
             // Menu items
             $scope.menu = [
                 {
-                    link : '',
-                    title: 'Dashboard',
+                    link : '/',
+                    title: 'HomePage',
                     icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
                 },
                 {
@@ -31,8 +34,8 @@ angular.module('PollModule')
                     icon: 'social:ic_group_24px'
                 },
                 {
-                    link : '',
-                    title: 'Messages',
+                    link : '/poll',
+                    title: 'Create new poll',
                     icon: 'communication:ic_message_24px'
                 }
             ];

@@ -1,4 +1,4 @@
-angular.module('HomepageModule')   
+angular.module('HomepageModule')
     .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http', '$mdSidenav',
   function($scope, $mdBottomSheet, $mdDialog, $http, $mdSidenav){
 
@@ -12,11 +12,14 @@ angular.module('HomepageModule')
     $mdSidenav(menuId).toggle();
   };
 
+      $scope.gotoLink = function(link) {
+          $location.url(link);
+      };
   // Menu items
   $scope.menu = [
   {
-    link : '',
-    title: 'Dashboard',
+    link : '/',
+    title: 'HomePage',
       icon: 'action:ic_dashboard_24px' // we have to use Google's naming convention for the IDs of the SVGs in the spritesheet
     },
     {
@@ -25,8 +28,8 @@ angular.module('HomepageModule')
       icon: 'social:ic_group_24px'
     },
     {
-      link : '',
-      title: 'Messages',
+      link : '/poll',
+      title: 'Create a new poll',
       icon: 'communication:ic_message_24px'
     }
     ];
