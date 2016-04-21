@@ -8,13 +8,27 @@
 module.exports = {
 
     find: function(req, res) {
-        Poll.findOne({'id': req.params['id']}, function(err, user) {
-            res.view('poll');
+        Poll.findOne({
+            id:req.params['id']
         })
+            .exec(function (err, poll){
+            if (err) {
+                return res.negotiate(err);
+            }
+            if (!poll) {
+                return res.notFound('Could not find your poll, sorry.');
+            }
+
+            sails.log('Found "%s"', poll.title);
+            return res.view('poll/find', {poll:poll})
+        });
+
     },
 
-    showNewPoll: function (req, res) {
 
+
+    showNewPoll: function (req, res) {
+        return res.view('poll/shownewpoll');
     },
 
     create: function (req, res) {

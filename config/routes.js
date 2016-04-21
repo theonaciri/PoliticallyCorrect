@@ -40,6 +40,7 @@ module.exports.routes = {
   'GET /signup': {view: 'signup'},
   'GET /example': {view: 'example'},
   'GET /': 'PageController.showHomePage',
+  'GET /poll/:id': 'PollController.find',
 
   ////////////////////////////////////////////////////////////
   // JSON API
