@@ -9,15 +9,11 @@ module.exports = {
 
   attributes: {
 
-    // The Poll's full name
-    // e.g. Nikola Tesla
     title: {
       type: 'string',
       required: true
     },
 
-    // The Poll's title at their job (or something)
-    // e.g. Genius
     desc: {
       type: 'string'
     },

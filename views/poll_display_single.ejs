@@ -1,0 +1,31 @@
+<md-content layout="column" layout-align="center center" md-theme="docs-dark">
+    <div flex><h1><%= poll.title %></h1></div>
+    <div flex><h3><%= poll.desc %></h3></div>
+</md-content>
+<md-content class="md-padding" layout layout-align="center" md-theme="docs-dark">
+    <md-divider></md-divider>
+    <div layout="row" layout-xs="column">
+        <div flex>
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Created on :</label>
+                <input disabled><%= poll.createdAt %></input>
+            </md-input-container>
+        </div>
+        <md-input-container class="md-block" flex-gt-xs>
+            <label>Last edited on :</label>
+            <input disabled><%= poll.updatedAt %></input>
+        </md-input-container>
+    </div>
+    <div layout="row" layout-xs="column">
+        <div flex>
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Poll start date :</label>
+                <input disabled><%= poll.min_date %></input>
+            </md-input-container>
+        </div>
+        <md-input-container class="md-block" flex-gt-xs>
+            <label>Poll end date :</label>
+            <input disabled><%= poll.max_date %></input>
+        </md-input-container>
+    </div>
+</md-content>

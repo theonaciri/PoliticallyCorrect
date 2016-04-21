@@ -1,4 +1,11 @@
 angular.module('PollModule')
+    .config(function($mdThemingProvider) {
+        // Configure a dark theme with primary foreground yellow
+        $mdThemingProvider.theme('docs-dark', 'default')
+            .primaryPalette('yellow')
+            .dark();
+    })
+
     .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http', '$mdSidenav',
         function($scope, $mdBottomSheet, $mdDialog, $http, $mdSidenav){
             // Toolbar search toggle
@@ -168,25 +175,25 @@ $scope.title = "Poll";
         $mdIconProvider
         // linking to https://github.com/google/material-design-icons/tree/master/sprites/svg-sprite
         //
-            .iconSet('action', 'svg/svg-sprite-action.svg', 24)
-            .iconSet('alert', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-alert.svg', 24)
+            .iconSet('action', '/svg/svg-sprite-action.svg', 24)
+            .iconSet('alert', '/https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-alert.svg', 24)
             .iconSet('av', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-av.svg', 24)
-            .iconSet('communication', 'svg/svg-sprite-communication.svg', 24)
-            .iconSet('content', 'svg/svg-sprite-content.svg', 24)
+            .iconSet('communication', '/svg/svg-sprite-communication.svg', 24)
+            .iconSet('content', '/svg/svg-sprite-content.svg', 24)
             .iconSet('device', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-device.svg', 24)
             .iconSet('editor', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-editor.svg', 24)
             .iconSet('file', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-file.svg', 24)
             .iconSet('hardware', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-hardware.svg', 24)
             .iconSet('image', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-image.svg', 24)
             .iconSet('maps', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-maps.svg', 24)
-            .iconSet('navigation', 'svg/svg-sprite-navigation.svg', 24)
+            .iconSet('navigation', '/svg/svg-sprite-navigation.svg', 24)
             .iconSet('notification', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-notification.svg', 24)
-            .iconSet('social', 'svg/svg-sprite-social.svg', 24)
+            .iconSet('social', '/svg/svg-sprite-social.svg', 24)
             .iconSet('toggle', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-toggle.svg', 24)
 
             // Illustrated user icons used in the docs https://material.angularjs.org/latest/#/demo/material.components.gridList
-            .iconSet('avatars', 'svg/avatar-icons.svg', 24)
-            .defaultIconSet('svg/svg-sprite-action.svg', 24);
+            .iconSet('avatars', '/svg/avatar-icons.svg', 24)
+            .defaultIconSet('/svg/svg-sprite-action.svg', 24);
     })
 
     .controller('pollForm', ['$scope', '$http', '$mdToast', function($scope, $http, $mdToast){

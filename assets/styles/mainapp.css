@@ -80,3 +80,7 @@ md-list-item.md-3-line md-divider[md-inset] {
   opacity: 0;
   overflow: hidden;
 }
+
+md-input-container.md-docs-dark-theme label, md-input-container.md-docs-dark-theme .md-placeholder {
+    color: rgba(255,255,255,0.6);
+}

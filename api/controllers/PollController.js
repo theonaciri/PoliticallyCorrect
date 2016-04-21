@@ -6,19 +6,54 @@
  */
 
 module.exports = {
-    find: function(req, res) {
-        Poll.findOne({
-            id:req.params['id']
-        })
-            .exec(function (err, poll){
+    displayAll: function(req, res) {
+        res.locals.scripts = [
+            '/js/public/poll/PollModule.js',
+            '/js/public/poll/PollController.js',
+            '/js/tinycolor.js',
+            '/js/dist/mdColorPicker.min.js'
+        ];
+
+        res.locals.css = [
+            '/styles/dist/mdColorPicker.min.css',
+            '/styles/importer.css',
+            '/styles/mainapp.css'
+        ];
+        Poll.find({limit: 10, sort: 'min_date DESC'})
+            .exec(function (err, _polls){
             if (err) {
                 return res.negotiate(err);
             }
-            if (!poll) {
-                return res.notFound('Could not find your poll, sorry.');
-            }
-            return res.view('find', {module: 'Poll', poll:poll})
+            sails.log('Displaying %d poll:', _polls.length, _polls);
+                return res.view('poll_display_single', {module: 'Poll', polls: _polls});
         });
+    },
+
+    find: function (req, res) {
+        res.locals.scripts = [
+            '/js/public/poll/PollModule.js',
+            '/js/public/poll/PollController.js',
+            '/js/tinycolor.js',
+            '/js/dist/mdColorPicker.min.js'
+        ];
+
+        res.locals.css = [
+            '/styles/dist/mdColorPicker.min.css',
+            '/styles/importer.css',
+            '/styles/mainapp.css'
+        ];
+        Poll.findOne({
+                id:req.params['id']
+            })
+            .exec(function (err, poll){
+                if (err) {
+                    return res.negotiate(err);
+                }
+                if (!poll) {
+                    return res.notFound('Could not find your poll, sorry.');
+                }
+                return res.view('poll_display_single', {module: 'Poll', poll:poll})
+            });
     },
 
     showNewPoll: function (req, res) {

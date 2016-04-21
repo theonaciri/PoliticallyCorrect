@@ -22,48 +22,49 @@
 
 module.exports.routes = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+    /***************************************************************************
+     *                                                                          *
+     * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
+     * etc. depending on your default view engine) your home page.              *
+     *                                                                          *
+     * (Alternatively, remove this and add an `index.html` file in your         *
+     * `assets` directory)                                                      *
+     *                                                                          *
+     ***************************************************************************/
 
-  ////////////////////////////////////////////////////////////
-  // Server-rendered HTML webpages
-  ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // Server-rendered HTML webpages
+    ////////////////////////////////////////////////////////////
 
-  'GET /poll': 'PollController.showNewPoll',
-  'GET /signup': {view: 'signup'},
-  'GET /example': {view: 'example'},
-  'GET /': 'PageController.showHomePage',
-  'GET /poll/:id': 'PollController.find',
+    'GET /poll': 'PollController.showNewPoll',
+    'GET /signup': {view: 'signup'},
+    'GET /example': {view: 'example'},
+    'GET /': 'PageController.showHomePage',
+    'GET /poll/displayAll': 'PollController.displayAll',
+    'GET /poll/:id': 'PollController.find',
 
-  ////////////////////////////////////////////////////////////
-  // JSON API
-  ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // JSON API
+    ////////////////////////////////////////////////////////////
 
-  // User enrollment + authentication
-  'POST /signup': 'UserController.signup',
-  'PUT /login': 'UserController.login',
-  'GET /logout': 'UserController.logout',
-  'POST /poll' : 'PollController.create'
+    // User enrollment + authentication
+    'POST /signup': 'UserController.signup',
+    'PUT /login': 'UserController.login',
+    'GET /logout': 'UserController.logout',
+    'POST /poll' : 'PollController.create'
 
-  // '/': {
-  //   view: 'homepage'
-  // }
+    // '/': {
+    //   view: 'homepage'
+    // }
 
-  /***************************************************************************
-  *                                                                          *
-  * Custom routes here...                                                    *
-  *                                                                          *
-  *  If a request to a URL doesn't match any of the custom routes above, it  *
-  * is matched against Sails route blueprints. See `config/blueprints.js`    *
-  * for configuration options and examples.                                  *
-  *                                                                          *
-  ***************************************************************************/
+    /***************************************************************************
+     *                                                                          *
+     * Custom routes here...                                                    *
+     *                                                                          *
+     *  If a request to a URL doesn't match any of the custom routes above, it  *
+     * is matched against Sails route blueprints. See `config/blueprints.js`    *
+     * for configuration options and examples.                                  *
+     *                                                                          *
+     ***************************************************************************/
 
 };

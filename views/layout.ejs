@@ -13,8 +13,12 @@
     <% } %>
     <% } %>
 </head>
-<body layout="row" ng-app="<%=typeof module == 'undefined' ? 'Homepage' : module%>Module"
-      ng-controller="<%=typeof mainCtrl == 'undefined' ? 'App' : mainCtrl%>Ctrl" ng-cloak>
+
+<body layout="row"
+<% if (typeof module !== 'undefined') { %>ng-app="<%= module %>Module"<% } %>
+<% if (typeof mainCtrl !== 'undefined') { %>
+      ng-controller="<%= mainCtrl %>Ctrl"<% } else { %>ng-controller="AppCtrl"<% } %>
+     ng-cloak>
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
     <md-toolbar class="md-hue-2">
         <span flex></span>
@@ -46,7 +50,7 @@
 <div layout="column" class="relative" layout-fill role="main">
     <md-button class="md-fab md-fab-bottom-right" aria-label="Add" ng-click="showAdd($event)">
         <md-icon md-svg-icon="content:ic_add_24px" aria-label="Plus"></md-icon>
-    </md-button>' : ''%>
+    </md-button>
 
     <md-toolbar class="animate-show md-whiteframe-z1" ng-show="!showSearch" md-scroll-shrink>
         <div class="md-toolbar-tools">
