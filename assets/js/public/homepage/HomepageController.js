@@ -1,6 +1,6 @@
 angular.module('HomepageModule')   
-    .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http',
-  function($scope, $mdBottomSheet, $mdDialog, $http){
+    .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http', '$mdSidenav',
+  function($scope, $mdBottomSheet, $mdDialog, $http, $mdSidenav){
 
   // Toolbar search toggle
   $scope.toggleSearch = function(element) {
