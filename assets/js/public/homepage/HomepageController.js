@@ -6,12 +6,12 @@ angular.module('HomepageModule')
   $scope.toggleSearch = function(element) {
     $scope.showSearch = !$scope.showSearch;
   };
-  
+
   // Sidenav toggle
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
   };
-  
+
   // Menu items
   $scope.menu = [
   {
@@ -81,7 +81,7 @@ angular.module('HomepageModule')
     notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
   }
   ];
-  
+
   // Bottomsheet & Modal Dialogs
   $scope.alert = '';
   $scope.showListBottomSheet = function($event) {
@@ -94,7 +94,7 @@ angular.module('HomepageModule')
       $scope.alert = clickedItem.name + ' clicked!';
     });
   };
-  
+
   $scope.showAdd = function(ev) {
     $mdDialog.show({
       controller: DialogController,

@@ -8,8 +8,6 @@
 module.exports = {
 
 	showHomePage: function (req, res) {
-
-
         // you can add as many as you like
         res.locals.scripts = [
             '/js/public/homepage/HomepageModule.js',
@@ -23,7 +21,7 @@ module.exports = {
             '/styles/importer.css',
             '/styles/mainapp.css'
         ];
-        return res.view('homepage');
+        return res.view('homepage', {module: 'Homepage'});
     // If not logged in, show the public view.
     if (!req.session.me) {
       return res.view('homepage');

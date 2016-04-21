@@ -21,6 +21,9 @@
   // margin: 0;
 }
 
+body {
+    /*overflow-y: hidden; /* hide vertical */
+}
 .add_can_btn {
   padding-left:15px;
   padding-right:15px;

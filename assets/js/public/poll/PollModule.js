@@ -1,4 +1,4 @@
-angular.module('PollModule', ['toastr', 'compareTo', 'ngMaterial', 'mdColorPicker', 'ngAnimate', 'flow']);
+angular.module('PollModule', ['ngMaterial', 'mdColorPicker', 'ngAnimate']);
 // toastr for notif
 // comparTo for form validation
 // ngMaterial for material design

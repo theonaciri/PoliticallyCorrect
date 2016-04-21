@@ -6,7 +6,6 @@
  */
 
 module.exports = {
-
     find: function(req, res) {
         Poll.findOne({
             id:req.params['id']
@@ -18,13 +17,26 @@ module.exports = {
             if (!poll) {
                 return res.notFound('Could not find your poll, sorry.');
             }
-
-            return res.view('poll/find', {poll:poll})
+            return res.view('find', {module: 'Poll', poll:poll})
         });
     },
 
     showNewPoll: function (req, res) {
-        return res.view('poll/shownewpoll');
+        res.locals.scripts = [
+            '/js/public/poll/PollModule.js',
+            '/js/public/poll/PollController.js',
+            '/js/tinycolor.js',
+            '/js/dist/mdColorPicker.min.js'
+        ];
+
+        res.locals.css = [
+            '/styles/dist/mdColorPicker.min.css',
+            '/styles/importer.css',
+            '/styles/mainapp.css'
+        ];
+        return res.view('shownewpoll', {
+            module: 'Poll'
+        });
     },
 
     create: function (req, res) {
