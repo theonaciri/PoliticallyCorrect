@@ -1,10 +1,10 @@
-<md-content layout="column" layout-align="center center" md-theme="docs-dark">
-    <div flex><h1><%= poll.title %></h1></div>
-    <div flex><h3><pre><%= poll.desc %></pre></h3></div>
-</md-content>
-<md-content class="md-padding" layout layout-align="center" md-theme="docs-dark">
-    <md-divider></md-divider>
-    <div layout="row" layout-xs="column">
+<md-content md-theme="docs-dark">
+    <div layout="column" layout-align="center center">
+        <div><h1><%= poll.title %></h1></div>
+        <div><h3><pre><%= poll.desc %></pre></h3></div>
+    </div>
+    <div layout="row" layout-align="">
+        <md-divider></md-divider>
         <div flex>
             <md-input-container class="md-block" flex-gt-xs>
                 <label>Created on :</label>
@@ -15,8 +15,7 @@
             <label>Last edited on :</label>
             <input disabled><%= poll.updatedAt %></input>
         </md-input-container>
-    </div>
-    <div layout="row" layout-xs="column">
+
         <div flex>
             <md-input-container class="md-block" flex-gt-xs>
                 <label>Poll start date :</label>
@@ -33,14 +32,16 @@
 
 <!-- LIST OF CANDIDATES -->
 <md-content>
-<md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>
-<md-list ng-cloak>
-    <% for (var i_can = 0, len = candidates.length; i_can < len; i_can++) {%>
-    <md-list-item ng-click="null">
-        <div class="_circle" style="background:<%= candidates[i_can].cancolor %>"></div>
-        <p><%= candidates[i_can].name %></p>
-        <h4><%= candidates[i_can].desc %></h4>
-    </md-list-item>
+    <md-subheader class="md-no-sticky">Candidates</md-subheader>
+    <% if (typeof candidates !== 'undefined' && candidates !== null) { %>
+    <md-list ng-cloak>
+        <% for (var i_can = 0, len = candidates.length; i_can < len; i_can++) {%>
+        <md-list-item ng-click="null">
+            <div class="_circle" style="background:<%= candidates[i_can].cancolor %>"></div>
+            <p><%= candidates[i_can].name %></p>
+            <h5><%= candidates[i_can].desc %></h5>
+        </md-list-item>
+        <% } %>
+    </md-list>
     <% } %>
-</md-list>
 </md-content>
