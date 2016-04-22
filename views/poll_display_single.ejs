@@ -29,3 +29,18 @@
         </md-input-container>
     </div>
 </md-content>
+
+
+<!-- LIST OF CANDIDATES -->
+<md-content>
+<md-subheader class="md-no-sticky" ng-show="candidates"><span ng-if="!candidates[0]">No </span>Candidates</md-subheader>
+<md-list ng-cloak>
+    <% for (var i_can = 0, len = candidates.length; i_can < len; i_can++) {%>
+    <md-list-item ng-click="null">
+        <div class="_circle" style="background:<%= candidates[i_can].cancolor %>"></div>
+        <p><%= candidates[i_can].name %></p>
+        <h4><%= candidates[i_can].desc %></h4>
+    </md-list-item>
+    <% } %>
+</md-list>
+</md-content>

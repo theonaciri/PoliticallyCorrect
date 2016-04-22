@@ -19,13 +19,14 @@ module.exports = {
             '/styles/importer.css',
             '/styles/mainapp.css'
         ];
+
         Poll.find({limit: 10, sort: 'min_date DESC'})
             .exec(function (err, _polls){
             if (err) {
                 return res.negotiate(err);
             }
             sails.log('Displaying %d poll:', _polls.length, _polls);
-                return res.view('poll_display_single', {module: 'Poll', polls: _polls});
+                return res.view('poll_display_single', {module: 'Poll', polls: _polls}); // TODO: create view
         });
     },
 
@@ -42,6 +43,7 @@ module.exports = {
             '/styles/importer.css',
             '/styles/mainapp.css'
         ];
+
         Poll.findOne({
                 id:req.params['id']
             })
@@ -52,7 +54,20 @@ module.exports = {
                 if (!poll) {
                     return res.notFound('Could not find your poll, sorry.');
                 }
-                return res.view('poll_display_single', {module: 'Poll', poll:poll})
+                Candidate.find({
+                        poll_id:req.params['id']
+                    })
+                    .exec(function (err, _candidates) {
+                        if (err) {
+                            return res.negotiate(err);
+                        }
+                        if (!_candidates) {
+                            return res.notFound('Could not find your candidates, sorry.');
+                        }
+                        sails.log('Displaying %d candidates with poll n°%d:', _candidates.length, req.params['id'], _candidates);
+                        return res.view('poll_display_single', {module: 'Poll', poll:poll, candidates:_candidates})
+                    });
+
             });
     },
 
@@ -88,7 +103,12 @@ module.exports = {
                 // Otherwise, send back something reasonable as our error response.
                 return res.negotiate(err);
             }
-            Candidate.create(req.param('candidate')).exec(function createCB(err, created){
+            for (var i_can = 0, len = req.param('candidates').length; i_can < len; i_can++) {
+                req.param('candidates')[i_can].poll_id = newPoll.id;
+            }
+            sails.log("candidates :");
+            sails.log(req.param('candidates'));
+            Candidate.create(req.param('candidates')).exec(function createCB(err, created){
                 if (err) {
                     console.log("err: ", err);
                     console.log("err.invalidAttributes: ", err.invalidAttributes)
