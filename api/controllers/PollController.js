@@ -26,14 +26,15 @@ module.exports = {
                 return res.negotiate(err);
             }
             sails.log('Displaying %d poll:', _polls.length, _polls);
-                return res.view('poll_display_single', {module: 'Poll', polls: _polls}); // TODO: create view
+                return res.view('poll_display_single', {module: 'Poll', polls: _polls});
         });
     },
 
     find: function (req, res) {
         res.locals.scripts = [
-            '/js/public/poll/PollModule.js',
-            '/js/public/poll/PollController.js',
+            '/js/dist/dragular.min.js',
+            '/js/public/graph/GraphModule.js',
+            '/js/public/graph/GraphController.js',
             '/js/tinycolor.js',
             '/js/dist/mdColorPicker.min.js'
         ];
@@ -41,7 +42,9 @@ module.exports = {
         res.locals.css = [
             '/styles/dist/mdColorPicker.min.css',
             '/styles/importer.css',
-            '/styles/mainapp.css'
+            '/styles/mainapp.css',
+            '/styles/graph.css',
+            '/styles/dist/dragular.min.css'
         ];
 
         Poll.findOne({
@@ -65,9 +68,8 @@ module.exports = {
                             return res.notFound('Could not find your candidates, sorry.');
                         }
                         sails.log('Displaying %d candidates with poll n°%d:', _candidates.length, req.params['id'], _candidates);
-                        return res.view('poll_display_single', {module: 'Poll', poll:poll, candidates:_candidates})
+                        return res.view('poll_display_single', {module: 'Graph', poll:poll, candidates:JSON.stringify(_candidates)})
                     });
-
             });
     },
 

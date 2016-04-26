@@ -6,6 +6,49 @@ angular.module('PollModule')
             .dark();
     })
 
+    .config(function($mdThemingProvider) {
+        var customBlueMap =     $mdThemingProvider.extendPalette('light-blue', {
+            'contrastDefaultColor': 'light',
+            'contrastDarkColors': ['50'],
+            '50': 'ffffff'
+        });
+        $mdThemingProvider.definePalette('customBlue', customBlueMap);
+        $mdThemingProvider.theme('default')
+            .primaryPalette('customBlue', {
+                'default': '500',
+                'hue-1': '50'
+            })
+            .accentPalette('pink');
+        $mdThemingProvider.theme('input', 'default')
+            .primaryPalette('grey')
+    })
+
+    .config(function($mdIconProvider) {
+        $mdIconProvider
+        // linking to https://github.com/google/material-design-icons/tree/master/sprites/svg-sprite
+        //
+            .iconSet('action', '/svg/svg-sprite-action.svg', 24)
+            .iconSet('alert', '/https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-alert.svg', 24)
+            .iconSet('av', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-av.svg', 24)
+            .iconSet('communication', '/svg/svg-sprite-communication.svg', 24)
+            .iconSet('content', '/svg/svg-sprite-content.svg', 24)
+            .iconSet('device', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-device.svg', 24)
+            .iconSet('editor', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-editor.svg', 24)
+            .iconSet('file', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-file.svg', 24)
+            .iconSet('hardware', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-hardware.svg', 24)
+            .iconSet('image', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-image.svg', 24)
+            .iconSet('maps', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-maps.svg', 24)
+            .iconSet('navigation', '/svg/svg-sprite-navigation.svg', 24)
+            .iconSet('notification', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-notification.svg', 24)
+            .iconSet('social', '/svg/svg-sprite-social.svg', 24)
+            .iconSet('toggle', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-toggle.svg', 24)
+
+            // Illustrated user icons used in the docs https://material.angularjs.org/latest/#/demo/material.components.gridList
+            .iconSet('avatars', '/svg/avatar-icons.svg', 24)
+            .defaultIconSet('/svg/svg-sprite-action.svg', 24);
+    })
+
+
     .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http', '$mdSidenav', '$location',
         function($scope, $mdBottomSheet, $mdDialog, $http, $mdSidenav, $location){
             // Toolbar search toggle
@@ -140,63 +183,21 @@ angular.module('PollModule')
                     })
             };
 
-$scope.title = "Poll";
-}])
+            $scope.title = "Poll";
+        }])
 
-.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
-    $scope.items = [
-        { name: 'Share', icon: 'social:ic_share_24px' },
-        { name: 'Upload', icon: 'file:ic_cloud_upload_24px' },
-        { name: 'Copy', icon: 'content:ic_content_copy_24px' },
-        { name: 'Print this page', icon: 'action:ic_print_24px' }
-    ];
+    .controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
+        $scope.items = [
+            { name: 'Share', icon: 'social:ic_share_24px' },
+            { name: 'Upload', icon: 'file:ic_cloud_upload_24px' },
+            { name: 'Copy', icon: 'content:ic_content_copy_24px' },
+            { name: 'Print this page', icon: 'action:ic_print_24px' }
+        ];
 
-    $scope.listItemClick = function($index) {
-        var clickedItem = $scope.items[$index];
-        $mdBottomSheet.hide(clickedItem);
-    };
-})
-
-    .config(function($mdThemingProvider) {
-        var customBlueMap =     $mdThemingProvider.extendPalette('light-blue', {
-            'contrastDefaultColor': 'light',
-            'contrastDarkColors': ['50'],
-            '50': 'ffffff'
-        });
-        $mdThemingProvider.definePalette('customBlue', customBlueMap);
-        $mdThemingProvider.theme('default')
-            .primaryPalette('customBlue', {
-                'default': '500',
-                'hue-1': '50'
-            })
-            .accentPalette('pink');
-        $mdThemingProvider.theme('input', 'default')
-            .primaryPalette('grey')
-    })
-
-    .config(function($mdIconProvider) {
-        $mdIconProvider
-        // linking to https://github.com/google/material-design-icons/tree/master/sprites/svg-sprite
-        //
-            .iconSet('action', '/svg/svg-sprite-action.svg', 24)
-            .iconSet('alert', '/https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-alert.svg', 24)
-            .iconSet('av', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-av.svg', 24)
-            .iconSet('communication', '/svg/svg-sprite-communication.svg', 24)
-            .iconSet('content', '/svg/svg-sprite-content.svg', 24)
-            .iconSet('device', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-device.svg', 24)
-            .iconSet('editor', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-editor.svg', 24)
-            .iconSet('file', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-file.svg', 24)
-            .iconSet('hardware', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-hardware.svg', 24)
-            .iconSet('image', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-image.svg', 24)
-            .iconSet('maps', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-maps.svg', 24)
-            .iconSet('navigation', '/svg/svg-sprite-navigation.svg', 24)
-            .iconSet('notification', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-notification.svg', 24)
-            .iconSet('social', '/svg/svg-sprite-social.svg', 24)
-            .iconSet('toggle', 'https://raw.githubusercontent.com/google/material-design-icons/master/sprites/svg-sprite/svg-sprite-toggle.svg', 24)
-
-            // Illustrated user icons used in the docs https://material.angularjs.org/latest/#/demo/material.components.gridList
-            .iconSet('avatars', '/svg/avatar-icons.svg', 24)
-            .defaultIconSet('/svg/svg-sprite-action.svg', 24);
+        $scope.listItemClick = function($index) {
+            var clickedItem = $scope.items[$index];
+            $mdBottomSheet.hide(clickedItem);
+        };
     })
 
     .controller('pollForm', ['$scope', '$http', '$mdToast', function($scope, $http, $mdToast){

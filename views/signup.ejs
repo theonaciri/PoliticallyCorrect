@@ -1,62 +1,36 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Sign Up for Activity Overlord (angular)</title>
-
-    <!-- Viewport mobile tag for sensible mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-
-    <!--STYLES-->
-    <link rel="stylesheet" href="/styles/angular-material-0.10.0.min.css">
-    <link rel="stylesheet" href="/styles/angular-material.css">
-    <link rel="stylesheet" href="/styles/angular-toastr.css">
-    <link rel="stylesheet" href="/styles/dist/mdColorPicker.min.css">
-    <link rel="stylesheet" href="/styles/importer.css">
-    <link rel="stylesheet" href="/styles/mainapp.css">
-    <link rel="stylesheet" href="/styles/material-icon-fonts.css">
-    <!--STYLES END-->
-
-    <!--Added this so the client has access to the csrf tag and it's grabbed first service side on every page -->
-    <script type="text/javascript">
-    window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
-    </script>
-
-  </head>
-
-  <body ng-app="SignupModule" ng-controller="SignupController" ng-cloak>
+<!--
     <div class="container-fluid">
 
-      <!-- Creates the navbar -->
+      &lt;!&ndash; Creates the navbar &ndash;&gt;
         <nav class="navbar navbar-default navbar-inverse">
       
-          <!-- This creates the mechanism for the collapse button -->
+          &lt;!&ndash; This creates the mechanism for the collapse button &ndash;&gt;
           <button type="button" class="navbar-toggle" data-toggle="collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
       
-            <!-- This controls the number of lines in the image when the nav collapse -->
+            &lt;!&ndash; This controls the number of lines in the image when the nav collapse &ndash;&gt;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
 
-          <!-- This is the brand on the left-hand side. -->
+          &lt;!&ndash; This is the brand on the left-hand side. &ndash;&gt;
           <a class="navbar-brand" href="/#"> activityOverlordv2.0</a>
           <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
 
-          <!-- LOGIN FORM -->  
+          &lt;!&ndash; LOGIN FORM &ndash;&gt;
           <form ng-submit="submitLoginForm()" class="navbar-form navbar-right">
 
-              <!-- E M A I L -->
+              &lt;!&ndash; E M A I L &ndash;&gt;
               <div class="form-group">
                   <input ng-model="loginForm.email" type="text" placeholder="Email" name="email" class="form-control">
               </div>
 
-              <!-- P A S S W O R D -->
+              &lt;!&ndash; P A S S W O R D &ndash;&gt;
               <div class="form-group">
                   <input ng-model="loginForm.password" type="password" placeholder="Password" name="password" class="form-control">
               </div>
 
-              <!-- S U B M I T -->
+              &lt;!&ndash; S U B M I T &ndash;&gt;
               <button type="submit" class="btn btn-success">
                 <span ng-show="!loginForm.loading">Sign in</span>
                 <span ng-show="loginForm.loading" class="fa fa-spinner"></span>
@@ -66,28 +40,70 @@
           </form>
         </nav>
       </div>
-    </div>
+    </div>-->
 
-    <!-- SIGNUP FORM --> 
-    <form ng-submit="submitSignupForm()" id="sign-up-form" class="form-signin" name="signup">
-      <h2 class="form-signin-heading">Create an account</h2>
-      <div class="row">
+<!-- SIGNUP FORM -->
+<form ng-submit="submitSignupForm()" id="sign-up-form" class="form-signin" name="signup">
+    <h2 class="form-signin-heading">Create an account</h2>
+    <div class="row">
 
         <!-- N A M E -->
 
         <!-- checking whether the form "signup" with the "name" property is both $invalid AND $dirty.  If it is
         insert the "has-error" class on the input field (i.e. insert a red border around the input field)
         -->
+<!--
+        <md-input-container class="md-block">
+            <label>Your full name</label>
+            <input required name="name" ng-model="signup.mail">
+            <div ng-messages="signup.name.$error">
+                <div ng-message="required">Your name is required to put a name on the creator of the poll.</div>
+            </div>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Your mail</label>
+            <input ng-model="signup.email" type="email" required>
+            <div ng-messages="signup.email.$error" ng-show="signup.password.$valid">
+                <div ng-message="required">Your mail is required to identify you to get access your admin panel.</div>
+            </div>
+        </md-input-container>
+
+
+        <md-input-container>
+            <label>Your password</label>
+            <input ng-model="signup.password" type="password" required>
+            <div ng-messages="signup.password.$error" ng-show="signup.password.$valid">
+                <div ng-message="required">Your password is required to securise your account.</div>
+            </div>
+        </md-input-container>
+
+        <md-input-container>
+            <label>Confirm password</label>
+            <input type="password" placeholder="one more time" name="confirmation" ng-model="signupForm.confirmPassword" required>
+          <div ng-if="signup.confirmation.$dirty">
+            <div ng-show="signup.password.$error.compareTo">Password must match.</div>
+            <div ng-show="signup.confirmation.$error.required">Confirmation password is required.</div>
+          </div>
+        </md-input-container>
+
+
+
+-->
+
+
+
+
         <div class="control-group form-group col-md-12"
-        ng-class="{'has-error':signup.name.$invalid &&
+             ng-class="{'has-error':signup.name.$invalid &&
                               signup.name.$dirty}">
-          <label>Your full name</label>
+            <label>Your name</label>
 
-          <!-- For this input field make it required, and have a max length of 25 -->
-          <input type="text" class="form-control" placeholder="e.g. Nikola Tesla" name="name" ng-model="signupForm.name" ng-maxlength="50" required>
+            <!-- For this input field make it required, and have a max length of 25 -->
+            <input type="text" class="form-control" placeholder="e.g. Nikola Tesla" name="name" ng-model="signupForm.name" ng-maxlength="50" required>
 
-          <!-- Also, if signup.name.$dirty is true, show the message depending upon the particular properties truthiness (e.g. required
-          and/or maxlength) -->
+            <!-- Also, if signup.name.$dirty is true, show the message depending upon the particular properties truthiness (e.g. required
+            and/or maxlength) -->
           <span class="help-block has-error" ng-if="signup.name.$dirty">
             <span ng-show="signup.name.$error.required">Name is required.</span>
             <span ng-show="signup.name.$error.maxlength">The name cannot be more than 50 characters.</span>
@@ -97,10 +113,10 @@
         <!-- T I T L E -->
 
         <div class="control-group form-group col-md-12"
-          ng-class="{'has-error':signup.title.$invalid &&
+             ng-class="{'has-error':signup.title.$invalid &&
                                 signup.title.$dirty}">
-          <label>Your title</label>
-          <input type="text" class="form-control" placeholder="e.g. Genius" name="title" ng-model="signupForm.title" ng-maxlength="50" required>
+            <label>Your title</label>
+            <input type="text" class="form-control" placeholder="e.g. Genius" name="title" ng-model="signupForm.title" ng-maxlength="50" required>
           <span class="help-block has-error" ng-if="signup.title.$dirty">
             <span ng-show="signup.title.$error.required">Title is required.</span>
             <span ng-show="signup.title.$error.maxlength">The name cannot be more than 50 characters.</span>
@@ -110,10 +126,10 @@
         <!-- E M A I L -->
 
         <div class="control-group form-group col-md-12"
-        ng-class="{'has-error':signup.email.$invalid &&
+             ng-class="{'has-error':signup.email.$invalid &&
                               signup.email.$dirty}">
-          <label>Your email address</label>
-          <input type="email" class="form-control" placeholder="nikola@tesla.com" name="email" ng-model="signupForm.email" required >
+            <label>Your email address</label>
+            <input type="email" class="form-control" placeholder="nikola@tesla.com" name="email" ng-model="signupForm.email" required >
           <span class="help-block has-error" ng-if="signup.email.$dirty">
             <span ng-show="signup.email.$error.required">Email address is required.</span>
             <span ng-show="signup.email.$error.email">Not a valid email address.</span>
@@ -123,11 +139,11 @@
         <!-- P A S S W O R D -->
 
         <div class="control-group form-group col-md-6"
-        ng-class="{'has-error':signup.password.$invalid &&
+             ng-class="{'has-error':signup.password.$invalid &&
                               signup.password.$dirty}">
-          <label>Choose a password</label>
-          <!-- Added the compareTo directive that compares the passowrds -->
-          <input type="password" class="form-control" placeholder="at least 6 characters" name="password" ng-model="signupForm.password" id="password" required ng-minlength="6" compare-to="signupForm.confirmPassword" >
+            <label>Choose a password</label>
+            <!-- Added the compareTo directive that compares the passowrds -->
+            <input type="password" class="form-control" placeholder="at least 6 characters" name="password" ng-model="signupForm.password" id="password" required ng-minlength="6" compare-to="signupForm.confirmPassword" >
           <span class="help-block has-error" ng-if="signup.password.$dirty">
             <span ng-show="signup.password.$error.required">Password is required.</span>
             <span ng-show="signup.password.$error.minlength">Password must be at least 6 characters.</span>
@@ -137,28 +153,28 @@
         <!-- C O N F I R M  P A S S W O R D -->
 
         <div class="control-group form-group col-md-6">
-          <label>Re-enter your password</label>
-          <input type="password" class="form-control" placeholder="one more time" name="confirmation" ng-model="signupForm.confirmPassword" required>
+            <label>Re-enter your password</label>
+            <input type="password" class="form-control" placeholder="one more time" name="confirmation" ng-model="signupForm.confirmPassword" required>
           <span class="help-block has-error" ng-if="signup.confirmation.$dirty">
             <span ng-show="signup.password.$error.compareTo">Password must match.</span>
             <span ng-show="signup.confirmation.$error.required">Confirmation password is required.</span>
           </span>
         </div>
-      </div>
+    </div>
 
-      <br/>
+    <br/>
 
-      <!-- Disable signup button until the form has no errors -->
-      <button class="btn btn-primary btn-lg btn-block" type="submit" ng-disabled="signup.$invalid">
+    <!-- Disable signup button until the form has no errors -->
+    <button class="btn btn-primary btn-lg btn-block" type="submit" ng-disabled="signup.$invalid">
         <span ng-show="!signupForm.loading">Create Account</span>
         <span class="overlord-loading-spinner fa fa-spinner" ng-show="signupForm.loading" ></span>
         <span ng-show="signupForm.loading">Preparing your new account...</span>
-      </button>
+    </button>
 
-      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
-    </form>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+</form>
 
-
+<!--
 
     <div class="container">
         <hr>
@@ -168,10 +184,9 @@
                 <div>PoliticallyCorrect</div>
             </div>
         </footer>
-    </div>
+    </div>-->
+<!--
 
-
-    <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/dependencies/angular.js"></script>
     <script src="/js/public/signup/SignupModule.js"></script>
@@ -195,7 +210,8 @@
     <script src="/js/public/poll/PollController.js"></script>
     <script src="/js/public/signup/SignupController.js"></script>
     <script src="/js/tinycolor.js"></script>
-    <!--SCRIPTS END-->
-  </body>
+-->
+
+</body>
 </html>
 

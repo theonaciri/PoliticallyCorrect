@@ -3,7 +3,7 @@
         <div><h1><%= poll.title %></h1></div>
         <div><h3><pre><%= poll.desc %></pre></h3></div>
     </div>
-    <div layout="row" layout-align="">
+    <div layout="row">
         <md-divider></md-divider>
         <div flex>
             <md-input-container class="md-block" flex-gt-xs>
@@ -13,7 +13,7 @@
         </div>
         <md-input-container class="md-block" flex-gt-xs>
             <label>Last edited on :</label>
-            <input disabled><%= poll.updatedAt %></input>
+            <input disabled><%= poll.updatedAtx %></input>
         </md-input-container>
 
         <div flex>
@@ -29,19 +29,35 @@
     </div>
 </md-content>
 
-
+<script>console.log('Hap1');
+    var candidates = JSON.parse('<%- candidates %>');
+</script>
 <!-- LIST OF CANDIDATES -->
-<md-content>
-    <md-subheader class="md-no-sticky">Candidates</md-subheader>
+<div ng-controller="CanList" class='containerVertical'>
+    <md-subheader class="md-no-sticky" ng-controller="DragVoteCtrl">Candidates</md-subheader>
     <% if (typeof candidates !== 'undefined' && candidates !== null) { %>
-    <md-list ng-cloak>
-        <% for (var i_can = 0, len = candidates.length; i_can < len; i_can++) {%>
+    <md-list ng-cloak  ng-repeat="can in candidates">
         <md-list-item ng-click="null">
-            <div class="_circle" style="background:<%= candidates[i_can].cancolor %>"></div>
-            <p><%= candidates[i_can].name %></p>
-            <h5><%= candidates[i_can].desc %></h5>
+            <div class="_circle" style="background: {{ can.cancolor }}"></div>
+            <p>{{ can.name }}</p>
+            <h5>{{ can.desc }}</h5>
         </md-list-item>
-        <% } %>
     </md-list>
     <% } %>
-</md-content>
+</div>
+<p>{{ candidates }}</p>
+<!--
+<div class='wrapper' ng-controller="DragVoteCtrl">
+    <div class='tableRow'>
+        <div class='containerVertical'>
+            <div ng-repeat="item in '<%= candidates %>'">{{item.content}}</div>
+        </div>
+    </div>
+    <div class="tableRow">
+        <div class="container">
+            <div>Items1:
+                <br/>{{'<%= candidates %>' | json}}</div>
+        </div>
+    </div>
+</div>
+-->
