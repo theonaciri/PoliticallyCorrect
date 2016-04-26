@@ -48,13 +48,13 @@ angular.module('GraphModule')
             .defaultIconSet('/svg/svg-sprite-action.svg', 24);
     })
 
-    .controller('DragVoteCtrl', ['$element', 'dragularService', function TodoCtrl($element, dragularService) {
-        dragularService('.containerVertical');
-    }])
+    .controller('DragCanList', ['$scope', '$window', '$element', 'dragularService',
+        function ($scope, $window, $element, dragularService) {
+            $scope.choices = [];
+            $scope.candidates = $window.candidates;
+            dragularService('.containerVertical');
 
-    .controller('CanList', ['$scope', '$window', function ($scope, $window) {
-        $scope.candidates = $window.candidates;
-    }])
+        }])
 
     .controller('AppCtrl', ['$scope', '$mdBottomSheet', '$mdDialog', '$http', '$mdSidenav', '$location',
         function($scope, $mdBottomSheet, $mdDialog, $http, $mdSidenav, $location){

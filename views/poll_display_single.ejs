@@ -29,35 +29,32 @@
     </div>
 </md-content>
 
-<script>console.log('Hap1');
+<script>
     var candidates = JSON.parse('<%- candidates %>');
 </script>
 <!-- LIST OF CANDIDATES -->
-<div ng-controller="CanList" class='containerVertical'>
-    <md-subheader class="md-no-sticky" ng-controller="DragVoteCtrl">Candidates</md-subheader>
-    <% if (typeof candidates !== 'undefined' && candidates !== null) { %>
-    <md-list ng-cloak  ng-repeat="can in candidates">
+
+<% if (typeof candidates !== 'undefined' && candidates !== null) { %>
+
+<md-subheader class="md-no-sticky">Your choice</md-subheader>
+<div ng-controller="DragCanList" class='containerVertical'>
+    <md-list ng-cloak style="padding:0px" ng-repeat="choice in choices">
+        <md-list-item ng-click="null">
+            <div class="_circle" style="background: {{ choice.cancolor }}"></div>
+            <p>{{ choice.name }}</p>
+        </md-list-item>
+    </md-list>
+</div>
+
+<md-subheader class="md-no-sticky">Candidates</md-subheader>
+<div ng-controller="DragCanList" class='containerVertical'>
+    <md-list ng-cloak style="padding:0px" ng-repeat="can in candidates">
         <md-list-item ng-click="null">
             <div class="_circle" style="background: {{ can.cancolor }}"></div>
             <p>{{ can.name }}</p>
             <h5>{{ can.desc }}</h5>
         </md-list-item>
     </md-list>
-    <% } %>
+
 </div>
-<p>{{ candidates }}</p>
-<!--
-<div class='wrapper' ng-controller="DragVoteCtrl">
-    <div class='tableRow'>
-        <div class='containerVertical'>
-            <div ng-repeat="item in '<%= candidates %>'">{{item.content}}</div>
-        </div>
-    </div>
-    <div class="tableRow">
-        <div class="container">
-            <div>Items1:
-                <br/>{{'<%= candidates %>' | json}}</div>
-        </div>
-    </div>
-</div>
--->
+<% } %>
