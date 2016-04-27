@@ -37,7 +37,11 @@
 
     <% if (typeof candidates !== 'undefined' && candidates !== null) { %>
 
-    <md-subheader class="md-no-sticky">Your choice</md-subheader>
+    <div layout="row" layout-align="space-between center">
+        <md-subheader class="md-no-sticky">Your choice in order</md-subheader>
+        <md-button class="md-raised md-primary">Vote !</md-button>
+        <div></div>
+    </div>
     <div ng-controller="DragCanList" class='containerVertical'>
         <md-list ng-cloak style="padding:0px" ng-repeat="choice in choices">
             <md-list-item ng-click="null">
@@ -47,7 +51,11 @@
         </md-list>
     </div>
 
-    <md-subheader class="md-no-sticky">Candidates</md-subheader>
+    <div layout="row" layout-align="space-between center">
+        <md-subheader class="md-no-sticky">Candidates</md-subheader>
+        <div></div>
+        <div></div>
+    </div>
     <div ng-controller="DragCanList" class='containerVertical'>
         <md-list ng-cloak style="padding:0px" ng-repeat="can in candidates">
             <md-list-item ng-click="null">
