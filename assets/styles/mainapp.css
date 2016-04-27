@@ -84,3 +84,13 @@ md-list-item.md-3-line md-divider[md-inset] {
 md-input-container.md-docs-dark-theme label, md-input-container.md-docs-dark-theme .md-placeholder {
     color: rgba(255,255,255,0.6);
 }
+
+.dark_theme
+{
+  color: white;
+  background-color: rgb(66,66,66);
+}
+
+.dark_theme label {
+  color: rgba(255,255,255,0.6) !important;
+}

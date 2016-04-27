@@ -1,60 +1,62 @@
-<md-content md-theme="docs-dark">
-    <div layout="column" layout-align="center center">
-        <div><h1><%= poll.title %></h1></div>
-        <div><h3><pre><%= poll.desc %></pre></h3></div>
-    </div>
-    <div layout="row">
-        <md-divider></md-divider>
-        <div flex>
-            <md-input-container class="md-block" flex-gt-xs>
-                <label>Created on :</label>
-                <input disabled><%= poll.createdAt %></input>
-            </md-input-container>
+<md-content>
+    <div class="dark_theme">
+        <div layout="column" layout-align="center center">
+            <div><h1><%= poll.title %></h1></div>
+            <div><h3><pre><%= poll.desc %></pre></h3></div>
         </div>
-        <md-input-container class="md-block" flex-gt-xs>
-            <label>Last edited on :</label>
-            <input disabled><%= poll.updatedAtx %></input>
-        </md-input-container>
+        <div layout="row">
+            <md-divider></md-divider>
+            <div flex>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Created on :</label>
+                    <input disabled><%= poll.createdAt.toDateString() %></input>
+                </md-input-container>
+            </div>
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Last edited on :</label>
+                <input disabled><%= poll.updatedAt.toDateString() %></input>
+            </md-input-container>
 
-        <div flex>
+            <div flex>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Poll start date :</label>
+                    <input disabled><%= poll.min_date.substring(0, 10) %></input>
+                </md-input-container>
+            </div>
             <md-input-container class="md-block" flex-gt-xs>
-                <label>Poll start date :</label>
-                <input disabled><%= poll.min_date %></input>
+                <label>Poll end date :</label>
+                <input disabled><%= poll.max_date.substring(0, 10) %></input>
             </md-input-container>
         </div>
-        <md-input-container class="md-block" flex-gt-xs>
-            <label>Poll end date :</label>
-            <input disabled><%= poll.max_date %></input>
-        </md-input-container>
     </div>
+
+    <script>
+        var candidates = JSON.parse('<%- candidates %>');
+    </script>
+    <!-- LIST OF CANDIDATES -->
+
+    <% if (typeof candidates !== 'undefined' && candidates !== null) { %>
+
+    <md-subheader class="md-no-sticky">Your choice</md-subheader>
+    <div ng-controller="DragCanList" class='containerVertical'>
+        <md-list ng-cloak style="padding:0px" ng-repeat="choice in choices">
+            <md-list-item ng-click="null">
+                <div class="_circle" style="background: {{ choice.cancolor }}"></div>
+                <p>{{ choice.name }}</p>
+            </md-list-item>
+        </md-list>
+    </div>
+
+    <md-subheader class="md-no-sticky">Candidates</md-subheader>
+    <div ng-controller="DragCanList" class='containerVertical'>
+        <md-list ng-cloak style="padding:0px" ng-repeat="can in candidates">
+            <md-list-item ng-click="null">
+                <div class="_circle" style="background: {{ can.cancolor }}"></div>
+                <p>{{ can.name }}</p>
+                <h5>{{ can.desc }}</h5>
+            </md-list-item>
+        </md-list>
+
+    </div>
+    <% } %>
 </md-content>
-
-<script>
-    var candidates = JSON.parse('<%- candidates %>');
-</script>
-<!-- LIST OF CANDIDATES -->
-
-<% if (typeof candidates !== 'undefined' && candidates !== null) { %>
-
-<md-subheader class="md-no-sticky">Your choice</md-subheader>
-<div ng-controller="DragCanList" class='containerVertical'>
-    <md-list ng-cloak style="padding:0px" ng-repeat="choice in choices">
-        <md-list-item ng-click="null">
-            <div class="_circle" style="background: {{ choice.cancolor }}"></div>
-            <p>{{ choice.name }}</p>
-        </md-list-item>
-    </md-list>
-</div>
-
-<md-subheader class="md-no-sticky">Candidates</md-subheader>
-<div ng-controller="DragCanList" class='containerVertical'>
-    <md-list ng-cloak style="padding:0px" ng-repeat="can in candidates">
-        <md-list-item ng-click="null">
-            <div class="_circle" style="background: {{ can.cancolor }}"></div>
-            <p>{{ can.name }}</p>
-            <h5>{{ can.desc }}</h5>
-        </md-list-item>
-    </md-list>
-
-</div>
-<% } %>
