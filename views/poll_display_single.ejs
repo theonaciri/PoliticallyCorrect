@@ -36,13 +36,14 @@
     <!-- LIST OF CANDIDATES -->
 
     <% if (typeof candidates !== 'undefined' && candidates !== null) { %>
-
+<div ng-controller="DragCanList">
     <div layout="row" layout-align="space-between center">
         <md-subheader class="md-no-sticky">Your choice in order</md-subheader>
-        <md-button class="md-raised md-primary">Vote !</md-button>
+        <md-button class="md-raised md-primary" layout="center center" ng-click="SubmitCanVote()" aria-label="Submit your vote" ng-show="choices">
+            <i class="material-icons" style="font-size:300%">&#xE065;</i>&nbsp <b>Submit your vote !</b></md-button>
         <div></div>
     </div>
-    <div ng-controller="DragCanList" class='containerVertical'>
+    <div class='containerVertical'>
         <md-list ng-cloak style="padding:0px" ng-repeat="choice in choices">
             <md-list-item ng-click="null">
                 <div class="_circle" style="background: {{ choice.cancolor }}"></div>
@@ -64,7 +65,10 @@
                 <h5>{{ can.desc }}</h5>
             </md-list-item>
         </md-list>
-
     </div>
+    {{choices}}
+    --------
+    {{candidates}}
+</div>
     <% } %>
 </md-content>

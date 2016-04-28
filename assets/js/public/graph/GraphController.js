@@ -52,7 +52,11 @@ angular.module('GraphModule')
         function ($scope, $window, $element, dragularService) {
             $scope.choices = [];
             $scope.candidates = $window.candidates;
-            dragularService('.containerVertical');
+            //dragularService('.containerVertical');
+            var containers = $element.children().children();
+            dragularService([containers[0], containers[1]],{
+                containersModel: [$scope.choices, $scope.candidates]
+            });
 
         }])
 
