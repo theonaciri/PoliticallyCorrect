@@ -36,39 +36,42 @@
     <!-- LIST OF CANDIDATES -->
 
     <% if (typeof candidates !== 'undefined' && candidates !== null) { %>
-<div ng-controller="DragCanList">
-    <div layout="row" layout-align="space-between center">
-        <md-subheader class="md-no-sticky">Your choice in order</md-subheader>
-        <md-button class="md-raised md-primary" layout="center center" ng-click="SubmitCanVote()" aria-label="Submit your vote" ng-show="choices">
-            <i class="material-icons" style="font-size:300%">&#xE065;</i>&nbsp <b>Submit your vote !</b></md-button>
-        <div></div>
-    </div>
-    <div class='containerVertical'>
-        <md-list ng-cloak style="padding:0px" ng-repeat="choice in choices">
-            <md-list-item ng-click="null">
-                <div class="_circle" style="background: {{ choice.cancolor }}"></div>
-                <p>{{ choice.name }}</p>
-            </md-list-item>
-        </md-list>
-    </div>
+    <div ng-controller="DragCanList">
+        <div layout="row" layout-align="space-between center">
+            <md-subheader class="md-no-sticky">Your choice in order</md-subheader>
+            <md-button id="submitButton" class="md-raised md-primary" layout="center center" ng-click="SubmitCanVote()" aria-label="Submit your vote" ng-show="choices">
+                <i class="material-icons" style="font-size:300%">&#xE065;</i>&nbsp <b>Submit your vote !</b></md-button>
+            <div></div>
+        </div>
+        <div  class="containerVertical" id="choicesList">
+            <md-list ng-cloak style="padding:0px" ng-repeat="choice in choices">
+                <md-list-item ng-click="null">
+                    <div class="_circle" style="background: {{ choice.cancolor }}"></div>
+                    <p>{{ choice.name }}</p>
+                    <h5>{{ choice.desc }}</h5>
+                    <div style="display:none" class="id_class">{{choice.id}}</div>
+                </md-list-item>
+            </md-list>
+        </div>
 
-    <div layout="row" layout-align="space-between center">
-        <md-subheader class="md-no-sticky">Candidates</md-subheader>
-        <div></div>
-        <div></div>
+        <div layout="row" layout-align="space-between center">
+            <md-subheader class="md-no-sticky">Candidates</md-subheader>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="containerVertical">
+            <md-list ng-cloak style="padding:0px" ng-repeat="can in candidates" id="candidateslist">
+                <md-list-item ng-click="null">
+                    <div class="_circle" style="background: {{ can.cancolor }}"></div>
+                    <p>{{ can.name }}</p>
+                    <h5>{{ can.desc }}</h5>
+                    <div style="display:none" class="id_class">{{can.id}}</div>
+                </md-list-item>
+            </md-list>
+        </div>
+        {{choices}}
+        --------
+        {{candidates}}
     </div>
-    <div ng-controller="DragCanList" class='containerVertical'>
-        <md-list ng-cloak style="padding:0px" ng-repeat="can in candidates">
-            <md-list-item ng-click="null">
-                <div class="_circle" style="background: {{ can.cancolor }}"></div>
-                <p>{{ can.name }}</p>
-                <h5>{{ can.desc }}</h5>
-            </md-list-item>
-        </md-list>
-    </div>
-    {{choices}}
-    --------
-    {{candidates}}
-</div>
     <% } %>
 </md-content>

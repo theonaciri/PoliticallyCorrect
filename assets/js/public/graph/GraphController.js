@@ -52,11 +52,20 @@ angular.module('GraphModule')
         function ($scope, $window, $element, dragularService) {
             $scope.choices = [];
             $scope.candidates = $window.candidates;
-            //dragularService('.containerVertical');
-            var containers = $element.children().children();
-            dragularService([containers[0], containers[1]],{
+            
+            var containers = $element[0].getElementsByClassName('containerVertical')
+            console.log(containers);
+            dragularService([containers[0],containers[1]],{
                 containersModel: [$scope.choices, $scope.candidates]
             });
+            
+            $scope.SubmitCanVote = function (scope, element, attrs) {
+/*                var target = angular.element(document.querySelector("#choicesList"));
+                target = target[0];
+                var elem = target.querySelector('div');
+                //var elem2 = elem.querySelector('id_class');
+                console.log(elem);*/
+            }
 
         }])
 
