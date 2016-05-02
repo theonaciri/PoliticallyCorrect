@@ -25,7 +25,7 @@ module.exports = {
             if (err) {
                 return res.negotiate(err);
             }
-            sails.log('Displaying %d poll:', _polls.length, _polls);
+            /*sails.log('Displaying %d poll:', _polls.length, _polls);*/
                 return res.view('poll_display_single', {module: 'Poll', polls: _polls});
         });
     },
@@ -67,8 +67,17 @@ module.exports = {
                         if (!_candidates) {
                             return res.notFound('Could not find your candidates, sorry.');
                         }
-                        sails.log('Displaying %d candidates with poll n°%d:', _candidates.length, req.params['id'], _candidates);
-                        return res.view('poll_display_single', {module: 'Graph', poll:poll, candidates:JSON.stringify(_candidates)})
+                        //sails.log('Displaying %d candidates with poll n°%d:', _candidates.length, req.params['id'], _candidates);
+                        Vote.find({
+                            poll_id:req.params['id']
+                        })
+                            .exec(function(err, _votes) {
+                                if (err) {
+                                    return res.negotiate(err);
+                                }
+                                __votes = CountVotesService.countVotes(_votes);
+                                return res.view('poll_display_single', {module: 'Graph', votes:__votes, poll:poll, candidates:JSON.stringify(_candidates)})
+                            })
                     });
             });
     },
@@ -100,8 +109,8 @@ module.exports = {
             max_date: req.param('maxDate')
         }, function pollCreated(err, newPoll) {
             if (err) {
-                console.log("err: ", err);
-                console.log("err.invalidAttributes: ", err.invalidAttributes)
+                sails.log("err: ", err);
+                sails.log("err.invalidAttributes: ", err.invalidAttributes)
                 // Otherwise, send back something reasonable as our error response.
                 return res.negotiate(err);
             }
@@ -112,8 +121,8 @@ module.exports = {
             sails.log(req.param('candidates'));
             Candidate.create(req.param('candidates')).exec(function createCB(err, created){
                 if (err) {
-                    console.log("err: ", err);
-                    console.log("err.invalidAttributes: ", err.invalidAttributes)
+                    sails.log("err: ", err);
+                    sails.log("err.invalidAttributes: ", err.invalidAttributes)
                     // Otherwise, send back something reasonable as our error response.
                     return res.negotiate(err);
                 }
@@ -126,7 +135,26 @@ module.exports = {
     })
 },
     vote: function (req, res) {
-        sails.log('voting ! ' + req.param('vote'));
+        sails.log('voting for ' + req.param('poll') + 'votes : ' + req.param('vote'));
+        Vote.create({
+            choices: req.param('vote'),
+            poll_id: req.param('poll')
+        }, function voteCreate(err, newVote) {
+            if (err) {
+                sails.log("err: ", err);
+                sails.log("err.invalidAttributes: ", err.invalidAttributes)
+                // Otherwise, send back something reasonable as our error response.
+                return res.negotiate(err);
+            }
+            sails.log('vote created !')
+            Vote.find({limit: 10, sort: 'min_date DESC'})
+                .exec(function (err, _votes){
+                    if (err) {
+                        return res.negotiate(err);
+                    }
+                    sails.log('Displaying %d poll:', _votes.length, _votes);
+                });
+        })
     }
 
 }
