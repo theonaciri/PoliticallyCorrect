@@ -51,7 +51,8 @@ module.exports.routes = {
     'POST /signup': 'UserController.signup',
     'PUT /login': 'UserController.login',
     'GET /logout': 'UserController.logout',
-    'POST /poll' : 'PollController.create'
+    'POST /poll' : 'PollController.create',
+    'POST /poll/vote': 'PollController.vote'
 
     // '/': {
     //   view: 'homepage'

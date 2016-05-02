@@ -48,23 +48,61 @@ angular.module('GraphModule')
             .defaultIconSet('/svg/svg-sprite-action.svg', 24);
     })
 
-    .controller('DragCanList', ['$scope', '$window', '$element', 'dragularService',
-        function ($scope, $window, $element, dragularService) {
+    .controller('DragCanList', ['$scope', '$window', '$element', 'dragularService', '$http',
+        function ($scope, $window, $element, dragularService, $http) {
             $scope.choices = [];
             $scope.candidates = $window.candidates;
-            
-            var containers = $element[0].getElementsByClassName('containerVertical')
-            console.log(containers);
+            $scope.loading = false;
+
+            var containers = $element[0].getElementsByClassName('containerVertical');
             dragularService([containers[0],containers[1]],{
                 containersModel: [$scope.choices, $scope.candidates]
             });
             
             $scope.SubmitCanVote = function (scope, element, attrs) {
-/*                var target = angular.element(document.querySelector("#choicesList"));
-                target = target[0];
-                var elem = target.querySelector('div');
-                //var elem2 = elem.querySelector('id_class');
-                console.log(elem);*/
+                console.log($scope.choices);
+                // Set the loading state (i.e. show loading spinner)
+                $scope.loading = true;
+                var votes = [];
+                var i = 0;
+                while ($scope.choices[i]) {
+                    console.log($scope.choices[i].id);
+                    votes.push($scope.choices[i].id);
+                    i++;
+                }
+                console.log(window.location);
+                // Submit request to Sails.
+                $http.put('/poll/vote', {
+                        vote: votes,
+                        poll: $scope.choices[0].poll_id
+                    })
+                    .then(function onSuccess (){
+                        // Refresh the page now that we've been logged in.
+                        window.location = window.location.pathname;
+                    })
+                    .catch(function onError(sailsResponse) {
+
+                        // Handle known error type(s).
+                        // Invalid username / password combination.
+                        if (sailsResponse.status === 400 || 404) {
+                            // $scope.loginForm.topLevelErrorMessage = 'Invalid email/password combination.';
+                            //
+                            /* toastr.error('Invalid email/password combination.', 'Error', {
+                             closeButton: true
+                             });*/
+                            return;
+                        }
+
+                        /*				toastr.error('An unexpected error occurred, please try again.', 'Error', {
+                         closeButton: true
+                         });*/
+                        console.log('error');
+                        return;
+
+                    })
+                    .finally(function eitherWay(){
+                        $scope.loginForm.loading = false;
+                    })
             }
 
         }])

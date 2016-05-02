@@ -39,8 +39,15 @@
     <div ng-controller="DragCanList">
         <div layout="row" layout-align="space-between center">
             <md-subheader class="md-no-sticky">Your choice in order</md-subheader>
-            <md-button id="submitButton" class="md-raised md-primary" layout="center center" ng-click="SubmitCanVote()" aria-label="Submit your vote" ng-show="choices">
-                <i class="material-icons" style="font-size:300%">&#xE065;</i>&nbsp <b>Submit your vote !</b></md-button>
+            <div></div>
+            <md-button id="submitButton" class="md-raised md-primary" layout="center center" ng-click="loading ? null : SubmitCanVote()"
+                       aria-label="Submit your vote" ng-disabled="!choices[0]">
+                <i class="material-icons" style="font-size:300%" ng-show="!loading">&#xE065;</i>&nbsp <b ng-show="!loading">Submit your vote !</b>
+                <span class="overlord-loading-spinner fa fa-spinner" style="font-size:200%" ng-show="loading" ></span>
+                <span ng-show="loading"><b>&nbspSending your choices...</b></span>
+            </md-button>
+            <div></div>
+            <div></div>
             <div></div>
         </div>
         <div  class="containerVertical" id="choicesList">
@@ -69,9 +76,6 @@
                 </md-list-item>
             </md-list>
         </div>
-        {{choices}}
-        --------
-        {{candidates}}
     </div>
     <% } %>
 </md-content>

@@ -124,7 +124,12 @@ module.exports = {
             });
         });
     })
-}}
+},
+    vote: function (req, res) {
+        sails.log('voting ! ' + req.param('vote'));
+    }
+
+}
 
 //  unused below
 
