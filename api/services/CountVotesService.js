@@ -15,4 +15,4 @@ module.exports = {
         sails.log(choices);
         return choices;
     }
-};
+}; 
