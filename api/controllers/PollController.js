@@ -153,6 +153,7 @@ module.exports = {
                         return res.negotiate(err);
                     }
                     sails.log('Displaying %d poll:', _votes.length, _votes);
+                    return res.ok();
                 });
         })
     }

@@ -78,7 +78,7 @@ angular.module('GraphModule')
                     })
                     .then(function onSuccess (){
                         // Refresh the page now that we've been logged in.
-                        window.location = window.location.pathname;
+                        $window.location.reload();
                     })
                     .catch(function onError(sailsResponse) {
 
