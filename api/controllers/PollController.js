@@ -67,6 +67,7 @@ module.exports = {
                         if (!_candidates) {
                             return res.notFound('Could not find your candidates, sorry.');
                         }
+                        sails.log(_candidates);
                         //sails.log('Displaying %d candidates with poll n°%d:', _candidates.length, req.params['id'], _candidates);
                         Vote.find({
                             poll_id:req.params['id']
@@ -117,8 +118,6 @@ module.exports = {
             for (var i_can = 0, len = req.param('candidates').length; i_can < len; i_can++) {
                 req.param('candidates')[i_can].poll_id = newPoll.id;
             }
-            sails.log("candidates :");
-            sails.log(req.param('candidates'));
             Candidate.create(req.param('candidates')).exec(function createCB(err, created){
                 if (err) {
                     sails.log("err: ", err);
