@@ -10,14 +10,15 @@ module.exports = {
 
     countVotes: function(options) {
         var _ = sails._;
-        var i = 0;
         var choices = [];
-        while (options[i]) {
-            choices.push(options[i].choices);
-            i++;
-        }
         var summed_array = [];
 
+        // put all the votes in one array
+        options.forEach(function(op) {
+            choices.push(op.choices);
+        });
+
+        // aggregate the votes
         choices.forEach(function (vote) {
             var ret;
             if (_.isEmpty(summed_array))
@@ -25,38 +26,30 @@ module.exports = {
             else {
                 ret = false;
                 summed_array.forEach(function(summed) {
-                    if (!ret) {
+                    if (!ret)
                         if (_.isEqual(vote, summed.ballot)) {
                             summed.count++;
                             ret = true;
                         }
-                    }
                 });
                 if (!ret)
                     summed_array.push({"count":1, "ballot": vote});
             }
         });
-        console.log('summed array : \n', summed_array);
-
-        /*        _.each(arr2, function(arr2obj) {
-         var arr1obj = _.find(arr1, function(arr1obj) {
-         return arr1obj[prop] === arr2obj[prop];
-         })});
-         */
+        jsontruc = JSON.stringify(summed_array);
+        sails.log(jsontruc);
         var options = {
             pythonPath: '/usr/bin/python2.7',
             scriptPath: '/home/naciri_t/Projects/PoliticallyCorrect/api/services',
-            args: choices
+            args: jsontruc
         };
 
-        /*        PythonShell.run('test_stv.py', options, function (err) {
-         if (err) throw err;
-         console.log('finished');
-         });*/
+        PythonShell.run('test_stv.py', options, function (err) {
+            if (err) throw err;
+            console.log('finished');
+        });
+
+
         return choices;
     }
 };
-
-/*        fs.exists('/home/naciri_t/Projects/PoliticallyCorrect/api/services/test_stv.py', (exists) => {
- console.log(exists ? 'it\'s there' : 'no passwd!');
- })*/
