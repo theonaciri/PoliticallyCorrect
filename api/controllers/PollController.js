@@ -77,6 +77,7 @@ module.exports = {
                                     return res.negotiate(err);
                                 }
                                 __votes = CountVotesService.countVotes(_votes);
+                                sails.log('got votes : \n',__votes, '\n^');
                                 return res.view('poll_display_single', {module: 'Graph', votes:__votes, poll:poll, candidates:JSON.stringify(_candidates)})
                             })
                     });
