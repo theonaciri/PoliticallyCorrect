@@ -16,31 +16,27 @@ module.exports = {
             choices.push(options[i].choices);
             i++;
         }
-        sails.log(choices);
-
-        sails.log(_.isEqual(choices[0], choices[1]));
-
         var summed_array = [];
 
         choices.forEach(function (vote) {
-            console.log("testing vote : ", vote);
-            if (_.isEmpty(summed_array)) {
+            var ret;
+            if (_.isEmpty(summed_array))
                 summed_array.push({"count":1, "ballot": vote});
-            }
             else {
+                ret = false;
                 summed_array.forEach(function(summed) {
-                    console.log('looping vor summed : ', summed);
-                    if (_.isEqual(vote.ballot, summed)) {
-                        console.log("same, updating : ", summed);
-
-                    } else {
-                        console.log("not the same, pushing:", summed);
-                        summed_array.push({"count":1, "ballot": vote});
+                    if (!ret) {
+                        if (_.isEqual(vote, summed.ballot)) {
+                            summed.count++;
+                            ret = true;
+                        }
                     }
                 });
+                if (!ret)
+                    summed_array.push({"count":1, "ballot": vote});
             }
         });
-        console.log('summed array : ', summed_array);
+        console.log('summed array : \n', summed_array);
 
         /*        _.each(arr2, function(arr2obj) {
          var arr1obj = _.find(arr1, function(arr1obj) {
