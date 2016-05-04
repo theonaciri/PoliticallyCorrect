@@ -22,12 +22,12 @@ module.exports = {
 
         Poll.find({limit: 10, sort: 'min_date DESC'})
             .exec(function (err, _polls){
-            if (err) {
-                return res.negotiate(err);
-            }
-            /*sails.log('Displaying %d poll:', _polls.length, _polls);*/
+                if (err) {
+                    return res.negotiate(err);
+                }
+                /*sails.log('Displaying %d poll:', _polls.length, _polls);*/
                 return res.view('poll_display_single', {module: 'Poll', polls: _polls});
-        });
+            });
     },
 
     find: function (req, res) {
@@ -70,18 +70,30 @@ module.exports = {
                         sails.log(_candidates);
                         //sails.log('Displaying %d candidates with poll n°%d:', _candidates.length, req.params['id'], _candidates);
                         Vote.find({
-                            poll_id:req.params['id']
-                        })
+                                poll_id:req.params['id']
+                            })
                             .exec(function(err, _votes) {
                                 if (err) {
                                     return res.negotiate(err);
                                 }
-                                __votes = CountVotesService.countVotes(_votes);
-                                sails.log('got votes : \n',__votes, '\n^');
+                                __votes = callingFunction(_votes);
+                                /*__votes = CountVotesService.launchCount(_votes);*/
+                                // sails.log('got votes : \n',__votes, '\n^');
                                 return res.view('poll_display_single', {module: 'Graph', votes:__votes, poll:poll, candidates:JSON.stringify(_candidates)})
                             })
                     });
             });
+        var callingFunction = function(_votes) {
+            CountVotesService.countVotes(_votes, function(err, result) {
+                if (!err) {
+                    sails.log("HEY GOT THIS : \n", result);
+                    return result;
+                }
+                else {
+                    sails.log("OH NO, got this : ", err);
+                }
+            })
+        };
     },
 
     showNewPoll: function (req, res) {
@@ -127,13 +139,13 @@ module.exports = {
                     return res.negotiate(err);
                 }
 
-            // Send back the id of the new user
-            return res.json({
-                id: newPoll.id
+                // Send back the id of the new user
+                return res.json({
+                    id: newPoll.id
+                });
             });
-        });
-    })
-},
+        })
+    },
     vote: function (req, res) {
         sails.log('voting for ' + req.param('poll') + 'votes : ' + req.param('vote'));
         Vote.create({

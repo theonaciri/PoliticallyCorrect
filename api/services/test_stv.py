@@ -19,6 +19,7 @@ class TestSTV():
         output = STV(input, required_winners=3).as_dict()
  
         print json.dumps(output, cls=SetEncoder)
+        sys.stdout.flush()
         # Run tests
         # self.assertEqual(output, {
         #     'candidates': set(['orange', 'pear', 'chocolate', 'strawberry', 'sweets']),
