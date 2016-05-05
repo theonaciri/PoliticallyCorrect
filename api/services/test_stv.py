@@ -16,7 +16,7 @@ class TestSTV():
         # Generate data
         votes = json.loads(sys.argv[1])
         input = votes
-        output = STV(input, required_winners=3).as_dict()
+        output = STV(input, required_winners=int(sys.argv[2])).as_dict()
  
         print json.dumps(output, cls=SetEncoder)
         sys.stdout.flush()

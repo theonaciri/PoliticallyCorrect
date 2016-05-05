@@ -34,6 +34,11 @@
                         <label name="end" for="end_date">Time to end&nbsp</label>
                         <md-datepicker ng-model="end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate"required></md-datepicker>
                     </div>
+                    <!-- REQUIRED WINNERS -->
+                    <div flex>
+                        <label for="req_winners">Number of winners</label>
+                        <input type="number" id="req_winners" ng-model="req_winners" value="1" />
+                    </div>
                 </div>
                 <md-list ng-cloak>
                     <br/>

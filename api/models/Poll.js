@@ -7,24 +7,27 @@
 
 module.exports = {
 
-  attributes: {
+    attributes: {
 
-    title: {
-      type: 'string',
-      required: true
-    },
+        title: {
+            type: 'string',
+            required: true
+        },
 
-    desc: {
-      type: 'string'
-    },
+        desc: {
+            type: 'string'
+        },
 
-    minDate: {
-      type: 'date'
-    },
+        minDate: {
+            type: 'date'
+        },
 
-    maxDate: {
-      type: 'date',
-      require: true
+        maxDate: {
+            type: 'date',
+            require: true
+        },
+        req_winners: {
+            type: 'int'
+        }
     }
-  }
 };

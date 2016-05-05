@@ -51,49 +51,37 @@ module.exports = {
                 id:req.params['id']
             })
             .exec(function (err, poll){
-                if (err) {
+                if (err)
                     return res.negotiate(err);
-                }
-                if (!poll) {
+                if (!poll)
                     return res.notFound('Could not find your poll, sorry.');
-                }
                 Candidate.find({
                         poll_id:req.params['id']
                     })
                     .exec(function (err, _candidates) {
-                        if (err) {
+                        if (err)
                             return res.negotiate(err);
-                        }
-                        if (!_candidates) {
+                        if (!_candidates)
                             return res.notFound('Could not find your candidates, sorry.');
-                        }
-                        sails.log(_candidates);
-                        //sails.log('Displaying %d candidates with poll n°%d:', _candidates.length, req.params['id'], _candidates);
+
+                        var callingFunction = function(_votes) {
+                            CountVotesService.countVotes(_votes, function(err, result) {
+                                if (!err)
+                                    return res.view('poll_display_single', {module: 'Graph', votes:JSON.stringify(result), poll:poll, sum_votes:_votes.length, candidates:JSON.stringify(_candidates)});
+                                else
+                                    return res.negotiate(err);
+                            })
+                        };
                         Vote.find({
                                 poll_id:req.params['id']
                             })
                             .exec(function(err, _votes) {
-                                if (err) {
+                                if (err)
                                     return res.negotiate(err);
-                                }
-                                __votes = callingFunction(_votes);
-                                /*__votes = CountVotesService.launchCount(_votes);*/
-                                // sails.log('got votes : \n',__votes, '\n^');
-                                return res.view('poll_display_single', {module: 'Graph', votes:__votes, poll:poll, candidates:JSON.stringify(_candidates)})
+                                callingFunction(_votes);
                             })
                     });
             });
-        var callingFunction = function(_votes) {
-            CountVotesService.countVotes(_votes, function(err, result) {
-                if (!err) {
-                    sails.log("HEY GOT THIS : \n", result);
-                    return result;
-                }
-                else {
-                    sails.log("OH NO, got this : ", err);
-                }
-            })
-        };
     },
 
     showNewPoll: function (req, res) {
@@ -120,7 +108,8 @@ module.exports = {
             title: req.param('name'),
             desc: req.param('desc'),
             min_date: req.param('minDate'),
-            max_date: req.param('maxDate')
+            max_date: req.param('maxDate'),
+            req_winners: req.param('req_winners')
         }, function pollCreated(err, newPoll) {
             if (err) {
                 sails.log("err: ", err);

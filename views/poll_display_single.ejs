@@ -32,7 +32,10 @@
 
     <script>
         var candidates = JSON.parse('<%- candidates %>');
-        console.log(<%- votes %>);
+        var votes = <%- votes %>;
+        var sum_votes = <%- sum_votes %>;
+        /*console.log("votes : \n", '<%- votes %>');*/
+        console.log("votes: \n", votes);
     </script>
     <!-- LIST OF CANDIDATES -->
 
@@ -79,5 +82,30 @@
         </div>
     </div>
     <% } %>
-    <%= votes %>
+
+    <div ng-controller="VoteResultsCtrl">
+        <div layout="row" layout-align="space-between center">
+            <md-subheader class="md-no-sticky">Vote results for {{ sum_votes }} votes</md-subheader>
+            <div></div>
+            <div></div>
+        </div>
+
+        <div class="containerVertical" >
+            <div layout="row" layout-align="space-around center" ng-repeat="round in votes.rounds">
+                <div style="background-color:white"  flex="10">Round {{ $index + 1 }}</div>
+                <div ng-repeat="count in round.tallies" flex="{{90 / sum_votes * count}}">{{count}}</div> <!--style="background-color : {{ candidates[0].cancolor }}"-->
+            </div>
+            <div layout="row" layout-align="space-around center">
+                <div>one</div>
+                <div>two</div>
+                <div>three</div>
+            </div>
+        </div>
+    </div>
+
+    <div layout="row" layout-align="space-around center">
+        <div>one</div>
+        <div>two</div>
+        <div>three</div>
+    </div>
 </md-content>

@@ -13,11 +13,6 @@ module.exports = {
         var _ = sails._;
         var choices = [];
         var summed_array = [];
-        // Oranges : 28
-        // Pear : 29
-        // Chocolate : 30
-        // Strawberry : 31
-        // put all the votes in one array
         options.forEach(function(op) {
             if (typeof(op.choices) == "number") {
             op.choices = [op.choices];
@@ -47,25 +42,19 @@ module.exports = {
                     }
                 }
             });
-            jsontruc = JSON.stringify(summed_array);
-            sails.log('\n\n', jsontruc, '\n\n');
+            jsonvotes = JSON.stringify(summed_array);
             var options = {
                 mode: 'json',
                 pythonPath: '/usr/bin/python2.7',
                 scriptPath: '/home/naciri_t/Projects/PoliticallyCorrect/api/services',
-                pythonOptions: ['-u'],
-                args: jsontruc
+                args: [jsonvotes, '3']
             };
-            var res;
             PythonShell.run('test_stv.py', options, function (err, results) {
                 if (err)
-                    callback(new Error('error text'));
-                // results is an array consisting of messages collected during execution
-                sails.log('results: %j', results);
-                res = results;
+                    callback(new Error(err));
                 callback(null, results);
             });
-            return res;
+            return ;
         }
     }
 };

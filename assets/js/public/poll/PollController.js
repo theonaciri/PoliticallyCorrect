@@ -207,7 +207,7 @@ angular.module('PollModule')
             $mdToast.show($mdToast.simple().textContent('Hello!'));
             // Could also do $mdToast.showSimple('Hello');
         };
-
+        $scope.req_winners = 1;
         // Date Picker
         $scope.startDate = new Date();
         $scope.minDate = new Date(

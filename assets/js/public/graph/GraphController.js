@@ -47,6 +47,15 @@ angular.module('GraphModule')
             .iconSet('avatars', '/svg/avatar-icons.svg', 24)
             .defaultIconSet('/svg/svg-sprite-action.svg', 24);
     })
+    .controller('VoteResultsCtrl', ['$scope', '$window', function ($scope, $window) {
+        //$scope.rounds = $window.votes.rounds;
+        //console.log($window.votes);
+        $scope.votes = $window.votes[0];
+        $scope.candidates = $window.candidates;
+        $scope.sum_votes = $window.sum_votes;
+        $scope.actu_round = 0;
+        console.log($scope.votes.rounds);
+    }])
 
     .controller('DragCanList', ['$scope', '$window', '$element', 'dragularService', '$http',
         function ($scope, $window, $element, dragularService, $http) {
