@@ -92,13 +92,11 @@
 
         <div class="containerVertical" >
             <div layout="row" layout-align="space-around center" ng-repeat="round in votes.rounds">
-                <div style="background-color:white"  flex="10">Round {{ $index + 1 }}</div>
-                <div ng-repeat="count in round.tallies" flex="{{90 / sum_votes * count}}">{{count}}</div> <!--style="background-color : {{ candidates[0].cancolor }}"-->
-            </div>
-            <div layout="row" layout-align="space-around center">
-                <div>one</div>
-                <div>two</div>
-                <div>three</div>
+                <div style="background-color:white" flex="10">Round {{ $index + 1 }}</div>
+                <div ng-repeat="(cand, count) in round.tallies" flex="{{calc_size(round, count)}}"
+                     style="background-color : {{ get_color(cand) }};">
+                    {{count}}-{{get_percentage(round, count) | number:1}}%
+                </div> <!-- {{ is_round_winner(round, cand) ? 'margin:2px' : '' }}-->
             </div>
         </div>
     </div>

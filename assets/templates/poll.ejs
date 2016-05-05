@@ -74,7 +74,7 @@
                         <div class="_circle" style="background:{{can.cancolor}}"></div>
                         <p> {{ can.name }} </p>
                         <h4>{{ can.desc }}</h4>
-                        <md-button ng-click="removeCandidate($index, can)"><i class="material-icons" style="padding-top:2px;">delete</i></md-button>
+                        <md-button ng-click="removeCandidate($event, $index)"><i class="material-icons" style="padding-top:2px;">delete</i></md-button>
                     </md-list-item>
                 </md-list>
                 <!-- END POLL & SEND BUTTONS -->

@@ -228,8 +228,11 @@ angular.module('PollModule')
                 $scope.can_desc = '';
                 $scope.cancolor = '';
             }
-        }}])
-
+        };
+        $scope.removeCandidate = function($event, $index) {
+            $scope.candidates.splice($index, 1);
+        };
+    }])
 
     .controller('DemoCtrl', DemoCtrl);
 function DemoCtrl ($timeout, $q) {

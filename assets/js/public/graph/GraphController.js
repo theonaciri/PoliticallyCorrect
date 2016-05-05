@@ -54,7 +54,40 @@ angular.module('GraphModule')
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
-        console.log($scope.votes.rounds);
+        $scope.can_val = {};
+        console.log(votes);
+        for (i = 0; i < $scope.candidates.length; i++) {
+            $scope.can_val[$scope.candidates[i].id] = $scope.candidates[i].cancolor;
+        }
+        $scope.get_color = function (can) {
+            return $scope.can_val[can];
+        };
+        $scope.calc_size = function(round, count) {
+            var sum_votes = 0;
+            for (var k in round.tallies){
+                if (round.tallies.hasOwnProperty(k)) {
+                    sum_votes = sum_votes + round.tallies[k];
+                }
+            }
+            size = 90 / sum_votes * count;
+            return Math.ceil(size/5)*5;
+        };
+        $scope.get_percentage = function(round, count) {
+            var sum_votes = 0;
+            for (var k in round.tallies){
+                if (round.tallies.hasOwnProperty(k)) {
+                    sum_votes = sum_votes + round.tallies[k];
+                }
+            }
+            return count / sum_votes * 100;
+        }
+        $scope.is_round_winner = function(round, can) {
+            for (var k in round.winners)
+                if (round.winners.hasOwnProperty(k))
+                    if (round.winners[k] == can)
+                        return true;
+            return false;
+        }
     }])
 
     .controller('DragCanList', ['$scope', '$window', '$element', 'dragularService', '$http',
