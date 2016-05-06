@@ -151,7 +151,7 @@ angular.module('PollModule')
                 $mdDialog.show({
                         controller: DialogController,
                         title: 'Creation of a new STV Poll',
-                        templateUrl: 'templates/poll.ejs',
+                        templateUrl: '/../templates/poll.ejs',
                         clickOutsideToClose: true,
                         targetEvent: ev
                     })
@@ -278,3 +278,18 @@ function DemoCtrl ($timeout, $q) {
     }
 };
 
+function DialogController($scope, $mdDialog) {
+    // populate
+    $scope.hide = function() {
+        $mdDialog.hide();
+    };
+    $scope.cancel = function() {
+        $mdDialog.cancel();
+    };
+
+    $scope.answer = function(form, candidates) {
+        // Submit request to Sails.
+        console.log('in answer, closing');
+        $mdDialog.hide(answer);
+    };
+};

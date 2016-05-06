@@ -34,7 +34,6 @@
         var candidates = JSON.parse('<%- candidates %>');
         var votes = <%- votes %>;
         var sum_votes = <%- sum_votes %>;
-        /*console.log("votes : \n", '<%- votes %>');*/
         console.log("votes: \n", votes);
     </script>
     <!-- LIST OF CANDIDATES -->
@@ -94,16 +93,10 @@
             <div layout="row" layout-align="space-around center" ng-repeat="round in votes.rounds">
                 <div style="background-color:white" flex="10">Round {{ $index + 1 }}</div>
                 <div ng-repeat="(cand, count) in round.tallies" flex="{{calc_size(round, count)}}"
-                     style="background-color : {{ get_color(cand) }};">
+                     style="background-color : {{ get_color(cand) }};" ng-if="count">
                     {{count}}-{{get_percentage(round, count) | number:1}}%
                 </div> <!-- {{ is_round_winner(round, cand) ? 'margin:2px' : '' }}-->
             </div>
         </div>
-    </div>
-
-    <div layout="row" layout-align="space-around center">
-        <div>one</div>
-        <div>two</div>
-        <div>three</div>
     </div>
 </md-content>

@@ -15,10 +15,10 @@
 </head>
 
 <body layout="row"
-<% if (typeof module !== 'undefined') { %>ng-app="<%= module %>Module"<% } %>
-<% if (typeof mainCtrl !== 'undefined') { %>
+      <% if (typeof module !== 'undefined') { %>ng-app="<%= module %>Module"<% } %>
+        <% if (typeof mainCtrl !== 'undefined') { %>
       ng-controller="<%= mainCtrl %>Ctrl"<% } else { %>ng-controller="AppCtrl"<% } %>
-     ng-cloak>
+      ng-cloak>
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
     <md-toolbar class="md-hue-2">
         <span flex></span>
@@ -58,7 +58,9 @@
                 <md-icon md-svg-icon="navigation:ic_menu_24px" aria-label="Menu"></md-icon>
             </md-button>
             <h3>
-                Politically Correct
+                <a class="md-no-style" ng-href="/" href="/" aria-label="Go to homepage">
+                    Politically Correct
+                </a>
             </h3>
             <span flex></span>
             <md-button class="md-icon-button" aria-label="Search" ng-click="toggleSearch()">
@@ -109,7 +111,7 @@
         </div>
     </md-toolbar>
     <!-- md-content -->
-<%- body %>
+    <%- body %>
     <!-- /md-content -->
 </div>
 <script src="/js/dependencies/sails.io.js"></script>

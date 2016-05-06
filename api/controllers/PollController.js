@@ -65,7 +65,7 @@ module.exports = {
                             return res.notFound('Could not find your candidates, sorry.');
 
                         var callingFunction = function(_votes) {
-                            CountVotesService.countVotes(_votes, function(err, result) {
+                            CountVotesService.countVotes(_votes, poll.req_winners, function(err, result) {
                                 if (!err)
                                     return res.view('poll_display_single', {module: 'Graph', votes:JSON.stringify(result), poll:poll, sum_votes:_votes.length, candidates:JSON.stringify(_candidates)});
                                 else

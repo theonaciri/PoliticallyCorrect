@@ -1,71 +1,32 @@
 <md-content flex class="maincontent">
     <ui-view layout="column" layout-fill layout-padding>
-        <div class="inset" hide-sm></div>
-        <ng-switch on="data.selectedIndex" class="tabpanel-container">
-            <div role="tabpanel"
-                 id="tab1-content"
-                 aria-labelledby="tab1"
-                 ng-switch-when="0"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()"
-                 layout="row" layout-align="center center">
-                <div flex-gt-sm="90" flex-gt-md="80">
-                    <h2 class="md-title inset">Latest Activity</h2>
-                    <md-card>
-                        <md-list>
-                            <md-list-item class="md-3-line" ng-repeat="item in activity | filter:search">
-                                <md-icon class="md-avatar" hide-sm md-svg-icon="avatars:{{item.avatar}}"></md-icon>
+        <div layout="row" layout-align="center center">
+            <div flex-gt-sm="90" flex-gt-md="80">
+                <h2 class="md-title inset">Latest Activity</h2>
+                <md-card>
+                    <md-list><% _.each(polls, function (poll) { %>
+                        <!--<md-icon class="md-avatar" hide-sm md-svg-icon="avatars:{{item.avatar}}"></md-icon>-->
+                        <md-list-item class="md-3-line">
+                            <a class="md-no-style md-button md-ink-ripple" ng-href="/poll/<%= poll.id %>" href="/poll/<%= poll.id %>" aria-label="Got to the poll"><!--<div class="md-list-item-inner ng-scope">-->
                                 <div class="md-list-item-text">
-                                    <h3>{{item.what}}</h3>
-                                    <h4>{{item.who}}</h4>
-                                    <p>{{item.notes}}</p>
+                                    <h2 style="margin:0"><%= poll.title %></h2>
+                                    <h4 style="font-weight: normal; padding-left:15px"><%= poll.desc %></h4>
+                                    <p layout layout-align="center center">From <%= poll.min_date.substring(0, 10) %> to <%= poll.max_date.substring(0, 10) %></p>
                                 </div>
                                 <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
                                 <md-divider hide-gt-sm ng-if="!$last"></md-divider>
-                            </md-list-item>
-                            <md-divider></md-divider>
-                            <md-list-item>
-                                <md-button class="md-primary">
-                                    <md-icon md-svg-icon="navigation:ic_arrow_forward_24px" aria-label="Forward"></md-icon>
-                                    <span>More</span>
-                                </md-button>
-                            </md-list-item>
-                        </md-list>
-                    </md-card>
-                </div>
+                            </a>
+                        </md-list-item> <% }) %>
+                        <!--<md-divider></md-divider>-->
+                        <md-list-item>
+                            <md-button class="md-primary">
+                                <md-icon md-svg-icon="navigation:ic_arrow_forward_24px" aria-label="Forward"></md-icon>
+                                <span>More</span>
+                            </md-button>
+                        </md-list-item>
+                    </md-list>
+                </md-card>
             </div>
-            <div role="tabpanel"
-                 id="tab2-content"
-                 aria-labelledby="tab2"
-                 ng-switch-when="1"
-                 md-swipe-left="next()"
-                 md-swipe-right="previous()"
-                 layout="row" layout-align="center center">
-                <div flex-gt-sm="90" flex-gt-md="80">
-                    <h2 class="md-title inset">Favorites</h2>
-                    <md-card>
-                        <md-list>
-                            <md-list-item class="md-3-line" ng-repeat="item in activity | filter:search | orderBy:'-what'">
-                                <md-icon class="md-avatar" hide-sm md-svg-icon="avatars:{{item.avatar}}"></md-icon>
-                                <div class="md-list-item-text">
-                                    <h3>{{item.what}}</h3>
-                                    <h4>{{item.who}}</h4>
-                                    <p>{{item.notes}}</p>
-                                </div>
-                                <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
-                                <md-divider hide-gt-sm ng-if="!$last"></md-divider>
-                            </md-list-item>
-                            <md-divider></md-divider>
-                            <md-list-item>
-                                <md-button class="md-primary">
-                                    <md-icon md-svg-icon="navigation:ic_arrow_forward_24px" aria-label="Forward"></md-icon>
-                                    <span>More</span>
-                                </md-button>
-                            </md-list-item>
-                        </md-list>
-                    </md-card>
-                </div>
-            </div>
-        </ng-switch>
+        </div>
     </ui-view>
 </md-content>
