@@ -163,12 +163,16 @@ angular.module('PollModule')
             };
             $scope.submitPollForm = function() {
                 $scope.loading = true;
+
+                console.log($scope.name);
+                console.log(encodeURI($scope.name));
+                return ;
                 $http.post('/poll', {
-                        'name' : $scope.name,
-                        'desc' : $scope.desc,
-                        'minDate' : $scope.minDate,
-                        'maxDate' : $scope.maxDate,
-                        'candidates' : $scope.candidates
+                        'name' : encodeURI($scope.name),
+                        'desc' : encodeURI($scope.desc),
+                        'minDate' : encodeURI($scope.minDate),
+                        'maxDate' : encodeURI($scope.maxDate),
+                        'candidates' : encodeURI($scope.candidates)
                     })
                     .then(function onSuccess(sailsResponse){
                         console.log(sailsResponse);

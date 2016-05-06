@@ -1,3 +1,7 @@
+<script>
+    console.log("<% poll %>");
+    console.log("ouai");
+</script>
 <md-content>
     <div class="dark_theme">
         <div layout="column" layout-align="center center">
@@ -32,9 +36,14 @@
 
     <script>
         var candidates = JSON.parse('<%- candidates %>');
-        var votes = <%- votes %>;
         var sum_votes = <%- sum_votes %>;
-        console.log("votes: \n", votes);
+        console.log("hap");
+        console.log("votes: \n", sum_votes);
+        <% if (sum_votes > 0) {%>
+        var votes = <%- votes %>;
+        <% }else { %>
+        console.log("no votes");
+        <% } %>
     </script>
     <!-- LIST OF CANDIDATES -->
 
@@ -81,8 +90,10 @@
         </div>
     </div>
     <% } %>
-
-    <div ng-controller="VoteResultsCtrl">
+    <script>
+        console.log(votes);
+    </script>
+    <div ng-controller="VoteResultsCtrl" ng-if="votes !== null">
         <div layout="row" layout-align="space-between center">
             <md-subheader class="md-no-sticky">Vote results for {{ sum_votes }} votes</md-subheader>
             <div></div>
@@ -96,6 +107,16 @@
                      style="background-color : {{ get_color(cand) }};" ng-if="count">
                     {{count}}-{{get_percentage(round, count) | number:1}}%
                 </div> <!-- {{ is_round_winner(round, cand) ? 'margin:2px' : '' }}-->
+            </div>
+        </div>
+        <div layout="row" layout-align="space-between center">
+            <md-subheader class="md-no-sticky">After {{ votes.rounds.length }} rounds, there are {{ votes.winners.length }} winners :</md-subheader>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="containerVertical" >
+            <div layout="row" layout-align="space-around center" ng-repeat="(key, win) in votes.winners | orderBy:'key':true" style="background-color : {{ get_color(win) }};">
+                <div style="background-color : {{ get_color(win) }};">{{$index + 1}} - {{ get_can_name(win)}}</div>
             </div>
         </div>
     </div>

@@ -50,16 +50,23 @@ angular.module('GraphModule')
     .controller('VoteResultsCtrl', ['$scope', '$window', function ($scope, $window) {
         //$scope.rounds = $window.votes.rounds;
         //console.log($window.votes);
-        $scope.votes = $window.votes[0];
+        if ($window.sum_votes > 0)
+            $scope.votes = $window.votes[0];
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
         $scope.can_val = {};
         for (i = 0; i < $scope.candidates.length; i++) {
-            $scope.can_val[$scope.candidates[i].id] = $scope.candidates[i].cancolor;
+            $scope.can_val[$scope.candidates[i].id] = {name: $scope.candidates[i].name, color: $scope.candidates[i].cancolor};
         }
+  //      console.log("cans : ", $scope.candidates);
+
+        $scope.get_can_name = function(id) {
+            return $scope.can_val[id].name;
+        };
+
         $scope.get_color = function (can) {
-            return $scope.can_val[can];
+            return $scope.can_val[can].color;
         };
         $scope.calc_size = function(round, count) {
             var sum_votes = 0;
@@ -79,7 +86,7 @@ angular.module('GraphModule')
                 }
             }
             return count / sum_votes * 100;
-        }
+        };
         $scope.is_round_winner = function(round, can) {
             for (var k in round.winners)
                 if (round.winners.hasOwnProperty(k))

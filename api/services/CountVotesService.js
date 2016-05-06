@@ -10,6 +10,7 @@ var PythonShell = require('python-shell');
 module.exports = {
 
     countVotes: function(options, req_winners, callback) {
+
         var _ = sails._;
         var choices = [];
         var summed_array = [];
@@ -47,14 +48,18 @@ module.exports = {
                 mode: 'json',
                 pythonPath: '/usr/bin/python2.7',
                 scriptPath: '/home/naciri_t/Projects/PoliticallyCorrect/api/services',
-                args: [jsonvotes, _.isEmpty(req_winners) ? '1' : req_winners.toString()]
+                args: [jsonvotes, _.isEmpty(req_winners) ? '3' : req_winners.toString()]
             };
+            sails.log("hap4");
             PythonShell.run('test_stv.py', options, function (err, results) {
+                sails.log("hap5");
                 if (err)
                     callback(new Error(err));
+                sails.log("hap6");
                 callback(null, results);
             });
             return ;
         }
+        callback("No votes", null);
     }
 };

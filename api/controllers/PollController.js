@@ -63,14 +63,15 @@ module.exports = {
                             return res.negotiate(err);
                         if (!_candidates)
                             return res.notFound('Could not find your candidates, sorry.');
-
+                        sails.log(_candidates);
                         var callingFunction = function(_votes) {
                             CountVotesService.countVotes(_votes, poll.req_winners, function(err, result) {
                                 if (!err)
                                     return res.view('poll_display_single', {module: 'Graph', votes:JSON.stringify(result), poll:poll, sum_votes:_votes.length, candidates:JSON.stringify(_candidates)});
-                                else
-                                    return res.negotiate(err);
-                            })
+                                else {
+                                    sails.log("error here :", err);
+                                    return res.view('poll_display_single', {module: 'Graph', votes:null, poll:poll, sum_votes:0, candidates:JSON.stringify(_candidates)});
+                                }})
                         };
                         Vote.find({
                                 poll_id:req.params['id']
