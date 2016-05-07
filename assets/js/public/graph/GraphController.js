@@ -55,18 +55,19 @@ angular.module('GraphModule')
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
-        $scope.can_val = {};
-        for (i = 0; i < $scope.candidates.length; i++) {
-            $scope.can_val[$scope.candidates[i].id] = {name: $scope.candidates[i].name, color: $scope.candidates[i].cancolor};
-        }
-  //      console.log("cans : ", $scope.candidates);
 
         $scope.get_can_name = function(id) {
-            return $scope.can_val[id].name;
+            for (index = 0; index < $scope.candidates.length; ++index) {
+                if (id == $scope.candidates[index].id)
+                    return($scope.candidates[index].name);
+            }
         };
 
-        $scope.get_color = function (can) {
-            return $scope.can_val[can].color;
+        $scope.get_color = function (id) {
+            for (index = 0; index < $scope.candidates.length; ++index) {
+                if (id == $scope.candidates[index].id)
+                    return($scope.candidates[index].cancolor);
+            }
         };
         $scope.calc_size = function(round, count) {
             var sum_votes = 0;
@@ -106,7 +107,7 @@ angular.module('GraphModule')
             dragularService([containers[0],containers[1]],{
                 containersModel: [$scope.choices, $scope.candidates]
             });
-            
+
             $scope.SubmitCanVote = function (scope, element, attrs) {
                 console.log($scope.choices);
                 // Set the loading state (i.e. show loading spinner)
