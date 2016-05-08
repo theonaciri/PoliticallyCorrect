@@ -36,7 +36,9 @@ module.exports = {
             '/js/public/graph/GraphModule.js',
             '/js/public/graph/GraphController.js',
             '/js/tinycolor.js',
-            '/js/dist/mdColorPicker.min.js'
+            '/js/dist/mdColorPicker.min.js',
+            '/js/d3.js',
+            '/js/dependencies/bullets.js'
         ];
 
         res.locals.css = [
@@ -63,7 +65,7 @@ module.exports = {
                             return res.negotiate(err);
                         if (!_candidates)
                             return res.notFound('Could not find your candidates, sorry.');
-                        sails.log(_candidates);
+                        sails.log(poll);
                         var callingFunction = function(_votes) {
                             CountVotesService.countVotes(_votes, poll.req_winners, function(err, result) {
                                 if (!err)

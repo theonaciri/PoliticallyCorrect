@@ -55,6 +55,7 @@ angular.module('GraphModule')
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
+        var votes_to_win = needed_votes_to_win();
 
         $scope.get_can_name = function(id) {
             for (index = 0; index < $scope.candidates.length; ++index) {
@@ -94,6 +95,105 @@ angular.module('GraphModule')
                     if (round.winners[k] == can)
                         return true;
             return false;
+        };
+
+        var display_round = -1;
+        var can_round = 0;
+
+        var margin = {top: 5, right: 40, bottom: 20, left: 120},
+            width = 960 - margin.left - margin.right,
+            height = 50 - margin.top - margin.bottom;
+
+        var chart = d3.bullet()
+            .width(width)
+            .height(height);
+
+        /*       var json_rounds = JSON.parse(`[
+         {"title":"Revenue","subtitle":"US$, in thousands","ranges":[150,225,300],"measures":[220,270],"markers":[250]},
+         {"title":"Profit","subtitle":"%","ranges":[20,25,30],"measures":[21,23],"markers":[26]},
+         {"title":"Order Size","subtitle":"US$, average","ranges":[350,500,600],"measures":[100,320],"markers":[550]},
+         {"title":"New Customers","subtitle":"count","ranges":[1400,2000,2500],"measures":[1000,1650],"markers":[2100]},
+         {"title":"Satisfaction","subtitle":"out of 5","ranges":[3.5,4.25,5],"measures":[3.2,4.7],"markers":[4.4]},
+         {"title":"Orange","subtitle":"Round 0","ranges":[4,6,8],"measures":[12],"markers":[6]}]`);
+         */
+        var json_rounds = [];
+        for (round = 0; round < $scope.votes.rounds.length; ++round) {
+            json_rounds[round] = [];
+            for (votes in $scope.votes.rounds[round].tallies) {
+                json_rounds[round].push(
+                    {"title": $scope.get_can_name(votes),
+                        "subtitle": "Round " + round,
+                        "ranges":[votes_to_win - 2, votes_to_win, votes_to_win + 2],
+                        "measures":[$scope.votes.rounds[round].tallies[votes]],
+                        "markers":[votes_to_win]});
+            }
+        }
+
+        console.log(json_rounds);
+        function needed_votes_to_win() {
+            if ($window.req_winners)
+                return (($scope.sum_votes / ($window.poll.req_winners + 1)) + 1);
+            else
+                return (($scope.sum_votes / (3 + 1)) + 1);
+        }
+
+        var svg = d3.select(".graph").selectAll("svg")
+            .data(json_rounds[display_round +1])
+            .enter().append("svg")
+            .attr("class", "bullet")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .call(chart);
+
+        var title = svg.append("g")
+            .style("text-anchor", "end")
+            .attr("transform", "translate(-6," + height / 2 + ")");
+
+        title.append("text")
+            .attr("class", "title")
+            .text(function(d) { return d.title; });
+
+        title.append("text")
+            .attr("class", "subtitle")
+            .attr("dy", "1em")
+            .text(function(d) { return d.subtitle; });
+
+        d3.selectAll("button").on("click", function() {
+            svg.datum(get_next_round).call(chart.duration(1000)); // TODO automatic transition
+        });
+
+        function get_next_round(d) {
+
+            if (display_round == -1)
+                display_round = 1;
+            if (can_round == json_rounds[display_round].length) {
+                can_round = 0; // loop
+                display_round++;
+                if (json_rounds.length == display_round)
+                    display_round = 0; // loop
+            }
+
+            console.log("d = ", d);
+            console.log("j (", display_round, " - ", can_round, ") = ", json_rounds[display_round][can_round]);
+            can_round++;
+            return json_rounds[display_round][can_round - 1];
+        }
+
+        function randomize(d) {
+            if (!d.randomizer) d.randomizer = randomizer(d);
+            d.ranges = d.ranges.map(d.randomizer);
+            d.markers = d.markers.map(d.randomizer);
+            d.measures = d.measures.map(d.randomizer);
+            return d;
+        }
+
+        function randomizer(d) {
+            var k = d3.max(d.ranges) * .2;
+            return function(d) {
+                return Math.max(0, d + k * (Math.random() - .5));
+            };
         }
     }])
 

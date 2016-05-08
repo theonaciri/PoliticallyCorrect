@@ -1,7 +1,3 @@
-<script>
-    console.log("<% poll %>");
-    console.log("ouai");
-</script>
 <md-content>
     <div class="dark_theme">
         <div layout="column" layout-align="center center">
@@ -36,6 +32,7 @@
 
     <script>
         var candidates = JSON.parse('<%- candidates %>');
+        var req_winners = <%= poll.req_winners %>;
         var sum_votes = <%- sum_votes %>;
         console.log("hap");
         console.log("votes: \n", sum_votes);
@@ -99,7 +96,6 @@
             <div></div>
             <div></div>
         </div>
-
         <div class="containerVertical" >
             <div layout="row" layout-align="space-around center" ng-repeat="round in votes.rounds">
                 <div style="background-color:white" flex="10">Round {{ $index + 1 }}</div>
@@ -109,6 +105,7 @@
                 </div> <!-- {{ is_round_winner(round, cand) ? 'margin:2px' : '' }}-->
             </div>
         </div>
+
         <div layout="row" layout-align="space-between center">
             <md-subheader class="md-no-sticky">After {{ votes.rounds.length }} rounds, there are {{ votes.winners.length }} winners :</md-subheader>
             <div></div>
@@ -120,4 +117,20 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .bullet { font: 10px sans-serif; }
+        .bullet .marker { stroke: #000; stroke-width: 2px; }
+        .bullet .tick line { stroke: #666; stroke-width: .5px; }
+        .bullet .range.s0 { fill: #eee; }
+        .bullet .range.s1 { fill: #ddd; }
+        .bullet .range.s2 { fill: #ccc; }
+        .bullet .measure.s0 { fill: lightsteelblue; }
+        .bullet .measure.s1 { fill: steelblue; }
+        .bullet .title { font-size: 14px; font-weight: bold; }
+        .bullet .subtitle { fill: #999; }
+
+    </style>
+    <button>Update</button>
+    <div class="graph"></div>
 </md-content>
