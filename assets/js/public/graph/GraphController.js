@@ -157,9 +157,6 @@ angular.module('GraphModule')
 
         console.log(json_rounds);
 
-        function sortObject(o) {
-            return Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {});
-        }
         var svg = d3.select(".graph").selectAll("svg")
             .data(json_rounds[0])
             .enter().append("svg")
