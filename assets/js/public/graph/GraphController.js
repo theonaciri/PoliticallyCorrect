@@ -113,21 +113,30 @@ angular.module('GraphModule')
          push can in json_rounds
          */
         var json_rounds = [];
+        var losers = [];
         for (round = 0; round < $scope.votes.rounds.length; ++round) {
             json_rounds[round] = [];
-            for (can_id in $scope.votes.rounds[round].tallies) {
+            if (losers.length)
+                for (loser in losers) { // add losers
+                    json_rounds[round].push(
+                        {"title": $scope.get_can_name(losers[loser]),
+                            "subtitle": "Round " + round,
+                            "ranges":[$scope.votes.quota - 2, $scope.votes.quota, $scope.votes.quota + 2],
+                            "measures":[0],
+                            "markers":[$scope.votes.quota],
+                            "id":losers[loser]});
+                }
+            for (can_id in $scope.votes.rounds[round].tallies) { // cans
                 json_rounds[round].push(
                     {"title": $scope.get_can_name(can_id),
                         "subtitle": "Round " + round,
                         "ranges":[$scope.votes.quota - 2, $scope.votes.quota, $scope.votes.quota + 2],
                         "measures":[$scope.votes.rounds[round].tallies[can_id]],
                         "markers":[$scope.votes.quota],
-                        "id":can_id});
+                        "id":parseInt(can_id)});
             }
-            for (win in $scope.votes.winners) {
-                //console.log("comparing ", $scope.votes.rounds[round].tallies, " with ", $scope.votes.winners[win], " value ", !_.has($scope.votes.rounds[round].tallies, $scope.votes.winners[win]));
+            for (win in $scope.votes.winners) { // add winners
                 if (!_.has($scope.votes.rounds[round].tallies, $scope.votes.winners[win])) {
-                    console.log('round ', round, 'win ::::::', $scope.votes.winners[win]);
                     json_rounds[round].push(
                         {"title": $scope.get_can_name($scope.votes.winners[win]),
                             "subtitle": "Round " + round,
@@ -137,11 +146,13 @@ angular.module('GraphModule')
                             "id":$scope.votes.winners[win]});
                 }
             }
-            console.log("before : ", json_rounds[round]);
-            json_rounds[round].sort(function(a, b) {
-                return a.id - b.id  ||  a.name.localeCompare(b.name);
+            if ($scope.votes.rounds[round].loser)
+                losers.push($scope.votes.rounds[round].loser);
+
+
+            json_rounds[round].sort(function(a, b) { // reorder by id
+                return a.id - b.id;
             });
-            console.log("after : ", json_rounds[round]);
         }
 
         console.log(json_rounds);
