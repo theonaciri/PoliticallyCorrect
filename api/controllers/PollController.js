@@ -38,7 +38,9 @@ module.exports = {
             '/js/tinycolor.js',
             '/js/dist/mdColorPicker.min.js',
             '/js/d3.js',
-            '/js/dependencies/bullets.js'
+            '/js/dependencies/bullets.js',
+            '/js/underscore.js',
+            '/js/angular-underscore-module.js'
         ];
 
         res.locals.css = [
@@ -79,8 +81,10 @@ module.exports = {
                                 poll_id:req.params['id']
                             })
                             .exec(function(err, _votes) {
-                                if (err)
+                                if (err) {
+                                    sails.log("Error : ", err);
                                     return res.negotiate(err);
+                                }
                                 callingFunction(_votes);
                             })
                     });

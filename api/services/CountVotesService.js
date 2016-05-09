@@ -43,6 +43,7 @@ module.exports = {
                     }
                 }
             });
+            console.log(_.isEmpty(req_winners) ? '3' : req_winners.toString());
             jsonvotes = JSON.stringify(summed_array);
             var options = {
                 mode: 'json',
@@ -50,13 +51,8 @@ module.exports = {
                 scriptPath: '/home/naciri_t/Projects/PoliticallyCorrect/api/services',
                 args: [jsonvotes, _.isEmpty(req_winners) ? '3' : req_winners.toString()]
             };
-            sails.log("hap4");
             PythonShell.run('test_stv.py', options, function (err, results) {
-                sails.log("hap5");
-                if (err)
-                    callback(new Error(err));
-                sails.log("hap6");
-                callback(null, results);
+                    callback(err, results);
             });
             return ;
         }

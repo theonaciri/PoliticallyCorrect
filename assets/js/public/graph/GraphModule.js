@@ -1,1 +1,1 @@
-angular.module('GraphModule', ['ngMaterial', 'ngAnimate', 'dragularModule']);
+angular.module('GraphModule', ['ngMaterial', 'ngAnimate', 'dragularModule', 'underscore']);

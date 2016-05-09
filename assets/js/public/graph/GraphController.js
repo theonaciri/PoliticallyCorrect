@@ -48,14 +48,13 @@ angular.module('GraphModule')
             .defaultIconSet('/svg/svg-sprite-action.svg', 24);
     })
     .controller('VoteResultsCtrl', ['$scope', '$window', function ($scope, $window) {
-        //$scope.rounds = $window.votes.rounds;
-        //console.log($window.votes);
         if ($window.sum_votes > 0)
             $scope.votes = $window.votes[0];
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
-        var votes_to_win = needed_votes_to_win();
+        console.log($scope.votes);
+        $scope.votes.winners.sort(function(a, b){return a-b});
 
         $scope.get_can_name = function(id) {
             for (index = 0; index < $scope.candidates.length; ++index) {
@@ -97,9 +96,6 @@ angular.module('GraphModule')
             return false;
         };
 
-        var display_round = -1;
-        var can_round = 0;
-
         var margin = {top: 5, right: 40, bottom: 20, left: 120},
             width = 960 - margin.left - margin.right,
             height = 50 - margin.top - margin.bottom;
@@ -108,37 +104,53 @@ angular.module('GraphModule')
             .width(width)
             .height(height);
 
-        /*       var json_rounds = JSON.parse(`[
-         {"title":"Revenue","subtitle":"US$, in thousands","ranges":[150,225,300],"measures":[220,270],"markers":[250]},
-         {"title":"Profit","subtitle":"%","ranges":[20,25,30],"measures":[21,23],"markers":[26]},
-         {"title":"Order Size","subtitle":"US$, average","ranges":[350,500,600],"measures":[100,320],"markers":[550]},
-         {"title":"New Customers","subtitle":"count","ranges":[1400,2000,2500],"measures":[1000,1650],"markers":[2100]},
-         {"title":"Satisfaction","subtitle":"out of 5","ranges":[3.5,4.25,5],"measures":[3.2,4.7],"markers":[4.4]},
-         {"title":"Orange","subtitle":"Round 0","ranges":[4,6,8],"measures":[12],"markers":[6]}]`);
+        /*
+         foreach round in rounds
+         foreach can, can_id in tallies
+         foreach win in winners
+         if win > can
+         push winner in json_rounds
+         push can in json_rounds
          */
         var json_rounds = [];
         for (round = 0; round < $scope.votes.rounds.length; ++round) {
             json_rounds[round] = [];
-            for (votes in $scope.votes.rounds[round].tallies) {
+            for (can_id in $scope.votes.rounds[round].tallies) {
                 json_rounds[round].push(
-                    {"title": $scope.get_can_name(votes),
+                    {"title": $scope.get_can_name(can_id),
                         "subtitle": "Round " + round,
-                        "ranges":[votes_to_win - 2, votes_to_win, votes_to_win + 2],
-                        "measures":[$scope.votes.rounds[round].tallies[votes]],
-                        "markers":[votes_to_win]});
+                        "ranges":[$scope.votes.quota - 2, $scope.votes.quota, $scope.votes.quota + 2],
+                        "measures":[$scope.votes.rounds[round].tallies[can_id]],
+                        "markers":[$scope.votes.quota],
+                        "id":can_id});
             }
+            for (win in $scope.votes.winners) {
+                //console.log("comparing ", $scope.votes.rounds[round].tallies, " with ", $scope.votes.winners[win], " value ", !_.has($scope.votes.rounds[round].tallies, $scope.votes.winners[win]));
+                if (!_.has($scope.votes.rounds[round].tallies, $scope.votes.winners[win])) {
+                    console.log('round ', round, 'win ::::::', $scope.votes.winners[win]);
+                    json_rounds[round].push(
+                        {"title": $scope.get_can_name($scope.votes.winners[win]),
+                            "subtitle": "Round " + round,
+                            "ranges":[$scope.votes.quota - 2, $scope.votes.quota, $scope.votes.quota + 2],
+                            "measures":[$scope.votes.quota],
+                            "markers":[$scope.votes.quota],
+                            "id":$scope.votes.winners[win]});
+                }
+            }
+            console.log("before : ", json_rounds[round]);
+            json_rounds[round].sort(function(a, b) {
+                return a.id - b.id  ||  a.name.localeCompare(b.name);
+            });
+            console.log("after : ", json_rounds[round]);
         }
 
         console.log(json_rounds);
-        function needed_votes_to_win() {
-            if ($window.req_winners)
-                return (($scope.sum_votes / ($window.poll.req_winners + 1)) + 1);
-            else
-                return (($scope.sum_votes / (3 + 1)) + 1);
-        }
 
+        function sortObject(o) {
+            return Object.keys(o).sort().reduce((r, k) => (r[k] = o[k], r), {});
+        }
         var svg = d3.select(".graph").selectAll("svg")
-            .data(json_rounds[display_round +1])
+            .data(json_rounds[0])
             .enter().append("svg")
             .attr("class", "bullet")
             .attr("width", width + margin.left + margin.right)
@@ -164,6 +176,9 @@ angular.module('GraphModule')
             svg.datum(get_next_round).call(chart.duration(1000)); // TODO automatic transition
         });
 
+        var display_round = -1;
+        var can_round = 0;
+        var titles = document.getElementsByClassName("subtitle");
         function get_next_round(d) {
 
             if (display_round == -1)
@@ -173,10 +188,16 @@ angular.module('GraphModule')
                 display_round++;
                 if (json_rounds.length == display_round)
                     display_round = 0; // loop
+                return null;
             }
 
             console.log("d = ", d);
             console.log("j (", display_round, " - ", can_round, ") = ", json_rounds[display_round][can_round]);
+
+            //innerHTML = json_rounds[display_round][can_round].subtitle + "HAA";
+            [].forEach.call(titles, function (el) {
+                el.innerHTML = json_rounds[display_round][can_round].subtitle;
+            });
             can_round++;
             return json_rounds[display_round][can_round - 1];
         }

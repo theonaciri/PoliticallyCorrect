@@ -10,6 +10,7 @@
             ranges = bulletRanges,
             markers = bulletMarkers,
             measures = bulletMeasures,
+            subtitles = bulletSubtitles,
             width = 380,
             height = 30,
             tickFormat = null;
@@ -20,6 +21,7 @@
                 var rangez = ranges.call(this, d, i).slice().sort(d3.descending),
                     markerz = markers.call(this, d, i).slice().sort(d3.descending),
                     measurez = measures.call(this, d, i).slice().sort(d3.descending),
+                    subtitlesz = subtitles.call(this, d, i),
                     g = d3.select(this);
 
                 // Compute the new x-scale.
@@ -186,6 +188,13 @@
             return bullet;
         };
 
+        // subtitles (string)
+        bullet.subtitles = function(x) {
+            if (!arguments.length) return subtitles;
+            subtitles = x;
+            return bullet;
+        };
+
         bullet.width = function(x) {
             if (!arguments.length) return width;
             width = x;
@@ -223,6 +232,10 @@
 
     function bulletMeasures(d) {
         return d.measures;
+    }
+
+    function bulletSubtitles(d) {
+        return d.subtitles;
     }
 
     function bulletTranslate(x) {

@@ -34,7 +34,6 @@
         var candidates = JSON.parse('<%- candidates %>');
         var req_winners = <%= poll.req_winners %>;
         var sum_votes = <%- sum_votes %>;
-        console.log("hap");
         console.log("votes: \n", sum_votes);
         <% if (sum_votes > 0) {%>
         var votes = <%- votes %>;
@@ -87,9 +86,6 @@
         </div>
     </div>
     <% } %>
-    <script>
-        console.log(votes);
-    </script>
     <div ng-controller="VoteResultsCtrl" ng-if="votes !== null">
         <div layout="row" layout-align="space-between center">
             <md-subheader class="md-no-sticky">Vote results for {{ sum_votes }} votes</md-subheader>
