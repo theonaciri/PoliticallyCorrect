@@ -1,6 +1,0 @@
-*.egg-info
-*.py-e
-*.pyc
-*.swp
-.env
-dist
