@@ -33,13 +33,7 @@
                     <label name="end" for="end_date">Time to end&nbsp</label>
                     <md-datepicker ng-model="end_date" md-placeholder="Enter end date" md-min-date="start_date" md-max-date="maxDate"required></md-datepicker>
                 </div>
-                <!-- REQUIRED WINNERS -->
-                <div flex>
-                    <md-input-container style="margin:3px">
-                        <label>Number of winners</label>
-                        <input required type="number" step="any" name="req_winners" ng-model="req_winners" min="1" value="1" max="{{candidates.length -1}}" />
-                    </md-input-container>
-                </div>
+
             </div>
             <md-list ng-cloak>
                 <br/>
@@ -80,9 +74,22 @@
                 <!-- END POLL & SEND BUTTONS -->
                 <div class="md-dialog-actions" layout="row">
                     <span flex></span>
+                    <!-- REQUIRED WINNERS -->
+                    <div flex>
+                        <md-input-container style="margin:3px">
+                            <label>Number of winners</label>
+                            <input required type="number" step="any" name="req_winners" ng-model="req_winners" min="1" value="1" max="{{candidates.length -1}}" />
+                            <div ng-messages="pollForm.req_winners.$error" multiple md-auto-hide="true">
+                                <div ng-message="min">Not enough candidates</div>
+                                <div ng-message="max">Too much candidates</div>
+                                <div ng-message="required">You should input the  number of winners</div>
+                            </div>
+                        </md-input-container>
+                        <pre>pollForm.req_winners.$error = {{ pollForm.req_winners.$error | json }}</pre>
+                    </div>
                     <md-button ng-click="cancel()">Cancel</md-button>
                     <md-button ng-click="submitPollForm()" class="md-raised md-primary" ng-disabled="pollform.$invalid || !candidates[1]"> <!-- answer() -->
-                        <span ng-show="!loading">Create new poll</span>
+                        <span ng-show="!loading">Save new poll</span>
                         <span ng-show="loading" class="fa fa-spinner"></span>
                         <span ng-show="loading">Creating your poll...</span>
                     </md-button>

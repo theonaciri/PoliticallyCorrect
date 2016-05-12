@@ -160,6 +160,7 @@ angular.module('HomepageModule')
                 $scope.candidate = '';
                 $scope.can_desc = '';
                 $scope.cancolor = '';
+                document.getElementById("candidate").focus();
             }
         };
 
@@ -167,11 +168,12 @@ angular.module('HomepageModule')
         $scope.submitPollForm = function() {
             $scope.loading = true;
             $http.post('/poll', {
-                    'name' : $scope.name,
-                    'desc' : $scope.desc,
-                    'minDate' : $scope.minDate,
-                    'maxDate' : $scope.maxDate,
-                    'candidates' : $scope.candidates
+                    'name' : encodeURI($scope.name),
+                    'desc' : encodeURI($scope.desc),
+                    'minDate' : encodeURI($scope.minDate),
+                    'maxDate' : encodeURI($scope.maxDate),
+                    'candidates' : encodeURI($scope.candidates),
+                    'req_winners' : $scope.req_winners
                 })
                 .then(function onSuccess(sailsResponse){
                     console.log(sailsResponse);

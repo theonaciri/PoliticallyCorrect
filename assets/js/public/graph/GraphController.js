@@ -156,7 +156,7 @@ angular.module('GraphModule')
         }
 
         console.log(json_rounds);
-
+        //json_rounds[2] = json_rounds[0];
         var svg = d3.select(".graph").selectAll("svg")
             .data(json_rounds[0])
             .enter().append("svg")
@@ -180,7 +180,7 @@ angular.module('GraphModule')
             .attr("dy", "1em")
             .text(function(d) { return d.subtitle; });
 
-        d3.selectAll("button").on("click", function() {
+        d3.select("#update_graph").on("click", function() {
             svg.datum(get_next_round).call(chart.duration(1000)); // TODO automatic transition
         });
 
@@ -199,14 +199,17 @@ angular.module('GraphModule')
                 return null;
             }
 
+/*
             console.log("d = ", d);
             console.log("j (", display_round, " - ", can_round, ") = ", json_rounds[display_round][can_round]);
-
+*/
+            delete json_rounds[display_round][can_round].id;
             //innerHTML = json_rounds[display_round][can_round].subtitle + "HAA";
             [].forEach.call(titles, function (el) {
                 el.innerHTML = json_rounds[display_round][can_round].subtitle;
             });
             can_round++;
+            console.log("return : ", json_rounds[display_round][can_round - 1]);
             return json_rounds[display_round][can_round - 1];
         }
 
@@ -401,11 +404,12 @@ angular.module('GraphModule')
             $scope.submitPollForm = function() {
                 $scope.loading = true;
                 $http.post('/poll', {
-                        'name' : $scope.name,
-                        'desc' : $scope.desc,
-                        'minDate' : $scope.minDate,
-                        'maxDate' : $scope.maxDate,
-                        'candidates' : $scope.candidates
+                        'name' : encodeURI($scope.name),
+                        'desc' : encodeURI($scope.desc),
+                        'minDate' : encodeURI($scope.minDate),
+                        'maxDate' : encodeURI($scope.maxDate),
+                        'candidates' : encodeURI($scope.candidates),
+                        'req_winners' : $scope.req_winners
                     })
                     .then(function onSuccess(sailsResponse){
                         console.log(sailsResponse);
@@ -464,6 +468,7 @@ angular.module('GraphModule')
                 $scope.candidate = '';
                 $scope.can_desc = '';
                 $scope.cancolor = '';
+                document.getElementById("candidate").focus();
             }
         }}])
 

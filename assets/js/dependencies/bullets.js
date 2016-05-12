@@ -7,8 +7,8 @@
         var orient = "left", // TODO top & bottom
             reverse = false,
             duration = 0,
-            ranges = bulletRanges,
             markers = bulletMarkers,
+            ranges = bulletRanges,
             measures = bulletMeasures,
             subtitles = bulletSubtitles,
             width = 380,

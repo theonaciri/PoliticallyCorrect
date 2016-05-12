@@ -166,13 +166,13 @@ angular.module('PollModule')
 
                 console.log($scope.name);
                 console.log(encodeURI($scope.name));
-                return ;
                 $http.post('/poll', {
                         'name' : encodeURI($scope.name),
                         'desc' : encodeURI($scope.desc),
                         'minDate' : encodeURI($scope.minDate),
                         'maxDate' : encodeURI($scope.maxDate),
-                        'candidates' : encodeURI($scope.candidates)
+                        'candidates' : encodeURI($scope.candidates),
+                        'req_winners' : $scope.req_winners
                     })
                     .then(function onSuccess(sailsResponse){
                         console.log(sailsResponse);
@@ -231,6 +231,7 @@ angular.module('PollModule')
                 $scope.candidate = '';
                 $scope.can_desc = '';
                 $scope.cancolor = '';
+                document.getElementById("candidate").focus();
             }
         };
         $scope.removeCandidate = function($event, $index) {
@@ -296,4 +297,4 @@ function DialogController($scope, $mdDialog) {
         console.log('in answer, closing');
         $mdDialog.hide(answer);
     };
-};
+}
