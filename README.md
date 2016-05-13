@@ -14,9 +14,11 @@ Server : [Sails.js] (http://sailsjs.org), [MongoDB] (https://docs.mongodb.com/),
 Client : [Angular.js] (https://github.com/angular) with [Angular Material] (https://github.com/angular/material), drag & drop with [Dragular] (https://github.com/luckylooke/dragular), graphs with [d3] (https://github.com/mbostock/d3). Starter app with [Angular Material Design Starter App] (http://codepen.io/kyleledbetter/pen/gpBOdK)
 
 # Installation
-`npm install`
-`bower install`
-`sails lift / or node app.js / or nodemon app.js`
+```npm install
+
+bower install
+
+sails lift /* or node app.js or nodemon app.js */```
 
 # Screenshots
 <p align="center">
