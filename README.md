@@ -19,7 +19,7 @@ Client : Angular.js with Angular Material, drag & drop with Dragular, graphs wit
    <img src="demo/Screenshot_2016-05-13_16-49-06.png"/>
    <br />
    Create new poll
-   <img src="demo/Screenshot_2016-05-13_16-49-06.png"/>
+   <img src="demo/Screenshot_2016-05-13_17-26-04.png"/>
    <br />
     Vote for a poll
     <img src="demo/Screenshot_2016-05-13_16-48-00.png"/>
