@@ -19,7 +19,8 @@ npm install
 
 bower install
 
-sails lift /* or node app.js or nodemon app.js */```
+sails lift /* or node app.js or nodemon app.js */
+```
 
 # Screenshots
 <p align="center">
