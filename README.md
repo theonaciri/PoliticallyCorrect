@@ -8,12 +8,17 @@ It's still in early development, come back end of May.
 Drag & drop
 Nice material design
 
-# Techno used
+# Technos used
 Server : [Sails.js] (http://sailsjs.org), [MongoDB] (https://docs.mongodb.com/), [python-vote-core] (https://github.com/bradbeattie/python-vote-core) for processing the data, [md-color-picker] (https://github.com/brianpkelley/md-color-picker) for color pick. Starter app with [Activity Overlord] (https://github.com/irlnathan/activityoverlord20)
 <br />
 Client : [Angular.js] (https://github.com/angular) with [Angular Material] (https://github.com/angular/material), drag & drop with [Dragular] (https://github.com/luckylooke/dragular), graphs with [d3] (https://github.com/mbostock/d3). Starter app with [Angular Material Design Starter App] (http://codepen.io/kyleledbetter/pen/gpBOdK)
 
-# Pics
+# Installation
+`npm install`
+`bower install`
+`sails lift / or node app.js / or nodemon app.js`
+
+# Screenshots
 <p align="center">
    Home Page
    <img src="demo/Screenshot_2016-05-13_16-49-06.png"/>
