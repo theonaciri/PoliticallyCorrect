@@ -92,15 +92,13 @@
             <div></div>
             <div></div>
         </div>
-        <div class="containerVertical" >
-            <div layout="row" layout-align="space-around center" ng-repeat="round in votes.rounds">
-                <div style="background-color:white" flex="10">Round {{ $index + 1 }}</div>
-                <div ng-repeat="(cand, count) in round.tallies" flex="{{calc_size(round, count)}}"
-                     style="background-color : {{ get_color(cand) }};" ng-if="count">
-                    {{count}}-{{get_percentage(round, count) | number:1}}%
-                </div> <!-- {{ is_round_winner(round, cand) ? 'margin:2px' : '' }}-->
-            </div>
+
+        <div layout="row" layout-align="space-between center">
+            <button id="update_graph">Update</button>
+            <h2 class="subtitle">Round 0</h2>
+            <div></div>
         </div>
+        <div class="graph"></div>
 
         <div layout="row" layout-align="space-between center">
             <md-subheader class="md-no-sticky">After {{ votes.rounds.length }} rounds, there are {{ votes.winners.length }} winners :</md-subheader>
@@ -112,25 +110,31 @@
                 <div style="background-color : {{ get_color(win) }};">{{$index + 1}} - {{ get_can_name(win)}}</div>
             </div>
         </div>
+
+        <div class="containerVertical" >
+            <div layout="row" layout-align="space-around center" ng-repeat="round in votes.rounds">
+                <div style="background-color:white" flex="10">Round {{ $index + 1 }}</div>
+                <div ng-repeat="(cand, count) in round.tallies" flex="{{calc_size(round, count)}}"
+                     style="background-color : {{ get_color(cand) }};" ng-if="count">
+                    {{count}}-{{get_percentage(round, count) | number:1}}%
+                </div> <!-- {{ is_round_winner(round, cand) ? 'margin:2px' : '' }}-->
+            </div>
+        </div>
+
+
     </div>
 
     <style>
         .bullet { font: 10px sans-serif; }
         .bullet .marker { stroke: #000; stroke-width: 2px; }
         .bullet .tick line { stroke: #666; stroke-width: .5px; }
-        .bullet .range.s0 { fill: #eee; }
-        .bullet .range.s1 { fill: #ddd; }
-        .bullet .range.s2 { fill: #ccc; }
-        .bullet .measure.s0 { fill: lightsteelblue; }
+        .bullet .range.s0 { fill: #bbdefb; }
+        .bullet .range.s1 { fill: #90caf9; }
+        .bullet .range.s2 { fill: #64b5f6; }
+        .bullet .measure.s0 { fill: #0d47a1; }
         .bullet .measure.s1 { fill: steelblue; }
         .bullet .title { font-size: 14px; font-weight: bold; }
         .bullet .subtitle { fill: #999; }
 
     </style>
-    <div layout="row" layout-align="space-between center">
-        <button id="update_graph">Update</button>
-        <h2 class="subtitle">Round 0</h2>
-        <div></div>
-    </div>
-    <div class="graph"></div>
 </md-content>

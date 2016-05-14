@@ -121,8 +121,8 @@ angular.module('GraphModule')
                     json_rounds[round].push(
                         {"title": $scope.get_can_name(losers[loser]),
                             "subtitle": "Round " + round,
-                            "ranges":[$scope.votes.quota - 2, $scope.votes.quota, $scope.votes.quota + 2],
                             "measures":[0],
+                            "ranges": get_ranges(can_id, round, 0),
                             "markers":[$scope.votes.quota],
                             "id":losers[loser]});
                 }
@@ -130,8 +130,8 @@ angular.module('GraphModule')
                 json_rounds[round].push(
                     {"title": $scope.get_can_name(can_id),
                         "subtitle": "Round " + round,
-                        "ranges":[$scope.votes.quota - 2, $scope.votes.quota, $scope.votes.quota + 2],
                         "measures":[$scope.votes.rounds[round].tallies[can_id]],
+                        "ranges": get_ranges(can_id, round, $scope.votes.rounds[round].tallies[can_id]),
                         "markers":[$scope.votes.quota],
                         "id":parseInt(can_id)});
             }
@@ -140,8 +140,8 @@ angular.module('GraphModule')
                     json_rounds[round].push(
                         {"title": $scope.get_can_name($scope.votes.winners[win]),
                             "subtitle": "Round " + round,
-                            "ranges":[$scope.votes.quota - 2, $scope.votes.quota, $scope.votes.quota + 2],
                             "measures":[$scope.votes.quota],
+                            "ranges":get_ranges(can_id, round, $scope.votes.quota),
                             "markers":[$scope.votes.quota],
                             "id":$scope.votes.winners[win]});
                 }
@@ -153,6 +153,32 @@ angular.module('GraphModule')
             json_rounds[round].sort(function(a, b) { // reorder by id
                 return a.id - b.id;
             });
+        }
+
+        function get_ranges(can_id, round, measure) {
+            return [6, 0, 0];
+            /*var prev = 0;
+            if (round > 0) {
+                for (index = 0; index < json_rounds[round - 1].length; ++index) {
+                    if (can_id == json_rounds[round - 1][index]['id']) {
+
+                        console.log("ap", json_rounds[round - 1][index]['measures'][0], " round ", round);
+
+                        prev = json_rounds[round - 1][index]['measures'][0];
+                    }
+                }
+            }
+            return [prev, 0, 0];*/
+/*            return [round > 1 ? $scope.votes.rounds[round - 2].tallies[can_id] : measure,
+                round > 0 ? $scope.votes.rounds[round - 1].tallies[can_id] : measure,
+                $scope.votes.rounds[round].tallies[can_id]
+                    ];*/
+/*            (round + 1) < $scope.votes.rounds.length ?/!* last round ? no !*!/
+                (measure >= $scope.votes.quota ? /!* winner ? *!/
+                    $scope.votes.quota : /!* is a winner : max value else :*!/
+                    ($scope.votes.rounds[round + 1].hasOwnProperty('loser') && $scope.votes.rounds[round + 1].loser == can_id) ? /!* not winner : is loser ?*!/
+                        0 : /!* is loser *!/
+                        measure /!* normal *!/) : measure*/
         }
 
         console.log(json_rounds);
@@ -187,10 +213,12 @@ angular.module('GraphModule')
         var display_round = -1;
         var can_round = 0;
         var titles = document.getElementsByClassName("subtitle");
+/*        var measure_bars = document.getElementsByClassName("s0");*/
         function get_next_round(d) {
 
             if (display_round == -1)
                 display_round = 1;
+
             if (can_round == json_rounds[display_round].length) {
                 can_round = 0; // loop
                 display_round++;
@@ -200,23 +228,13 @@ angular.module('GraphModule')
             [].forEach.call(titles, function (el) {
                 el.innerHTML = json_rounds[display_round][can_round].subtitle;
             });
+/*            act_can = -1;
+            [].forEach.call(measure_bars, function (el) {
+                console.log("hap");
+                el.style.fill = $scope.get_color($scope.votes.candidates[++act_can]);
+            });*/
             can_round++;
             return json_rounds[display_round][can_round - 1];
-        }
-
-        function randomize(d) {
-            if (!d.randomizer) d.randomizer = randomizer(d);
-            d.ranges = d.ranges.map(d.randomizer);
-            d.markers = d.markers.map(d.randomizer);
-            d.measures = d.measures.map(d.randomizer);
-            return d;
-        }
-
-        function randomizer(d) {
-            var k = d3.max(d.ranges) * .2;
-            return function(d) {
-                return Math.max(0, d + k * (Math.random() - .5));
-            };
         }
     }])
 
@@ -245,9 +263,9 @@ angular.module('GraphModule')
                 console.log(window.location);
                 // Submit request to Sails.
                 $http.put('/poll/vote', {
-                        vote: votes,
-                        poll: $scope.choices[0].poll_id
-                    })
+                    vote: votes,
+                    poll: $scope.choices[0].poll_id
+                })
                     .then(function onSuccess (){
                         // Refresh the page now that we've been logged in.
                         $window.location.reload();
@@ -380,12 +398,12 @@ angular.module('GraphModule')
 
             $scope.showAdd = function(ev) {
                 $mdDialog.show({
-                        controller: DialogController,
-                        title: 'Creation of a new STV Poll',
-                        templateUrl: '/../templates/poll.ejs',
-                        clickOutsideToClose: true,
-                        targetEvent: ev
-                    })
+                    controller: DialogController,
+                    title: 'Creation of a new STV Poll',
+                    templateUrl: '/../templates/poll.ejs',
+                    clickOutsideToClose: true,
+                    targetEvent: ev
+                })
                     .then(function(answer) {
                         $scope.alert = 'You said the information was "' + answer + '".';
                     }, function() {
@@ -395,13 +413,13 @@ angular.module('GraphModule')
             $scope.submitPollForm = function() {
                 $scope.loading = true;
                 $http.post('/poll', {
-                        'name' : encodeURI($scope.name),
-                        'desc' : encodeURI($scope.desc),
-                        'minDate' : encodeURI($scope.minDate),
-                        'maxDate' : encodeURI($scope.maxDate),
-                        'candidates' : encodeURI($scope.candidates),
-                        'req_winners' : encodeURI($scope.req_winners)
-                    })
+                    'name' : encodeURI($scope.name),
+                    'desc' : encodeURI($scope.desc),
+                    'minDate' : encodeURI($scope.minDate),
+                    'maxDate' : encodeURI($scope.maxDate),
+                    'candidates' : encodeURI($scope.candidates),
+                    'req_winners' : encodeURI($scope.req_winners)
+                })
                     .then(function onSuccess(sailsResponse){
                         console.log(sailsResponse);
                         window.location = '/poll/' + sailsResponse.data.id;

@@ -247,6 +247,8 @@
     function bulletWidth(x) {
         var x0 = x(0);
         return function(d) {
+            if (isNaN(x(d)))
+                return Math.abs(x0);
             return Math.abs(x(d) - x0);
         };
     }
