@@ -172,7 +172,7 @@ angular.module('PollModule')
                         'minDate' : encodeURI($scope.minDate),
                         'maxDate' : encodeURI($scope.maxDate),
                         'candidates' : encodeURI($scope.candidates),
-                        'req_winners' : $scope.req_winners
+                        'req_winners' : encodeURI($scope.req_winners)
                     })
                     .then(function onSuccess(sailsResponse){
                         console.log(sailsResponse);

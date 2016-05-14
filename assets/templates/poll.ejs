@@ -78,14 +78,14 @@
                     <div flex>
                         <md-input-container style="margin:3px">
                             <label>Number of winners</label>
-                            <input required type="number" step="any" name="req_winners" ng-model="req_winners" min="1" value="1" max="{{candidates.length -1}}" />
-                            <div ng-messages="pollForm.req_winners.$error" multiple md-auto-hide="true">
+                            <input required type="number" step="any" name="req_winners" ng-model="req_winners" min="1" value="1" max="{{candidates.length +1}}" />
+                            <!--<div ng-messages="pollForm.req_winners.$error" multiple md-auto-hide="true">
                                 <div ng-message="min">Not enough candidates</div>
                                 <div ng-message="max">Too much candidates</div>
                                 <div ng-message="required">You should input the  number of winners</div>
-                            </div>
+                            </div>-->
                         </md-input-container>
-                        <pre>pollForm.req_winners.$error = {{ pollForm.req_winners.$error | json }}</pre>
+                        <!--<pre>pollForm.req_winners.$error = {{ pollForm.req_winners.$error | json }}</pre>-->
                     </div>
                     <md-button ng-click="cancel()">Cancel</md-button>
                     <md-button ng-click="submitPollForm()" class="md-raised md-primary" ng-disabled="pollform.$invalid || !candidates[1]"> <!-- answer() -->
@@ -96,3 +96,17 @@
                 </div>
         </form>
 </md-dialog>
+
+
+<!--
+
+First homepage
+create poll
+vote once
+display result
+show video how the algorithm works
+resultses
+open source modification on the ui on the core. show test cases. Where can it be used from fruits to presidential elections
+future enhancements - other algo - can be combined like nz-flags. Help people make decisions multiple related polls - security
+
+-->

@@ -196,20 +196,11 @@ angular.module('GraphModule')
                 display_round++;
                 if (json_rounds.length == display_round)
                     display_round = 0; // loop
-                return null;
             }
-
-/*
-            console.log("d = ", d);
-            console.log("j (", display_round, " - ", can_round, ") = ", json_rounds[display_round][can_round]);
-*/
-            delete json_rounds[display_round][can_round].id;
-            //innerHTML = json_rounds[display_round][can_round].subtitle + "HAA";
             [].forEach.call(titles, function (el) {
                 el.innerHTML = json_rounds[display_round][can_round].subtitle;
             });
             can_round++;
-            console.log("return : ", json_rounds[display_round][can_round - 1]);
             return json_rounds[display_round][can_round - 1];
         }
 
@@ -409,7 +400,7 @@ angular.module('GraphModule')
                         'minDate' : encodeURI($scope.minDate),
                         'maxDate' : encodeURI($scope.maxDate),
                         'candidates' : encodeURI($scope.candidates),
-                        'req_winners' : $scope.req_winners
+                        'req_winners' : encodeURI($scope.req_winners)
                     })
                     .then(function onSuccess(sailsResponse){
                         console.log(sailsResponse);
