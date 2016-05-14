@@ -53,7 +53,8 @@ angular.module('GraphModule')
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
-        $scope.votes.winners.sort(function(a, b){return a-b});
+        if ($scope.votes.hasOwnProperty('winners'))
+            $scope.votes.winners.sort(function(a, b){return a-b});
 
         $scope.get_can_name = function(id) {
             for (index = 0; index < $scope.candidates.length; ++index) {
