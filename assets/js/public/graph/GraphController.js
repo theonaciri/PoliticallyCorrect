@@ -53,7 +53,6 @@ angular.module('GraphModule')
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
-        console.log($scope.votes);
         $scope.votes.winners.sort(function(a, b){return a-b});
 
         $scope.get_can_name = function(id) {
@@ -180,9 +179,6 @@ angular.module('GraphModule')
                         0 : /!* is loser *!/
                         measure /!* normal *!/) : measure*/
         }
-
-        console.log(json_rounds);
-        //json_rounds[2] = json_rounds[0];
         var svg = d3.select(".graph").selectAll("svg")
             .data(json_rounds[0])
             .enter().append("svg")
@@ -235,6 +231,13 @@ angular.module('GraphModule')
             });*/
             can_round++;
             return json_rounds[display_round][can_round - 1];
+        }
+        $scope.resize = function() {
+ /*           var targetWidth = container.width();
+            console.log("target : ", targetWidth);
+            for (index = 0; index < svg[0].length; ++index) {
+                svg[0].attr("width", targetWidth);
+            }*/
         }
     }])
 

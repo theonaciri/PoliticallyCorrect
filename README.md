@@ -32,6 +32,9 @@ sails lift /* or node app.js or nodemon app.js */
    <br />
     Vote for a poll
     <img src="demo/Screenshot_2016-05-13_16-48-00.png"/>
+    <br />
+    Result screen
+    <img src="demo/Screenshot_2016-05-14_17-33-52.png"/>
 </p>
 
 # Known issues
