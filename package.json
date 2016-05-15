@@ -30,7 +30,8 @@
     "python-runner": "^1.1.0",
     "rc": "~0.5.0",
     "sails": "^0.12.3",
-    "sails-disk": "~0.10.0"
+    "sails-disk": "~0.10.0",
+    "python-vote-core": "bradbeattie/python-vote-core"
   },
   "scripts": {
     "start": "node app.js",
