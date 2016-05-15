@@ -23,7 +23,7 @@ angular.module('HomepageModule')
                     icon: 'action:ic_dashboard_24px'
                 },
                 {
-                    link : '/poll/32',
+                    link : '/poll/2',
                     title: 'Example poll',
                     icon: 'social:ic_group_24px'
                 },
@@ -172,7 +172,7 @@ angular.module('HomepageModule')
                     'desc' : encodeURI($scope.desc),
                     'minDate' : encodeURI($scope.minDate),
                     'maxDate' : encodeURI($scope.maxDate),
-                    'candidates' : encodeURI($scope.candidates),
+                    'candidates' : $scope.candidates,
                     'req_winners' : encodeURI($scope.req_winners)
                 })
                 .then(function onSuccess(sailsResponse){

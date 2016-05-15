@@ -9,9 +9,9 @@
                         <md-list-item class="md-3-line">
                             <a class="md-no-style md-button md-ink-ripple" ng-href="/poll/<%= poll.id %>" href="/poll/<%= poll.id %>" aria-label="Got to the poll"><!--<div class="md-list-item-inner ng-scope">-->
                                 <div class="md-list-item-text">
-                                    <h2 style="margin:0"><%= poll.title %></h2>
-                                    <h4 style="font-weight: normal; padding-left:15px"><%= poll.desc %></h4>
-                                    <p layout layout-align="center center">From <%= poll.min_date.substring(0, 10) %> to <%= poll.max_date.substring(0, 10) %></p>
+                                    <h2 style="margin:0"><%= decodeURI(poll.title) %></h2>
+                                    <h4 style="font-weight: normal; padding-left:15px"><%= decodeURI(poll.desc) == 'undefined' ? '' : decodeURI(poll.desc) %></h4>
+                                    <p layout layout-align="center center">From <%= decodeURI(poll.min_date).substring(0, 10) %> to <%= decodeURI(poll.max_date).substring(0, 10) %></p>
                                 </div>
                                 <md-divider md-inset hide-sm ng-if="!$last"></md-divider>
                                 <md-divider hide-gt-sm ng-if="!$last"></md-divider>

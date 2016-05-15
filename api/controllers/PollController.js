@@ -20,12 +20,12 @@ module.exports = {
             '/styles/mainapp.css'
         ];
 
+
         Poll.find({limit: 10, sort: 'min_date DESC'})
             .exec(function (err, _polls){
                 if (err) {
                     return res.negotiate(err);
                 }
-                /*sails.log('Displaying %d poll:', _polls.length, _polls);*/
                 return res.view('poll_display_single', {module: 'Poll', polls: _polls});
             });
     },
@@ -52,22 +52,21 @@ module.exports = {
         ];
 
         Poll.findOne({
-                id:req.params['id']
-            })
+            id:req.params['id']
+        })
             .exec(function (err, poll){
                 if (err)
                     return res.negotiate(err);
                 if (!poll)
                     return res.notFound('Could not find your poll, sorry.');
                 Candidate.find({
-                        poll_id:req.params['id']
-                    })
+                    poll_id:req.params['id']
+                })
                     .exec(function (err, _candidates) {
                         if (err)
                             return res.negotiate(err);
                         if (!_candidates)
                             return res.notFound('Could not find your candidates, sorry.');
-                        sails.log(poll);
                         var callingFunction = function(_votes) {
                             CountVotesService.countVotes(_votes, poll.req_winners, function(err, result) {
                                 if (!err)
@@ -78,8 +77,8 @@ module.exports = {
                                 }})
                         };
                         Vote.find({
-                                poll_id:req.params['id']
-                            })
+                            poll_id:req.params['id']
+                        })
                             .exec(function(err, _votes) {
                                 if (err) {
                                     sails.log("Error : ", err);

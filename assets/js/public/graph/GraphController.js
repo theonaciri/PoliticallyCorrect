@@ -54,7 +54,8 @@ angular.module('GraphModule')
         $scope.candidates = $window.candidates;
         $scope.sum_votes = $window.sum_votes;
         $scope.actu_round = 0;
-        if ($scope.votes.hasOwnProperty('winners'))
+        console.log($scope.votes);
+        if($scope.votes && 'winners' in $scope.votes)
             $scope.votes.winners.sort(function(a, b){return a-b});
 
         $scope.get_can_name = function(id) {
@@ -97,63 +98,102 @@ angular.module('GraphModule')
             return false;
         };
 
-        var margin = {top: 5, right: 40, bottom: 20, left: 120},
-            width = $window.innerWidth - ($window.innerWidth < 960 ? 200 : 450);// - margin.left - margin.right,
+
+        if ($scope.votes) { // draw bullets graph
+            var margin = {top: 5, right: 40, bottom: 20, left: 120},
+                width = $window.innerWidth - ($window.innerWidth < 960 ? 200 : 450);// - margin.left - margin.right,
             height = 50 - margin.top - margin.bottom;
 
-        var chart = d3.bullet()
-            .width(width)
-            .height(height);
+            var chart = d3.bullet()
+                .width(width)
+                .height(height);
 
-        /*
-         foreach round in rounds
-         foreach can, can_id in tallies
-         foreach win in winners
-         if win > can
-         push winner in json_rounds
-         push can in json_rounds
-         */
-        var json_rounds = [];
-        var losers = [];
-        for (round = 0; round < $scope.votes.rounds.length; ++round) {
-            json_rounds[round] = [];
-            if (losers.length)
-                for (loser in losers) { // add losers
-                    json_rounds[round].push(
-                        {"title": $scope.get_can_name(losers[loser]),
-                            "subtitle": "Round " + round,
-                            "measures":[0],
-                            "ranges": get_ranges(can_id, round, 0),
-                            "markers":[$scope.votes.quota],
-                            "id":losers[loser]});
-                }
-            for (can_id in $scope.votes.rounds[round].tallies) { // cans
-                json_rounds[round].push(
-                    {"title": $scope.get_can_name(can_id),
-                        "subtitle": "Round " + round,
-                        "measures":[$scope.votes.rounds[round].tallies[can_id]],
-                        "ranges": get_ranges(can_id, round, $scope.votes.rounds[round].tallies[can_id]),
-                        "markers":[$scope.votes.quota],
-                        "id":parseInt(can_id)});
-            }
-            for (win in $scope.votes.winners) { // add winners
-                if (!_.has($scope.votes.rounds[round].tallies, $scope.votes.winners[win])) {
-                    json_rounds[round].push(
-                        {"title": $scope.get_can_name($scope.votes.winners[win]),
-                            "subtitle": "Round " + round,
-                            "measures":[$scope.votes.quota],
-                            "ranges":get_ranges(can_id, round, $scope.votes.quota),
-                            "markers":[$scope.votes.quota],
-                            "id":$scope.votes.winners[win]});
-                }
-            }
-            if ($scope.votes.rounds[round].loser)
-                losers.push($scope.votes.rounds[round].loser);
+            var json_rounds = get_json_rounds();
+            var svg = d3.select(".graph").selectAll("svg")
+                .data(json_rounds[0])
+                .enter().append("svg")
+                .attr("class", "bullet")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .call(chart);
 
+            var title = svg.append("g")
+                .style("text-anchor", "end")
+                .attr("transform", "translate(-6," + height / 2 + ")");
 
-            json_rounds[round].sort(function(a, b) { // reorder by id
-                return a.id - b.id;
+            title.append("text")
+                .attr("class", "title")
+                .text(function(d) { return d.title; });
+
+            title.append("text")
+                .attr("class", "subtitle")
+                .attr("dy", "1em")
+                .text(function(d) { return d.subtitle; });
+
+            d3.select("#update_graph").on("click", function() {
+                svg.datum(get_next_round).call(chart.duration(1000)); // TODO automatic transition
             });
+
+            var display_round = -1;
+            var can_round = 0;
+            var titles = document.getElementsByClassName("subtitle");
+
+        }
+
+        function get_json_rounds() {
+            /*
+             foreach round in rounds
+             foreach can, can_id in tallies
+             foreach win in winners
+             if win > can
+             push winner in json_rounds
+             push can in json_rounds
+             */
+            var json_rounds = [];
+            var losers = [];
+            for (round = 0; round < $scope.votes.rounds.length; ++round) {
+                json_rounds[round] = [];
+                if (losers.length)
+                    for (loser in losers) { // add losers
+                        json_rounds[round].push(
+                            {"title": $scope.get_can_name(losers[loser]),
+                                "subtitle": "Round " + round,
+                                "measures":[0],
+                                "ranges": get_ranges(can_id, round, 0),
+                                "markers":[$scope.votes.quota],
+                                "id":losers[loser]});
+                    }
+                for (can_id in $scope.votes.rounds[round].tallies) { // cans
+                    json_rounds[round].push(
+                        {"title": $scope.get_can_name(can_id),
+                            "subtitle": "Round " + round,
+                            "measures":[$scope.votes.rounds[round].tallies[can_id]],
+                            "ranges": get_ranges(can_id, round, $scope.votes.rounds[round].tallies[can_id]),
+                            "markers":[$scope.votes.quota],
+                            "id":parseInt(can_id)});
+                }
+                for (win in $scope.votes.winners) { // add winners
+                    if (!_.has($scope.votes.rounds[round].tallies, $scope.votes.winners[win])) {
+                        json_rounds[round].push(
+                            {"title": $scope.get_can_name($scope.votes.winners[win]),
+                                "subtitle": "Round " + round,
+                                "measures":[$scope.votes.quota],
+                                "ranges":get_ranges(can_id, round, $scope.votes.quota),
+                                "markers":[$scope.votes.quota],
+                                "id":$scope.votes.winners[win]});
+                    }
+                }
+                if ($scope.votes.rounds[round].loser)
+                    losers.push($scope.votes.rounds[round].loser);
+
+
+                json_rounds[round].sort(function(a, b) { // reorder by id
+                    return a.id - b.id;
+                });
+            }
+            return json_rounds;
         }
 
         function get_ranges(can_id, round, measure) {
@@ -181,36 +221,7 @@ angular.module('GraphModule')
              0 : /!* is loser *!/
              measure /!* normal *!/) : measure*/
         }
-        var svg = d3.select(".graph").selectAll("svg")
-            .data(json_rounds[0])
-            .enter().append("svg")
-            .attr("class", "bullet")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-            .call(chart);
 
-        var title = svg.append("g")
-            .style("text-anchor", "end")
-            .attr("transform", "translate(-6," + height / 2 + ")");
-
-        title.append("text")
-            .attr("class", "title")
-            .text(function(d) { return d.title; });
-
-        title.append("text")
-            .attr("class", "subtitle")
-            .attr("dy", "1em")
-            .text(function(d) { return d.subtitle; });
-
-        d3.select("#update_graph").on("click", function() {
-            svg.datum(get_next_round).call(chart.duration(1000)); // TODO automatic transition
-        });
-
-        var display_round = -1;
-        var can_round = 0;
-        var titles = document.getElementsByClassName("subtitle");
         /*        var measure_bars = document.getElementsByClassName("s0");*/
         function get_next_round(d) {
 
@@ -348,46 +359,6 @@ angular.module('GraphModule')
                     icon: 'action:ic_settings_24px'
                 }
             ];
-
-            // Mock activity
-            $scope.activity = [
-                {
-                    what: 'Brunch this weekend?',
-                    who: 'Ali Conners',
-                    avatar: 'svg-1',
-                    when: '3:08PM',
-                    notes: " I'll be in your neighborhood doing errands"
-                },
-                {
-                    what: 'Summer BBQ',
-                    who: 'to Alex, Scott, Jennifer',
-                    avatar: 'svg-2',
-                    when: '3:08PM',
-                    notes: "Wish I could come out but I'm out of town this weekend"
-                },
-                {
-                    what: 'Oui Oui',
-                    who: 'Sandra Adams',
-                    avatar: 'svg-3',
-                    when: '3:08PM',
-                    notes: "Do you have Paris recommendations? Have you ever been?"
-                },
-                {
-                    what: 'Birthday Gift',
-                    who: 'Trevor Hansen',
-                    avatar: 'svg-4',
-                    when: '3:08PM',
-                    notes: "Have any ideas of what we should get Heidi for her birthday?"
-                },
-                {
-                    what: 'Recipe to try',
-                    who: 'Brian Holt',
-                    avatar: 'svg-5',
-                    when: '3:08PM',
-                    notes: "We should eat this: Grapefruit, Squash, Corn, and Tomatillo tacos"
-                }
-            ];
-
             // Bottomsheet & Modal Dialogs
             $scope.alert = '';
             $scope.showListBottomSheet = function($event) {
@@ -422,7 +393,7 @@ angular.module('GraphModule')
                     'desc' : encodeURI($scope.desc),
                     'minDate' : encodeURI($scope.minDate),
                     'maxDate' : encodeURI($scope.maxDate),
-                    'candidates' : encodeURI($scope.candidates),
+                    'candidates' : $scope.candidates,
                     'req_winners' : encodeURI($scope.req_winners)
                 })
                     .then(function onSuccess(sailsResponse){
