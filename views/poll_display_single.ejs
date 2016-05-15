@@ -1,4 +1,7 @@
 <script>
+    var uri = "my test.asp?name=ståle&car=saab";
+    var res = encodeURI(uri);
+    console.log(decodeURI(res));
     var candidates = JSON.parse('<%- candidates %>');
     var req_winners = <%= poll.req_winners %>;
     var sum_votes = <%- sum_votes %>;
@@ -6,11 +9,11 @@
     var votes = <%- votes %>;
     <% }%>
 </script>
-<md-content onresize="resize()">
+<md-content resize>
     <div class="dark_theme">
         <div layout="column" layout-align="center center">
-            <div><h1><%= poll.title %></h1></div>
-            <div><h3><pre><%= poll.desc %></pre></h3></div>
+            <div><h1><%= decodeURI(poll.title) %></h1></div>
+            <div><h3><pre><%= decodeURI(poll.desc) %></pre></h3></div>
         </div>
         <div layout="row">
             <md-divider></md-divider>
@@ -28,12 +31,12 @@
             <div flex>
                 <md-input-container class="md-block" flex-gt-xs>
                     <label>Poll start date :</label>
-                    <input disabled><%= poll.min_date.substring(0, 10) %></input>
+                    <input disabled><%= decodeURIComponent(poll.min_date).substring(0, 15) %></input>
                 </md-input-container>
             </div>
             <md-input-container class="md-block" flex-gt-xs>
                 <label>Poll end date :</label>
-                <input disabled><%= poll.max_date.substring(0, 10) %></input>
+                <input disabled><%= decodeURIComponent(poll.max_date).substring(0, 15) %></input>
             </md-input-container>
         </div>
     </div>
@@ -85,7 +88,7 @@
     <div ng-controller="VoteResultsCtrl" ng-if="votes !== null">
         <div layout="row" layout-align="space-between center">
             <md-subheader class="md-no-sticky">Vote results for {{ sum_votes }} votes :</md-subheader>
-            <md-button id="update_graph" class="md-raised md-primary" aria-label="Update">Update</md-button>
+            <md-button id="update_graph" class="md-raised md-primary" aria-label="Next round values">Next round values</md-button>
             <h2 class="subtitle">Round 0</h2>
             <div></div>
             <div></div>
@@ -117,6 +120,7 @@
                 </div> <!-- {{ is_round_winner(round, cand) ? 'margin:2px' : '' }}-->
             </div>
         </div>
+        {{windowWidth}},{{windowHeight }}
     </div>
     <style>
         .bullet .marker { stroke: #000; stroke-width: 2px; }

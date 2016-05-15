@@ -47,6 +47,7 @@ angular.module('GraphModule')
             .iconSet('avatars', '/svg/avatar-icons.svg', 24)
             .defaultIconSet('/svg/svg-sprite-action.svg', 24);
     })
+
     .controller('VoteResultsCtrl', ['$scope', '$window', function ($scope, $window) {
         if ($window.sum_votes > 0)
             $scope.votes = $window.votes[0];
@@ -96,7 +97,7 @@ angular.module('GraphModule')
         };
 
         var margin = {top: 5, right: 40, bottom: 20, left: 120},
-            width = 960 - margin.left - margin.right,
+            width = $window.innerWidth - ($window.innerWidth < 960 ? 200 : 450);// - margin.left - margin.right,
             height = 50 - margin.top - margin.bottom;
 
         var chart = d3.bullet()
@@ -157,27 +158,27 @@ angular.module('GraphModule')
         function get_ranges(can_id, round, measure) {
             return [6, 0, 0];
             /*var prev = 0;
-            if (round > 0) {
-                for (index = 0; index < json_rounds[round - 1].length; ++index) {
-                    if (can_id == json_rounds[round - 1][index]['id']) {
+             if (round > 0) {
+             for (index = 0; index < json_rounds[round - 1].length; ++index) {
+             if (can_id == json_rounds[round - 1][index]['id']) {
 
-                        console.log("ap", json_rounds[round - 1][index]['measures'][0], " round ", round);
+             console.log("ap", json_rounds[round - 1][index]['measures'][0], " round ", round);
 
-                        prev = json_rounds[round - 1][index]['measures'][0];
-                    }
-                }
-            }
-            return [prev, 0, 0];*/
-/*            return [round > 1 ? $scope.votes.rounds[round - 2].tallies[can_id] : measure,
-                round > 0 ? $scope.votes.rounds[round - 1].tallies[can_id] : measure,
-                $scope.votes.rounds[round].tallies[can_id]
-                    ];*/
-/*            (round + 1) < $scope.votes.rounds.length ?/!* last round ? no !*!/
-                (measure >= $scope.votes.quota ? /!* winner ? *!/
-                    $scope.votes.quota : /!* is a winner : max value else :*!/
-                    ($scope.votes.rounds[round + 1].hasOwnProperty('loser') && $scope.votes.rounds[round + 1].loser == can_id) ? /!* not winner : is loser ?*!/
-                        0 : /!* is loser *!/
-                        measure /!* normal *!/) : measure*/
+             prev = json_rounds[round - 1][index]['measures'][0];
+             }
+             }
+             }
+             return [prev, 0, 0];*/
+            /*            return [round > 1 ? $scope.votes.rounds[round - 2].tallies[can_id] : measure,
+             round > 0 ? $scope.votes.rounds[round - 1].tallies[can_id] : measure,
+             $scope.votes.rounds[round].tallies[can_id]
+             ];*/
+            /*            (round + 1) < $scope.votes.rounds.length ?/!* last round ? no !*!/
+             (measure >= $scope.votes.quota ? /!* winner ? *!/
+             $scope.votes.quota : /!* is a winner : max value else :*!/
+             ($scope.votes.rounds[round + 1].hasOwnProperty('loser') && $scope.votes.rounds[round + 1].loser == can_id) ? /!* not winner : is loser ?*!/
+             0 : /!* is loser *!/
+             measure /!* normal *!/) : measure*/
         }
         var svg = d3.select(".graph").selectAll("svg")
             .data(json_rounds[0])
@@ -209,7 +210,7 @@ angular.module('GraphModule')
         var display_round = -1;
         var can_round = 0;
         var titles = document.getElementsByClassName("subtitle");
-/*        var measure_bars = document.getElementsByClassName("s0");*/
+        /*        var measure_bars = document.getElementsByClassName("s0");*/
         function get_next_round(d) {
 
             if (display_round == -1)
@@ -224,20 +225,20 @@ angular.module('GraphModule')
             [].forEach.call(titles, function (el) {
                 el.innerHTML = json_rounds[display_round][can_round].subtitle;
             });
-/*            act_can = -1;
-            [].forEach.call(measure_bars, function (el) {
-                console.log("hap");
-                el.style.fill = $scope.get_color($scope.votes.candidates[++act_can]);
-            });*/
+            /*            act_can = -1;
+             [].forEach.call(measure_bars, function (el) {
+             console.log("hap");
+             el.style.fill = $scope.get_color($scope.votes.candidates[++act_can]);
+             });*/
             can_round++;
             return json_rounds[display_round][can_round - 1];
         }
         $scope.resize = function() {
- /*           var targetWidth = container.width();
-            console.log("target : ", targetWidth);
-            for (index = 0; index < svg[0].length; ++index) {
-                svg[0].attr("width", targetWidth);
-            }*/
+            /*           var targetWidth = container.width();
+             console.log("target : ", targetWidth);
+             for (index = 0; index < svg[0].length; ++index) {
+             svg[0].attr("width", targetWidth);
+             }*/
         }
     }])
 
