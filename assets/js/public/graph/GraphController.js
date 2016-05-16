@@ -98,8 +98,8 @@ angular.module('GraphModule')
             return false;
         };
 
-
-        if ($scope.votes) { // draw bullets graph
+        console.log($scope.votes && $scope.votes.rounds.length > 0);
+        if ($scope.votes.rounds.length) { // draw bullets graph
             var margin = {top: 5, right: 40, bottom: 20, left: 120},
                 width = $window.innerWidth - ($window.innerWidth < 960 ? 200 : 450);// - margin.left - margin.right,
             height = 50 - margin.top - margin.bottom;
