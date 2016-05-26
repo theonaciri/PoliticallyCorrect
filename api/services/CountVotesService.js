@@ -47,7 +47,7 @@ module.exports = {
             jsonvotes = JSON.stringify(summed_array);
             var options = {
                 mode: 'json',
-                pythonPath: '/usr/bin/python2.7',
+                pythonPath: 'c:\python27\bin\python.exe',
                 scriptPath: '/home/naciri_t/Projects/PoliticallyCorrect/api/services',
                 args: [jsonvotes, _.isEmpty(req_winners) ? '3' : req_winners.toString()]
             };
