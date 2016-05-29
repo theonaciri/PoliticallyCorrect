@@ -18,7 +18,8 @@ Client : [Angular.js] (https://github.com/angular) with [Angular Material] (http
 npm install
 bower install
 
-sails lift /* or node app.js or nodemon app.js */
+
+sails lift /* or node app.js or nodemon */
 ```
 
 # Screenshots
