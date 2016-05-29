@@ -1,0 +1,30 @@
+{
+  "name": "PoliticallyCorrect",
+  "description": "STV poll",
+  "main": "app.js",
+  "authors": [
+    "jgalt"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "STV",
+    "poll"
+  ],
+  "homepage": "https://github.com/theonaciri/PoliticallyCorrect",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-dragula": "^1.2.6",
+    "angular-material": "^1.0.7",
+    "angular-sails-bind": "^1.0.6",
+    "d3": "^3.5.16",
+    "md-color-picker": "^0.2.6",
+    "ng-flow": "~2",
+    "dragular": "^4.1.0"
+  }
+}
