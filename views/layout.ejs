@@ -22,13 +22,30 @@
 <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
     <md-toolbar class="md-hue-2">
         <span flex></span>
-        <div layout="row" layout-align="start center">
+<!--         <div layout="row" layout-align="start center">
             <md-icon class="md-avatar" md-svg-icon="avatars:svg-1"></md-icon>
             <span flex></span>
-        </div>
+        </div> -->
         <span flex></span>
          <div class="md-body-2">Théo Naciri</div>
         <div class="md-body-1">theo.naciri@gmail.com</div>
+        <span flex></span>
+
+        <form ng-submit="submitLoginForm()" class="navbar-form navbar-right">
+              <div class="form-group">
+                  <input ng-model="loginForm.email" type="text" placeholder="Email" name="email" class="form-control">
+              </div>
+              <div class="form-group">
+                  <input ng-model="loginForm.password" type="password" placeholder="Password" name="password" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-success">
+                <span ng-show="!loginForm.loading">Sign in</span>
+                <span ng-show="loginForm.loading" class="fa fa-spinner"></span>
+                <span ng-show="loginForm.loading">Signing in...</span>
+              </button>
+              <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+          </form>
+
     </md-toolbar>
     <md-list>
         <md-list-item class="md-2-line" ng-repeat="item in menu" role="link" ng-href="{{item.link}}">
